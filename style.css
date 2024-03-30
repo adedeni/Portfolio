@@ -128,13 +128,13 @@ h1{
 }
 h1 span{
     color: wheat;
-    font-weight: 650;
+    font-weight: 600;
     /* how to add outline */
     text-shadow:
-    -1px -1px 0 #ffc400,  
-    1px -1px 0 #ffc400,
-    -1px 1px 0 #ffc400,
-    1px 1px 0 #ffc400;
+    -2px -2px 0 #ffc400,  
+    2px -2px 0 #ffc400,
+    -2px 2px 0 #ffc400,
+    2px 2px 0 #ffc400;
 }
 h3 {
     font-family: "catamaran";
