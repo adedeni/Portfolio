@@ -150,19 +150,24 @@ input, select {
         font-family: "cabin";
         line-height: 30px;
     }
-    h4 {
+    button {
         font-family: "catamaran";
         font-weight: 700;
         background-color: #ffc400;
-        padding: 10px;
+        padding: 6px;
         width: fit-content;
         height: fit-content;
         border: 2px solid wheat;
-        border-radius: 20px;
+        border-radius: 18px;
+        transition: transform 0.3s ease;
+    }
+    button:hover{
+        transform: scale(1.07);;
     }
     a {
         text-decoration: none;
         color: black;
+        
     }
     a:hover {
         text-decoration: none;
