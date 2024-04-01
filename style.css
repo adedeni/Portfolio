@@ -95,6 +95,7 @@ input, select {
     vertical-align:middle;
 }
 /* THIS IS WHERE MY STYLING STARTS */
+/* protfoliocard first page */
     .wholepage {
         display: flex;
     }
@@ -196,3 +197,73 @@ input, select {
     .svg:hover {
         fill: white;
       }
+      /* styling for about me page */
+      .maincolumn1{
+        flex: 3;
+      }
+      .maincolumn2{
+        flex: 8;
+        background-color: #cccccc;
+      }
+      .maincolumn3{
+        flex: 1;
+        background-color: #cccccc;
+      }
+     img{
+        height: 230px;
+        width:320px;
+     }
+      .aboutme{
+        display: flex;
+        flex-flow: column;
+        text-align: center;
+        font-family: "catamaran";
+        font-weight: 800;
+        background-color: #ffc400;line-height: 60px;
+        padding: 20px 20px;
+      }
+    .h{
+        margin: 40px 0px 0px 80px;       
+      }
+      .h h1{
+        font-family: "catamaran";
+        text-align: center;
+        border: 1px solid #000;
+        font-size: 70px;
+        padding: 16px 0;
+      }
+      .abouticons {
+        display: flex;
+        flex-direction: column;
+        margin: 140% auto 0% auto;
+        background-color: #ffc400;
+        gap: 20px;
+        padding: 40px 8px;
+        width: fit-content;
+        border-radius: 20px;
+    }
+    .h article{
+        font-family: "catamaran" ;
+        padding: 30px 0px 20px 30px;
+        font-size: 27px;
+
+    }
+    article span{
+        font-weight: 900;
+    }
+    section{
+        padding: 0px 0px 20px 30px;
+        line-height: 30px;
+        text-align: justify;
+    }
+    .lastdiv{
+        display: flex;
+    }
+    .blackbox{
+        flex: 7;
+        margin: 0px 20px 10px 107px ;
+        background-color: #000;
+    }
+    .whatido{
+        flex: 5;
+    }
