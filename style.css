@@ -261,9 +261,100 @@ input, select {
     }
     .blackbox{
         flex: 7;
+        display: flex;
+        flex-flow: column;
         margin: 0px 20px 10px 107px ;
         background-color: #000;
+        font-size: 40px;
+        font-weight: 700;
+        font-family: "catamaran";
+        line-height: 40px;
+    }
+    .oneand3{
+        border-bottom:1px solid gray;
+        margin: 30px 30px;
+        display: flex;
+        flex-flow: row wrap;
+        align-items: center;
+        
+    }
+    .twoand4{
+        margin: 30px 30px;
+        display: flex;
+        flex-flow: row wrap;
+        align-items: center;
+    }
+    .box1{
+        padding-bottom: 10px;
+        padding-left: 20px;
+        padding-right: 50px;
+        text-align: center;
+        color: #ffa600;
+    }
+    .box2{
+        border-right: 1px solid gray;
+        padding-left: 20px;
+        padding-right: 50px;
+        text-align: center;
+        color: #ffa600;
+    }
+    .box3{
+        border-left: 1px solid gray;
+        margin-bottom: 27px;
+        padding-left: 50px;
+        text-align: center;
+        color: #ffa600;
+    }
+    .box4{
+        padding-left: 50px;
+        text-align: center;
+        color: #ffa600;
     }
     .whatido{
         flex: 5;
     }
+    .whatidotext{
+        margin-left: 40px;
+        font-family: "catamaran";
+        font-size: 24px;
+        font-weight: 700;
+    }
+    .rrr{
+        display: flex;
+    }
+    .images{
+        margin: 18px;
+        display: flex;
+        flex-flow: column;
+        gap: 30px;
+    }
+    .camera{
+        width: 70px;
+        height: 70px;
+    }
+    .cassette{
+        width: 70px;
+        height: 70px;
+    }
+    .ballpen{
+        width: 70px;
+        height: 70px;
+    }
+    .imagedescription{
+        display: flex;
+        flex-flow: row wrap;
+        font-family: "catamaran";
+        line-height: 20px;
+        font-size: 15px;
+        text-align: justify;
+    }
+.w{
+    font-family: "catamaran";
+    color: white;
+    font-size: 13px;
+    font-weight: 600;
+}
+.x{
+    padding-top: 12px;
+    font-weight: bold;
+}
