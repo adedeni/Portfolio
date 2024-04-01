@@ -255,6 +255,7 @@ input, select {
         padding: 0px 0px 20px 30px;
         line-height: 30px;
         text-align: justify;
+        font-family: "catamaran";
     }
     .lastdiv{
         display: flex;
