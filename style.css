@@ -210,7 +210,7 @@ input, select {
         background-color: #cccccc;
       }
      img{
-        height: 230px;
+        height: 250px;
         width:320px;
      }
       .aboutme{
@@ -219,7 +219,7 @@ input, select {
         text-align: center;
         font-family: "catamaran";
         font-weight: 800;
-        background-color: #ffc400;line-height: 60px;
+        background-color: #ffc400;line-height: 57px;
         padding: 20px 20px;
       }
     .h{
@@ -244,7 +244,7 @@ input, select {
     }
     .h article{
         font-family: "catamaran" ;
-        padding: 30px 0px 20px 30px;
+        padding: 30px 0px 20px 0px;
         font-size: 27px;
 
     }
@@ -252,7 +252,7 @@ input, select {
         font-weight: 900;
     }
     section{
-        padding: 0px 0px 20px 30px;
+        padding: 0px 0px 20px 0px;
         line-height: 30px;
         text-align: justify;
         font-family: "catamaran";
@@ -260,54 +260,76 @@ input, select {
     .lastdiv{
         display: flex;
     }
-    .blackbox{
-        flex: 7;
+    .left-container{
         display: flex;
-        flex-flow: column;
-        margin: 0px 20px 10px 107px ;
+        flex-wrap: wrap;
+        margin: 0px 20px 10px 80px;
+        justify-content: space-between;
+        width: 400px; 
+        height: 275px;
+        padding: 10px;
         background-color: #000;
+    }
+    .item1{
+        width: calc(50% - 10px);
+        height: calc(50% - 20px);
+        margin-bottom: 20px;
+        margin: auto 0%;
+    }
+    .item1 p{
+    padding-top: 2px;
+    }
+    .item1 h1{
+        padding-top: 12px;
+    }
+    .item2{
+        width: calc(50% - 10px);
+        height: calc(50% - 20px);
+        margin-bottom: 20px;
+        margin: auto 0%;
+        border-bottom: 1px solid gray;
+        border-left: 1px solid gray;
+        border-radius: 5px;
+        padding-left: 19px;
+        padding-top: 15px;
+        border-radius: 5px;
+    }
+    .item2 p{
+        padding-top: 0px;
+        }
+    .item3{
+        width: calc(50% - 10px);
+        height: calc(50% - 20px);
+        margin: auto 0%;  
+        border-right: 1px solid gray;  
+        border-top: 1px solid gray;  
+        border-radius: 5px;
+        padding-top: 30px;
+    
+    }
+    .item3 p{
+        padding-top: 7px;
+    }
+    .item4{
+        width: calc(50% - 10px);
+        height: calc(50% - 70px);
+        margin: auto 0%; 
+    }
+    .item4 p{
+        padding-top: 0px;
+    }
+    
+    .left-container  p{
+        font-family: "catamaran";
+        color: white;
+        font-size: 13px;
+        font-weight: 600;
+        text-align: center;
+    }
+    .left-container  h1{
         font-size: 40px;
         font-weight: 700;
         font-family: "catamaran";
-        line-height: 40px;
-    }
-    .oneand3{
-        border-bottom:1px solid gray;
-        margin: 30px 30px;
-        display: flex;
-        flex-flow: row wrap;
-        align-items: center;
-        
-    }
-    .twoand4{
-        margin: 30px 30px;
-        display: flex;
-        flex-flow: row wrap;
-        align-items: center;
-    }
-    .box1{
-        padding-bottom: 10px;
-        padding-left: 20px;
-        padding-right: 50px;
-        text-align: center;
-        color: #ffa600;
-    }
-    .box2{
-        border-right: 1px solid gray;
-        padding-left: 20px;
-        padding-right: 50px;
-        text-align: center;
-        color: #ffa600;
-    }
-    .box3{
-        border-left: 1px solid gray;
-        margin-bottom: 27px;
-        padding-left: 50px;
-        text-align: center;
-        color: #ffa600;
-    }
-    .box4{
-        padding-left: 50px;
         text-align: center;
         color: #ffa600;
     }
@@ -315,7 +337,6 @@ input, select {
         flex: 5;
     }
     .whatidotext{
-        margin-left: 40px;
         font-family: "catamaran";
         font-size: 24px;
         font-weight: 700;
@@ -330,16 +351,16 @@ input, select {
         gap: 30px;
     }
     .camera{
-        width: 70px;
-        height: 70px;
+        width: 50px;
+        height: 50px;
     }
     .cassette{
-        width: 70px;
-        height: 70px;
+        width: 50px;
+        height: 50px;
     }
     .ballpen{
-        width: 70px;
-        height: 70px;
+        width: 50px;
+        height: 50px;
     }
     .imagedescription{
         display: flex;
