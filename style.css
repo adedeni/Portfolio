@@ -109,7 +109,7 @@ input, select {
         flex: 1;
         /* to make the height perfect */
         height: calc(100vh - 1px);
-        background-image: url(images/passport.jpg);
+        background-image: url(images/aboutme.jpg);
         background-size: cover;
         background-repeat: no-repeat;
         background-position: center;
@@ -128,18 +128,18 @@ input, select {
         font-weight: 900;
     }
     h1 span{
-        color: wheat;
+        color: white;
         font-weight: 600;
         /* how to add outline */
         text-shadow:
-        -2px -2px 0 #ffc400,  
-        2px -2px 0 #ffc400,
-        -2px 2px 0 #ffc400,
-        2px 2px 0 #ffc400;
+        -2px -2px 0 #f5b22f,  
+        2px -2px 0 #f5b22f,
+        -2px 2px 0 #f5b22f,
+        2px 2px 0 #f5b22f;
     }
     h3 {
         font-family: "catamaran";
-        background-color: #ffc400;
+        background-color: #f5b22f;
         padding: 8px;
         width: fit-content;
         height: fit-content;
@@ -154,11 +154,11 @@ input, select {
     button {
         font-family: "catamaran";
         font-weight: 700;
-        background-color: #ffc400;
+        background-color: #f5b22f;
         padding: 6px;
         width: fit-content;
         height: fit-content;
-        border: 2px solid wheat;
+        border: 2px solid white;
         border-radius: 18px;
         transition: transform 0.3s ease;
     }
@@ -178,7 +178,7 @@ input, select {
         display: flex;
         flex-direction: column;
         margin: 30% 3% 50% auto;
-        background-color: #ffc400;
+        background-color: #f5b22f;
         gap: 20px;
         padding: 40px 8px;
         width: fit-content;
@@ -203,11 +203,11 @@ input, select {
       }
       .maincolumn2{
         flex: 8;
-        background-color: #cccccc;
+        background-color: #d3d3d3;
       }
       .maincolumn3{
         flex: 1;
-        background-color: #cccccc;
+        background-color: #d3d3d3;
       }
      img{
         height: 250px;
@@ -219,7 +219,8 @@ input, select {
         text-align: center;
         font-family: "catamaran";
         font-weight: 800;
-        background-color: #ffc400;line-height: 57px;
+        background-color: #f5b22f;
+        line-height: 57px;
         padding: 20px 20px;
       }
     .h{
@@ -236,7 +237,7 @@ input, select {
         display: flex;
         flex-direction: column;
         margin: 140% auto 0% auto;
-        background-color: #ffc400;
+        background-color: #f5b22f;
         gap: 20px;
         padding: 40px 8px;
         width: fit-content;
@@ -287,8 +288,8 @@ input, select {
         height: calc(50% - 20px);
         margin-bottom: 20px;
         margin: auto 0%;
-        border-bottom: 1px solid gray;
-        border-left: 1px solid gray;
+        border-bottom: 1px solid #d3d3d3;
+        border-left: 1px solid #d3d3d3;
         border-radius: 5px;
         padding-left: 19px;
         padding-top: 15px;
@@ -301,8 +302,8 @@ input, select {
         width: calc(50% - 10px);
         height: calc(50% - 20px);
         margin: auto 0%;  
-        border-right: 1px solid gray;  
-        border-top: 1px solid gray;  
+        border-right: 1px solid #d3d3d3;  
+        border-top: 1px solid #d3d3d3;  
         border-radius: 5px;
         padding-top: 30px;
     
@@ -331,7 +332,7 @@ input, select {
         font-weight: 700;
         font-family: "catamaran";
         text-align: center;
-        color: #ffa600;
+        color: #f5b22f;
     }
     .whatido{
         flex: 5;
