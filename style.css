@@ -132,14 +132,14 @@ input, select {
         font-weight: 600;
         /* how to add outline */
         text-shadow:
-        -2px -2px 0 #f5b22f,  
-        2px -2px 0 #f5b22f,
-        -2px 2px 0 #f5b22f,
-        2px 2px 0 #f5b22f;
+        -2px -2px 0 orange,  
+        2px -2px 0 orange,
+        -2px 2px 0 orange,
+        2px 2px 0 orange;
     }
     h3 {
         font-family: "catamaran";
-        background-color: #f5b22f;
+        background-color: orange;
         padding: 8px;
         width: fit-content;
         height: fit-content;
@@ -154,7 +154,7 @@ input, select {
     button {
         font-family: "catamaran";
         font-weight: 700;
-        background-color: #f5b22f;
+        background-color: orange;
         padding: 6px;
         width: fit-content;
         height: fit-content;
@@ -178,7 +178,7 @@ input, select {
         display: flex;
         flex-direction: column;
         margin: 30% 3% 50% auto;
-        background-color: #f5b22f;
+        background-color: orange;
         gap: 20px;
         padding: 40px 8px;
         width: fit-content;
@@ -219,7 +219,7 @@ input, select {
         text-align: center;
         font-family: "catamaran";
         font-weight: 800;
-        background-color: #f5b22f;
+        background-color: orange;
         line-height: 57px;
         padding: 20px 20px;
       }
@@ -237,7 +237,7 @@ input, select {
         display: flex;
         flex-direction: column;
         margin: 140% auto 0% auto;
-        background-color: #f5b22f;
+        background-color: orange;
         gap: 20px;
         padding: 40px 8px;
         width: fit-content;
@@ -332,7 +332,7 @@ input, select {
         font-weight: 700;
         font-family: "catamaran";
         text-align: center;
-        color: #f5b22f;
+        color: orange;
     }
     .whatido{
         flex: 5;
