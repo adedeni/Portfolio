@@ -265,17 +265,11 @@ input, select {
         display: flex;
         flex-wrap: wrap;
         margin: 0px 20px 10px 80px;
-        justify-content: space-between;
-        width: 400px; 
-        height: 275px;
         padding: 10px;
         background-color: #000;
     }
     .item1{
         width: calc(50% - 10px);
-        height: calc(50% - 20px);
-        margin-bottom: 20px;
-        margin: auto 0%;
     }
     .item1 p{
     padding-top: 2px;
@@ -285,15 +279,12 @@ input, select {
     }
     .item2{
         width: calc(50% - 10px);
-        height: calc(50% - 20px);
         margin-bottom: 20px;
         margin: auto 0%;
         border-bottom: 1px solid #d3d3d3;
         border-left: 1px solid #d3d3d3;
-        border-radius: 5px;
         padding-left: 19px;
         padding-top: 15px;
-        border-radius: 5px;
     }
     .item2 p{
         padding-top: 0px;
@@ -304,7 +295,6 @@ input, select {
         margin: auto 0%;  
         border-right: 1px solid #d3d3d3;  
         border-top: 1px solid #d3d3d3;  
-        border-radius: 5px;
         padding-top: 30px;
     
     }
@@ -313,7 +303,6 @@ input, select {
     }
     .item4{
         width: calc(50% - 10px);
-        height: calc(50% - 70px);
         margin: auto 0%; 
     }
     .item4 p{
@@ -349,7 +338,7 @@ input, select {
         margin: 18px;
         display: flex;
         flex-flow: column;
-        gap: 30px;
+        gap: 36px;
     }
     .camera{
         width: 50px;
@@ -362,6 +351,7 @@ input, select {
     .ballpen{
         width: 50px;
         height: 50px;
+        align-items: ;
     }
     .imagedescription{
         display: flex;
