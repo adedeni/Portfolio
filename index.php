@@ -333,21 +333,33 @@
         /* Dark Mode Toggle */
         .dark-mode-toggle {
             position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 1000;
-            background: white;
-            border: none;
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            top: 15px;
+            right: 15px;
+            z-index: 9999;
+            background: rgba(255, 255, 255, 0.95);
+            border: 1px solid rgba(0, 0, 0, 0.15);
+            border-radius: 8px;
+            width: 40px;
+            height: 40px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
             cursor: pointer;
             transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            color: #1e293b;
+            backdrop-filter: blur(10px);
         }
 
         .dark-mode-toggle:hover {
-            transform: scale(1.1);
+            background: rgba(255, 255, 255, 1);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+            transform: translateY(-1px);
+        }
+
+        .dark-mode-toggle i {
+            transition: all 0.3s ease;
         }
 
         /* Dark Mode Styles */
@@ -368,6 +380,12 @@
         .dark-mode .service-card {
             background: #1e293b;
             border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #e2e8f0;
+        }
+
+        .dark-mode .service-card h3,
+        .dark-mode .service-card h4 {
+            color: #e2e8f0;
         }
 
         .dark-mode .contact-form {
@@ -378,6 +396,7 @@
         .dark-mode .contact-card {
             background: #1e293b;
             border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #e2e8f0;
         }
 
         .dark-mode .form-control {
@@ -396,6 +415,10 @@
             color: #94a3b8;
         }
 
+        .dark-mode .form-floating label {
+            color: #94a3b8;
+        }
+
         .dark-mode .text-muted {
             color: #94a3b8 !important;
         }
@@ -408,9 +431,23 @@
             color: var(--primary-color);
         }
 
+        .dark-mode .icon-box {
+            background: linear-gradient(135deg, #334155, #475569);
+        }
+
+        .dark-mode .service-card:hover .icon-box {
+            background: var(--gradient-primary);
+        }
+
         .dark-mode .dark-mode-toggle {
-            background: #1e293b;
+            background: rgba(30, 41, 59, 0.9);
             color: #e2e8f0;
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .dark-mode .dark-mode-toggle:hover {
+            background: rgba(30, 41, 59, 1);
+            border-color: var(--primary-color);
         }
 
         /* Responsive Design */
@@ -436,13 +473,21 @@
                 width: 25px;
                 height: 25px;
             }
+
+            .dark-mode-toggle {
+                top: 10px;
+                right: 10px;
+                width: 35px;
+                height: 35px;
+                font-size: 0.9rem;
+            }
         }
     </style>
 </head>
 
 <body id="page-top">
     <!-- Dark Mode Toggle -->
-    <button class="dark-mode-toggle" id="darkModeToggle" title="Toggle Dark Mode">
+    <button class="dark-mode-toggle" id="darkModeToggle" title="Toggle Dark/Light Mode" data-bs-toggle="tooltip" data-bs-placement="left">
         <i class="bi bi-moon-fill"></i>
     </button>
 
@@ -470,7 +515,7 @@
                         Hey, I'm <span class="text-gradient">Olayode Adeshina</span><br>
                         Most people call me <span class="text-gradient">'adedeni'</span>
                     </h1>
-                    <p class="hero-subtitle">Full-Stack Web & Mobile App Developer</p>
+                    <p class="hero-subtitle">Full-Stack Developer | Mobile Apps | DevOps Engineer</p>
                     <div class="social-links">
                         <a href="https://www.linkedin.com/in/adeshina-olayode/" class="social-link" target="_blank" title="LinkedIn">
                             <svg viewBox="0 0 24 24" fill="currentColor">
@@ -502,9 +547,9 @@
         <div class="container px-4 px-lg-5">
             <div class="row gx-4 gx-lg-5 justify-content-center">
                 <div class="col-lg-8 text-center">
-                    <h2 class="text-white mt-0">I've got what you need!</h2>
+                    <h2 class="text-white mt-0">Full-Stack Development Expertise!</h2>
                     <hr class="divider divider-light" />
-                    <p class="text-white-75 mb-4">Come let's help you scale up your business and provide the most efficient web solutions, that brings your idea to life! I am also buzzing to join a productive team in a junior roles.</p>
+                    <p class="text-white-75 mb-4">I specialize in building scalable web applications, mobile apps, and cloud infrastructure solutions. From frontend design to backend architecture and DevOps automation, I deliver end-to-end solutions that drive business growth. Ready to bring your ideas to life with cutting-edge technology!</p>
                     <a class="btn btn-light btn-xl" href="#services">Get Started!</a>
                 </div>
             </div>
@@ -515,8 +560,8 @@
         <div class="container px-4 px-lg-5">
             <div class="row justify-content-center mb-5">
                 <div class="col-lg-8 text-center">
-                    <h2 class="display-4 fw-bold mb-4">At Your Service</h2>
-                    <p class="lead text-muted">I provide comprehensive web development solutions to bring your ideas to life</p>
+                    <h2 class="display-4 fw-bold mb-4">Professional Services</h2>
+                    <p class="lead text-muted">Full-stack development expertise across web, mobile, and cloud infrastructure</p>
                 </div>
             </div>
             <div class="row gx-4 gx-lg-5 justify-content-center">
@@ -525,26 +570,26 @@
                         <div class="icon-box">
                             <i class="bi-laptop"></i>
                         </div>
-                        <h3 class="h4 mb-3">Website Development/Design</h3>
-                        <p class="text-muted mb-0">Creating fully responsive websites with exceptional UI/UX design that engage users and drive conversions.</p>
+                        <h3 class="h4 mb-3">Full-Stack Web Development</h3>
+                        <p class="text-muted mb-0">End-to-end web applications with modern frameworks, responsive design, and robust backend systems using cutting-edge technologies.</p>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-6 mb-4">
                     <div class="service-card h-100">
                         <div class="icon-box">
-                            <i class="bi-globe"></i>
+                            <i class="bi-phone"></i>
                         </div>
-                        <h3 class="h4 mb-3">Web Hosting & Maintenance</h3>
-                        <p class="text-muted mb-0">Complete hosting solutions including domain setup, SSL certificates, and ongoing backend maintenance with database management.</p>
+                        <h3 class="h4 mb-3">Mobile App Development</h3>
+                        <p class="text-muted mb-0">Native and cross-platform mobile applications for iOS and Android with seamless user experiences and optimal performance.</p>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-6 mb-4">
                     <div class="service-card h-100">
                         <div class="icon-box">
-                            <img src="data:image/png;base64,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" alt="source-code--v1">
+                            <i class="bi-cloud-arrow-up"></i>
                         </div>
-                        <h3 class="h4 mb-3">Clean & Efficient Code</h3>
-                        <p class="text-muted mb-0">Writing maintainable, scalable code that powers complex web applications with optimal performance and security.</p>
+                        <h3 class="h4 mb-3">DevOps & Cloud Solutions</h3>
+                        <p class="text-muted mb-0">Infrastructure automation, CI/CD pipelines, cloud deployment, monitoring, and scalable architecture solutions for production environments.</p>
                     </div>
                 </div>
             </div>
@@ -683,6 +728,12 @@
     
     <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
     <script>
+        // Initialize Bootstrap tooltips
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl);
+        });
+
         // Dark Mode Toggle
         const darkModeToggle = document.getElementById('darkModeToggle');
         const body = document.body;
