@@ -28,8 +28,67 @@
             --text-dark: #1e293b;
             --text-light: #64748b;
             --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --gradient-secondary: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            --gradient-secondary: linear-gradient(135deg, #5b21b6 0%, #4c1d95 100%);
             --gradient-accent: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+
+        /* Override Bootstrap Primary Color - Better harmonized color */
+        .bg-primary {
+            background-color: #5b21b6 !important;
+        }
+        
+        .text-primary {
+            color: #5b21b6 !important;
+        }
+        
+        .border-primary {
+            border-color: #5b21b6 !important;
+        }
+        
+        .btn-primary {
+            background-color: #5b21b6 !important;
+            border-color: #5b21b6 !important;
+        }
+        
+        .btn-primary:hover {
+            background-color: #4c1d95 !important;
+            border-color: #4c1d95 !important;
+        }
+        
+        .divider {
+            background-color: #5b21b6 !important;
+        }
+        
+        /* Fix copyright link color */
+        .copyright a {
+            color: #5b21b6 !important;
+        }
+        
+        .copyright a:hover {
+            color: #4c1d95 !important;
+        }
+        
+        /* Fix portfolio hover colors */
+        .portfolio-box:hover .portfolio-box-caption {
+            background: linear-gradient(135deg, rgba(91, 33, 182, 0.9), rgba(139, 92, 246, 0.9)) !important;
+        }
+        
+        /* Fix navigation active states */
+        .nav-link.active {
+            color: #5b21b6 !important;
+        }
+        
+        .nav-link:hover {
+            color: #5b21b6 !important;
+        }
+        
+        /* Fix hamburger menu visibility in dark mode */
+        .dark-mode .navbar-toggler {
+            border-color: #e2e8f0 !important;
+        }
+        
+        .dark-mode .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28226, 232, 240, 1%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") !important;
         }
 
         * {
@@ -43,7 +102,7 @@
 
         /* Modern Hero Section */
         .masthead {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #3b82f6 100%);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #5b21b6 100%);
             position: relative;
             overflow: hidden;
         }
