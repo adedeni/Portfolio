@@ -117,7 +117,7 @@
         }
 
         /* Modern Navigation */
-        .navbar {
+        .navbar { 
             backdrop-filter: blur(20px);
             background: rgba(255, 255, 255, 0.95) !important;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
