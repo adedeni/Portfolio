@@ -735,6 +735,13 @@
           max-width: 100%;
         }
       }
+      /* Desktop-only subtle inline gap for specific CV columns */
+      @media (min-width: 992px) {
+        .cv-inline-gap {
+          padding-left: 12px;
+          padding-right: 12px;
+        }
+      }
     </style>
   </head>
 
@@ -961,7 +968,7 @@
       <div class="container-fluid p-0">
         <!-- Websites Row -->
         <div class="row g-0">
-          <div class="col-lg-4 col-sm-6">
+          <div class="col-lg-4 col-sm-6 p-2 p-md-3">
             <a
               class="portfolio-box"
               href="https://naira4coin.com"
@@ -978,7 +985,7 @@
               </div>
             </a>
           </div>
-          <div class="col-lg-4 col-sm-6">
+          <div class="col-lg-4 col-sm-6 p-2 p-md-3">
             <a
               class="portfolio-box"
               href="https://mobilenig.com"
@@ -995,7 +1002,7 @@
               </div>
             </a>
           </div>
-          <div class="col-lg-4 col-sm-6">
+          <div class="col-lg-4 col-sm-6 p-2 p-md-3">
             <a
               class="portfolio-box"
               href="https://easil.com.ng"
@@ -1015,7 +1022,7 @@
         </div>
         <!-- Mobile Apps Row -->
         <div class="row g-0">
-          <div class="col-lg-4 col-sm-6">
+          <div class="col-lg-4 col-sm-6 p-2 p-md-3">
             <a
               class="portfolio-box"
               href="https://naira4coin.com/app/4.apk"
@@ -1032,7 +1039,7 @@
               </div>
             </a>
           </div>
-          <div class="col-lg-4 col-sm-6">
+          <div class="col-lg-4 col-sm-6 p-2 p-md-3">
             <a
               class="portfolio-box"
               href="https://easil.com.ng/apps/swappay"
@@ -1049,7 +1056,7 @@
               </div>
             </a>
           </div>
-          <div class="col-lg-4 col-sm-6">
+          <div class="col-lg-4 col-sm-6 p-2 p-md-3">
             <a
               class="portfolio-box"
               href="https://easil.com.ng/apps/ushopia"
@@ -1082,16 +1089,16 @@
           </div>
         </div>
         <div class="row gx-4 gx-lg-5 justify-content-center">
-          <div class="col-lg-8 cv-card mb-4">
+          <div class="col-lg-8 cv-card mb-4 cv-inline-gap">
             <h3>Professional Summary</h3>
             <p class="text-muted">
               Results-driven developer with 4+ years building responsive mobile
-              apps (Flutter/Dart) and full-stack web solutions (React, Laravel).
+              apps with Flutter(Dart) and full-stack web solutions.
               Led product launches generating $5M+ revenue. Passionate about
               seamless UX and scalable backends.
             </p>
           </div>
-          <div class="col-lg-4 cv-card mb-4">
+          <div class="col-lg-4 cv-card mb-4 cv-inline-gap">
             <h3>Skills</h3>
             <ul>
               <li>
@@ -1212,7 +1219,7 @@
               </div>
             </div>
           </div>
-          <div class="col-lg-6 cv-card mb-4">
+          <div class="col-lg-6 cv-card mb-4 cv-inline-gap">
             <h3>Education</h3>
             <h4>MSc Civil Engineering, University of Ibadan</h4>
             <p class="text-muted">
@@ -1223,7 +1230,7 @@
               Jun 2021 | Second Class Upper (97th Percentile)
             </p>
           </div>
-          <div class="col-lg-6 cv-card mb-4">
+          <div class="col-lg-6 cv-card mb-4 cv-inline-gap">
             <h3>Affiliations & Leadership</h3>
             <ul>
               <li>Graduate Member, Nigeria Society of Engineers (NSE)</li>
@@ -1245,6 +1252,20 @@
               download
               >Download Full CV</a
             >
+          </div>
+        </div>
+        <!-- Contact Information -->
+        <div class="row gx-4 gx-lg-5 justify-content-center mt-4">
+          <div class="col-lg-8 cv-card">
+            <h3>Contact</h3>
+            <p class="text-muted mb-1">
+              <strong>Email:</strong>
+              <a href="mailto:adeshinaolayodemubaraq@gmail.com">adeshinaolayodemubaraq@gmail.com</a>
+            </p>
+            <p class="text-muted mb-0">
+              <strong>Phone:</strong>
+              <a href="tel:+2349036176161">+(234) 9036176161</a>
+            </p>
           </div>
         </div>
       </div>
