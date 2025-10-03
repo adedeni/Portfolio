@@ -521,7 +521,7 @@
         color: var(--text-dark);
         position: relative;
         z-index: 2;
-        background: var(--gradient-vibrant);
+        background: var(--gradient-vibrant-dark);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
@@ -534,7 +534,7 @@
         left: 0;
         width: 50px;
         height: 2px;
-        background: var(--gradient-vibrant);
+        background: var(--gradient-vibrant-dark);
         transition: width 0.3s ease;
       }
 
@@ -558,7 +558,7 @@
       }
 
       .tech-tags span {
-        background: var(--cyan);
+        background: var(--light-purple);
         padding: 0.5rem 1.2rem;
         border-radius: 20px;
         font-size: 0.9rem;
@@ -569,7 +569,7 @@
       }
 
       .tech-tags span:hover {
-        background: #0e7490;
+        background: #7c3aed;
         transform: translateY(-2px);
         box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
       }
@@ -607,14 +607,6 @@
         color: #e2e8f0;
       }
 
-      .dark-mode .tech-tags span {
-        background: var(--light-purple);
-        color: #ffffff;
-      }
-
-      .dark-mode .tech-tags span:hover {
-        background: #7c3aed;
-      }
 
       .page-section {
         padding: 5rem 0;
@@ -735,6 +727,25 @@
           max-width: 100%;
         }
       }
+      /* CV Card spacing and sizing adjustments */
+      .cv-card {
+        margin-bottom: 2rem !important;
+      }
+      
+      /* Professional summary and skills cards - keep full width */
+      .cv-card.professional-summary {
+        max-width: none;
+      }
+      
+      .cv-card.skills-card {
+        max-width: none;
+      }
+      
+      /* Add spacing between CV card rows */
+      .cv-row-spacing {
+        margin-bottom: 3rem;
+      }
+      
       /* Desktop-only subtle inline gap for specific CV columns */
       @media (min-width: 992px) {
         .cv-inline-gap {
@@ -742,6 +753,58 @@
           padding-right: 12px;
         }
       }
+      
+      /* Contact section styling */
+      .contact-item-section {
+        text-align: center;
+        padding: 1rem;
+      }
+      
+      .contact-icon-section {
+        width: 60px;
+        height: 60px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1rem;
+        backdrop-filter: blur(10px);
+        border: 2px solid rgba(255, 255, 255, 0.2);
+        transition: all 0.3s ease;
+      }
+      
+      .contact-item-section:hover .contact-icon-section {
+        background: rgba(255, 255, 255, 0.2);
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      }
+      
+      .contact-icon-section i {
+        color: white;
+        font-size: 1.5rem;
+      }
+      
+      .contact-item-section h4 {
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+      }
+      
+      .contact-link {
+        color: rgba(255, 255, 255, 0.75);
+        text-decoration: none;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        display: inline-block;
+      }
+      
+      .contact-link:hover {
+        color: white;
+        text-decoration: underline;
+        transform: translateY(-2px);
+      }
+      
     </style>
   </head>
 
@@ -787,6 +850,7 @@
               <a class="nav-link" href="#portfolio">Portfolio</a>
             </li>
             <li class="nav-item"><a class="nav-link" href="#cv">CV</a></li>
+            <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
           </ul>
         </div>
       </div>
@@ -1088,8 +1152,8 @@
             </p>
           </div>
         </div>
-        <div class="row gx-4 gx-lg-5 justify-content-center">
-          <div class="col-lg-8 cv-card mb-4 cv-inline-gap">
+        <div class="row gx-4 gx-lg-5 justify-content-center cv-row-spacing">
+          <div class="col-lg-6 cv-card mb-4 cv-inline-gap professional-summary">
             <h3>Professional Summary</h3>
             <p class="text-muted">
               Results-driven developer with 4+ years building responsive mobile
@@ -1098,7 +1162,7 @@
               seamless UX and scalable backends.
             </p>
           </div>
-          <div class="col-lg-4 cv-card mb-4 cv-inline-gap">
+          <div class="col-lg-6 cv-card mb-4 cv-inline-gap skills-card">
             <h3>Skills</h3>
             <ul>
               <li>
@@ -1219,6 +1283,8 @@
               </div>
             </div>
           </div>
+        </div>
+        <div class="row gx-4 gx-lg-5 justify-content-center cv-row-spacing">
           <div class="col-lg-6 cv-card mb-4 cv-inline-gap">
             <h3>Education</h3>
             <h4>MSc Civil Engineering, University of Ibadan</h4>
@@ -1254,25 +1320,47 @@
             >
           </div>
         </div>
-        <!-- Contact Information -->
-        <div class="row gx-4 gx-lg-5 justify-content-center mt-4">
-          <div class="col-lg-8 cv-card">
-            <h3>Contact</h3>
-            <p class="text-muted mb-1">
-              <strong>Email:</strong>
-              <a href="mailto:adeshinaolayodemubaraq@gmail.com">adeshinaolayodemubaraq@gmail.com</a>
-            </p>
-            <p class="text-muted mb-0">
-              <strong>Phone:</strong>
-              <a href="tel:+2349036176161">+(234) 9036176161</a>
-            </p>
+      </div>
+    </section>
+
+    <!-- Contact-->
+    <section class="page-section bg-black" id="contact" style="background-color: black">
+      <div class="container px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+          <div class="col-lg-8 text-center">
+            <h2 class="text-white mt-0">Let's Connect!</h2>
+            <hr class="divider divider-light" />
+            <div class="row justify-content-center">
+              <div class="col-lg-6 mb-3">
+                <div class="contact-item-section">
+                  <div class="contact-icon-section">
+                    <i class="bi bi-envelope-fill"></i>
+                  </div>
+                  <h4 class="text-white mb-2">Email</h4>
+                  <a href="mailto:adeshinaolayodemubaraq@gmail.com" class="text-white-75 contact-link">
+                    adeshinaolayodemubaraq@gmail.com
+                  </a>
+                </div>
+              </div>
+              <div class="col-lg-6 mb-3">
+                <div class="contact-item-section">
+                  <div class="contact-icon-section">
+                    <i class="bi bi-phone-fill"></i>
+                  </div>
+                  <h4 class="text-white mb-2">Phone</h4>
+                  <a href="tel:+2349036176161" class="text-white-75 contact-link">
+                    +(234) 9036176161
+                  </a>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </section>
 
     <!-- Footer-->
-    <footer class="bg-black py-5" style="background-color: black">
+    <footer class="py-5" style="background: linear-gradient(135deg, #1e293b 0%, #334155 100%);">
       <div class="container px-4 px-lg-5">
         <div class="copyright text-center text-sm text-muted text-lg-start">
           ©
