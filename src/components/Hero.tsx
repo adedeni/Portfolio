@@ -76,7 +76,7 @@ export function Hero() {
 
           <aside aria-label="Summary" className="flex flex-col gap-6">
             <TitleBlock />
-            <nav aria-label="Drawing index" className="border border-line-strong bg-paper">
+            <nav aria-label="Drawing index" className="no-print border border-line-strong bg-paper">
               <p className="label border-b border-line-strong px-3 py-2 text-ink">Drawing index</p>
               <ol className="divide-y divide-line">
                 {sheets.slice(1).map((s, i) => (

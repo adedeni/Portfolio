@@ -147,7 +147,7 @@ export const caseStudies: CaseStudy[] = [
       width: 1600,
       height: 1000,
       alt: "The VTUNowNow template editor: a sidebar of colour pickers and text fields on the left, and a live vendor storefront preview on the right with the edited headline highlighted.",
-      caption: "VTUNowNow template editor, run locally with a sample storefront",
+      caption: "VTUNowNow template editor: production code, run locally with a demo template",
     },
   },
   {
@@ -179,7 +179,7 @@ export const caseStudies: CaseStudy[] = [
       width: 1600,
       height: 1320,
       alt: "The PMCSMS Send Bulk SMS screen: a sender ID picker, a recipients box showing four numbers in international format with a 4 recipients badge, group and file upload options, and a message with a live page and character counter.",
-      caption: "PMCSMS Send Bulk SMS screen, rendered locally with sample data",
+      caption: "PMCSMS Send Bulk SMS screen: production code, rendered locally with test data",
     },
   },
 ];

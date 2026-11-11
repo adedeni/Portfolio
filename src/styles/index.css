@@ -472,6 +472,79 @@
   }
 }
 
+/* ------------------------------------------------------------------
+   Print: light, clean pages for recruiters who print or save as PDF.
+   ------------------------------------------------------------------ */
+@media print {
+  :root,
+  :root[data-theme="dark"],
+  :root[data-theme="light"] {
+    color-scheme: light;
+    --table: #ffffff;
+    --paper: #ffffff;
+    --paper-2: #f4f4f2;
+    --ink: #111111;
+    --ink-2: #333333;
+    --ink-3: #555555;
+    --line: rgb(0 0 0 / 0.18);
+    --line-strong: rgb(0 0 0 / 0.45);
+    --accent: #b83c0a;
+    --on-accent: #ffffff;
+  }
+  body {
+    background: #fff !important;
+    font-size: 11pt;
+  }
+  header,
+  .no-print,
+  a[href="#main"] {
+    display: none !important;
+  }
+  .sheet {
+    box-shadow: none;
+    break-inside: auto;
+  }
+  .sheet-grid {
+    background-image: none;
+  }
+  li,
+  figure,
+  .sheet > div > div {
+    break-inside: avoid;
+  }
+  /* Show where external links go */
+  main a[href^="http"]::after {
+    content: " (" attr(href) ")";
+    font-size: 0.8em;
+    color: #555;
+    word-break: break-all;
+  }
+  [data-reveal],
+  .fan-item,
+  .pin {
+    opacity: 1 !important;
+    translate: none !important;
+    scale: 1 !important;
+  }
+  *,
+  *::before,
+  *::after {
+    transition: none !important;
+    animation: none !important;
+  }
+  .diagram .dg-draw {
+    stroke-dashoffset: 0 !important;
+    opacity: 1 !important;
+  }
+  .diagram .dg-box,
+  .diagram .dg-dlr,
+  .diagram .dg-dlr-label,
+  .chain-line {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
 /* Theme switch shows the theme you'd switch to */
 .theme-icon-dark {
   display: none;

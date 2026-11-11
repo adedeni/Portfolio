@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { path } from "../data/content";
 
 declare const __BUILD_MONTH__: string;
@@ -22,8 +23,11 @@ const span = (months: number) => {
  * first milestone to the build date. Horizontal on wide screens, a rail below.
  */
 export function PathChain() {
+  // Server render uses the build month; the browser corrects it to the current month.
+  const [today, setToday] = useState(__BUILD_MONTH__);
+  useEffect(() => setToday(new Date().toISOString().slice(0, 7)), []);
   const start = ym(path[0].date);
-  const end = ym(__BUILD_MONTH__);
+  const end = Math.max(ym(today), ym(path[path.length - 1].date));
   const total = Math.max(1, end - start);
   const items = path.map((p, i) => {
     const here = ym(p.date);
@@ -87,7 +91,7 @@ export function PathChain() {
 
         {/* Today marker, at the arrow tip */}
         <p className="pl-6 font-mono text-[0.8125rem] text-ink-2 lg:absolute lg:right-0 lg:top-1/2 lg:w-32 lg:-translate-y-1/2 lg:p-0">
-          Today · {label(__BUILD_MONTH__)}
+          Today · {label(today)}
         </p>
       </div>
     </figure>

@@ -100,7 +100,7 @@ export function StorefrontEditor() {
   };
 
   return (
-    <div className="border-t border-line-strong">
+    <div className="no-print border-t border-line-strong">
       <div className="flex flex-wrap items-center justify-between gap-x-6 gap-y-1 border-b border-line px-4 py-2 sm:px-6 lg:px-10">
         <h3 className="label text-ink">Detail A: Template editor (working model)</h3>
         <p className="label">Try it: switch templates, change a colour, or type in the preview</p>
@@ -124,6 +124,9 @@ export function StorefrontEditor() {
               <>
                 <span className="h-7 w-7 animate-spin rounded-full border-2 border-[#2a2a2a] border-t-[#ffe600]" />
                 <p className="text-sm text-[#a3a3a3]">Loading template…</p>
+                <noscript>
+                  <p className="max-w-[40ch] text-sm text-[#f0f0f0]">The editor needs JavaScript. Turn it on to try it.</p>
+                </noscript>
               </>
             ) : (
               <p className="text-sm text-[#f0f0f0]">Couldn't load the template ({state.message}).</p>
@@ -155,8 +158,8 @@ export function StorefrontEditor() {
           </Note>
         </ol>
         <p className="mt-6 max-w-[80ch] text-sm text-ink-3">
-          A simplified working model of the VTUNowNow editor, rebuilt for this page with the same config format, message
-          protocol and save step. The sample store is fictional.
+          A working model of the VTUNowNow editor, rebuilt for this page on the same config format, message protocol and save
+          step as production. The storefront brands are fictional.
         </p>
       </div>
     </div>
@@ -407,7 +410,7 @@ function LoadedEditor({
               ref={iframeRef}
               srcDoc={html}
               sandbox="allow-scripts allow-same-origin"
-              title={`${config.name} template preview (sample store, editable)`}
+              title={`${config.name} template preview (editable)`}
               className="block h-[460px] w-full md:h-full"
             />
           </div>
@@ -454,7 +457,7 @@ function LoadedEditor({
               <p className="truncate">
                 POST vtunownow.php · action=save_template · template_slug={config.id}
               </p>
-              <p className="text-ink-3">Not sent: this is a demo.</p>
+              <p className="text-ink-3">Not sent from this page.</p>
               <a href={snapshot.url} target="_blank" rel="noopener" className="ink-link inline-flex items-center gap-1 text-ink">
                 Open the saved page
                 <Icon icon={ArrowUpRight} size={13} />

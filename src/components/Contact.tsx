@@ -1,11 +1,14 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { contact, person, sheets } from "../data/content";
 import { Sheet } from "./Sheet";
 import { ArrowUpRight, Check, Copy, FileDown, FileText, Mail, Phone } from "lucide-react";
 import { GitHubIcon, Icon, LinkedInIcon, WhatsAppIcon } from "./Icon";
 import { reveal } from "../reveal";
 
-export function Contact({ year }: { year: number }) {
+export function Contact({ year: buildYear }: { year: number }) {
+  // Built pages carry the build year; correct it in the browser if the site hasn't been rebuilt since.
+  const [year, setYear] = useState(buildYear);
+  useEffect(() => setYear(new Date().getFullYear()), []);
   const [copied, setCopied] = useState(false);
 
   const copy = async () => {
@@ -14,7 +17,19 @@ export function Contact({ year }: { year: number }) {
       setCopied(true);
       window.setTimeout(() => setCopied(false), 2000);
     } catch {
-      window.location.href = `mailto:${contact.email}`;
+      // Older browsers / insecure contexts: fall back to a temporary textarea.
+      const ta = document.createElement("textarea");
+      ta.value = contact.email;
+      ta.setAttribute("readonly", "");
+      ta.style.position = "fixed";
+      ta.style.opacity = "0";
+      document.body.appendChild(ta);
+      ta.select();
+      const ok = document.execCommand("copy");
+      ta.remove();
+      setCopied(ok);
+      if (ok) window.setTimeout(() => setCopied(false), 2000);
+      else window.prompt("Copy this email address:", contact.email);
     }
   };
 
