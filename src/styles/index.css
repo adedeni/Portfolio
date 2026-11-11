@@ -3,50 +3,12 @@
 @import "@fontsource/ibm-plex-mono/500.css";
 @import "tailwindcss";
 
-@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+@custom-variant dark (&:where(:root:not([data-theme="light"]), :root:not([data-theme="light"]) *));
 
 /* ------------------------------------------------------------------
-   Tokens. Light = drafting paper. Dark = blueprint.
+   Tokens. Blueprint (dark) is the default; Paper (light) is opt-in.
    ------------------------------------------------------------------ */
 :root {
-  color-scheme: light;
-  --table: #e4e1d6;
-  --paper: #f6f4ee;
-  --paper-2: #edeae1;
-  --ink: #15181b;
-  --ink-2: #41464c;
-  --ink-3: #5c6269;
-  --line: rgb(21 24 27 / 0.2);
-  --line-strong: rgb(21 24 27 / 0.55);
-  --grid: rgb(21 24 27 / 0.055);
-  --grid-major: rgb(21 24 27 / 0.09);
-  --accent: #b83c0a;
-  --accent-strong: #9a3108;
-  --on-accent: #ffffff;
-  --focus: #b83c0a;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    color-scheme: dark;
-    --table: #071a29;
-    --paper: #0c2638;
-    --paper-2: #103049;
-    --ink: #eaf0f4;
-    --ink-2: #bccbd6;
-    --ink-3: #9db1c0;
-    --line: rgb(234 240 244 / 0.2);
-    --line-strong: rgb(234 240 244 / 0.55);
-    --grid: rgb(234 240 244 / 0.05);
-    --grid-major: rgb(234 240 244 / 0.09);
-    --accent: #ff9159;
-    --accent-strong: #ffad82;
-    --on-accent: #0c2638;
-    --focus: #ffb38a;
-  }
-}
-
-:root[data-theme="dark"] {
   color-scheme: dark;
   --table: #071a29;
   --paper: #0c2638;
@@ -62,6 +24,24 @@
   --accent-strong: #ffad82;
   --on-accent: #0c2638;
   --focus: #ffb38a;
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+  --table: #e4e1d6;
+  --paper: #f6f4ee;
+  --paper-2: #edeae1;
+  --ink: #15181b;
+  --ink-2: #41464c;
+  --ink-3: #5c6269;
+  --line: rgb(21 24 27 / 0.2);
+  --line-strong: rgb(21 24 27 / 0.55);
+  --grid: rgb(21 24 27 / 0.055);
+  --grid-major: rgb(21 24 27 / 0.09);
+  --accent: #b83c0a;
+  --accent-strong: #9a3108;
+  --on-accent: #ffffff;
+  --focus: #b83c0a;
 }
 
 @theme inline {
@@ -337,24 +317,15 @@
   }
 }
 
-/* Theme switch shows the label for the theme you'd switch to */
-.theme-icon-dark,
-.theme-icon-light {
+/* Theme switch shows the theme you'd switch to */
+.theme-icon-dark {
   display: none;
 }
-:root:not([data-theme="dark"]) .theme-icon-dark {
+:root[data-theme="light"] .theme-icon-dark {
   display: inline;
 }
-:root[data-theme="dark"] .theme-icon-light {
-  display: inline;
-}
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme]) .theme-icon-dark {
-    display: none;
-  }
-  :root:not([data-theme]) .theme-icon-light {
-    display: inline;
-  }
+:root[data-theme="light"] .theme-icon-light {
+  display: none;
 }
 
 @media (prefers-reduced-motion: reduce) {

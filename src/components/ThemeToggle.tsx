@@ -1,16 +1,18 @@
 /**
- * Paper / Blueprint switch. The initial theme is set by an inline script in
- * index.html before first paint; this only flips and persists it.
+ * Blueprint / Paper switch. Blueprint is the default (set on <html> in
+ * index.html); a saved "light" choice is applied before first paint.
+ * This only flips and persists the choice.
  * Labels are swapped with CSS so server and client markup match.
  */
 export function ThemeToggle() {
   const toggle = () => {
     const root = document.documentElement;
-    const current =
-      root.dataset.theme ??
-      (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+    const current = root.dataset.theme === "light" ? "light" : "dark";
     const next = current === "dark" ? "light" : "dark";
     root.dataset.theme = next;
+    document
+      .querySelector('meta[name="theme-color"]')
+      ?.setAttribute("content", next === "dark" ? "#0c2638" : "#f6f4ee");
     try {
       localStorage.setItem("theme", next);
     } catch {
