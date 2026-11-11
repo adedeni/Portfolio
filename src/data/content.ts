@@ -18,7 +18,7 @@ export type LinkItem = {
 export type Screenshot =
   | {
       kind: "image";
-      /** Path under /public, e.g. "/images/pmcsms-dashboard.webp" */
+      /** Path under /public, e.g. "/images/pmcsms-compose.webp" */
       webp: string;
       /** Optional AVIF version, preferred by browsers that support it */
       avif?: string;
@@ -162,7 +162,7 @@ export const caseStudies: CaseStudy[] = [
     ],
     problem:
       "Businesses need to reach large customer lists by SMS, email and voice, under their own sender ID, without messaging numbers on the Do-Not-Disturb list, and with a clear view of what was delivered.",
-    role: "I built the platform's messaging features and its wallet top-up system.",
+    role: "I built the platform end to end: messaging, the wallet top-up system and the real-time analytics dashboard.",
     built: [
       "SMS, email and voice broadcast campaigns from one platform.",
       "Sender ID management, DND filtering and scheduled delivery.",
@@ -174,12 +174,12 @@ export const caseStudies: CaseStudy[] = [
     stack: ["Laravel", "PHP", "MySQL", "JavaScript"],
     screenshot: {
       kind: "image",
-      webp: "/images/pmcsms-dashboard.webp",
-      avif: "/images/pmcsms-dashboard.avif",
+      webp: "/images/pmcsms-compose.webp",
+      avif: "/images/pmcsms-compose.avif",
       width: 1600,
-      height: 1000,
-      alt: "The PMCSMS user dashboard: a sidebar menu, a wallet card with balance and SMS volume coverage, and an overview of groups, scheduled SMS, sender IDs and drafts.",
-      caption: "PMCSMS user dashboard, rendered locally with sample data",
+      height: 1320,
+      alt: "The PMCSMS Send Bulk SMS screen: a sender ID picker, a recipients box showing four numbers in international format with a 4 recipients badge, group and file upload options, and a message with a live page and character counter.",
+      caption: "PMCSMS Send Bulk SMS screen, rendered locally with sample data",
     },
   },
 ];
@@ -218,10 +218,13 @@ export const shippedProjects: ShippedProject[] = [
   },
   {
     name: "Bubu Browser",
-    summary: "Mobile browser with news aggregation.",
+    summary: "Mobile browser with news aggregation and a built-in social network.",
     contribution: [
+      "The whole app: Flutter client, PHP API and MySQL, with Firebase.",
       "Multi-tab browsing, bookmarks and a download manager.",
       "5 search engines, push notifications and video ads.",
+      "A social layer: posts, a feed, profiles, followers and alerts.",
+      "Verification requests, blocked users, community guidelines and in-app reporting.",
     ],
     stack: ["Flutter", "Firebase", "PHP API", "MySQL"],
     platforms: "Android",
@@ -320,17 +323,76 @@ export const experience: Job[] = [
   },
 ];
 
-export const skills: { area: string; items: string[] }[] = [
+/**
+ * Skills, each with where it was used (project or employer names as they appear on the site).
+ * The Skills section shows this as a cross-reference; leave usedIn empty to show a plain tag.
+ */
+export type Skill = { name: string; usedIn?: string[] };
+export const skills: { area: string; items: Skill[] }[] = [
   {
     area: "Frontend",
-    items: ["React", "JavaScript", "TypeScript", "HTML", "CSS", "Tailwind", "Bootstrap"],
+    items: [
+      { name: "React", usedIn: ["VTUNowNow", "NCDF Group", "Maysync Group"] },
+      { name: "JavaScript", usedIn: ["PMCSMS", "CDLPHUB Solutions LTD"] },
+      { name: "TypeScript", usedIn: ["VTUNowNow", "NCDF Group"] },
+      { name: "HTML" },
+      { name: "CSS" },
+      { name: "Tailwind", usedIn: ["VTUNowNow", "Maysync Group"] },
+      { name: "Bootstrap", usedIn: ["NCDF Group", "CDLPHUB Solutions LTD"] },
+    ],
   },
-  { area: "Mobile", items: ["Flutter", "Dart", "Android", "iOS"] },
+  {
+    area: "Mobile",
+    items: [
+      { name: "Flutter", usedIn: ["Autobiz.app", "SimServers.io", "Bubu Browser", "NCDF Group", "CDLPHUB Solutions LTD"] },
+      { name: "Dart", usedIn: ["Autobiz.app", "SimServers.io", "Bubu Browser", "NCDF Group", "CDLPHUB Solutions LTD"] },
+      { name: "Android", usedIn: ["Autobiz.app", "SimServers.io", "Bubu Browser"] },
+      { name: "iOS", usedIn: ["Autobiz.app", "SimServers.io"] },
+    ],
+  },
   {
     area: "Backend",
-    items: ["PHP (Laravel)", "Node.js", "Python", "MySQL", "Firebase", "REST APIs"],
+    items: [
+      { name: "PHP (Laravel)", usedIn: ["VTUNowNow", "PMCSMS", "Autobiz.app", "SimServers.io", "Bubu Browser", "NCDF Group", "Maysync Group"] },
+      { name: "Node.js", usedIn: ["VTUNowNow", "Aldrenor", "LifeComeLive"] },
+      { name: "Python", usedIn: ["Maysync Group"] },
+      { name: "MySQL", usedIn: ["VTUNowNow", "PMCSMS", "Autobiz.app", "SimServers.io", "Bubu Browser"] },
+      { name: "PostgreSQL", usedIn: ["Aldrenor", "LifeComeLive"] },
+      { name: "Firebase", usedIn: ["Autobiz.app", "SimServers.io", "Bubu Browser"] },
+      { name: "REST APIs", usedIn: ["VTUNowNow", "SimServers.io", "Maysync Group"] },
+    ],
   },
-  { area: "Tools", items: ["Git/GitHub", "CI/CD", "Payment gateway integration"] },
+  {
+    area: "Tools",
+    items: [
+      { name: "Git/GitHub" },
+      { name: "CI/CD" },
+      { name: "Payment gateway integration", usedIn: ["Autobiz.app", "PMCSMS"] },
+    ],
+  },
+];
+
+/** Where each project or employer lives on the page, for cross-reference links. */
+export const anchors: Record<string, string> = {
+  VTUNowNow: "#vtunownow",
+  PMCSMS: "#pmcsms",
+  "Autobiz.app": "#work",
+  "SimServers.io": "#work",
+  "Bubu Browser": "#work",
+  "NCDF Group": "#experience",
+  "CDLPHUB Solutions LTD": "#experience",
+  "Maysync Group": "#experience",
+  Aldrenor: "#experience",
+  LifeComeLive: "#experience",
+};
+
+/** Career milestones for the Background timeline (YYYY-MM). The chain runs to the build date. */
+export const path: { date: string; title: string; org: string }[] = [
+  { date: "2021-06", title: "B.Tech Agricultural Engineering", org: "LAUTECH" },
+  { date: "2023-02", title: "Software Engineer", org: "Maysync Group" },
+  { date: "2025-03", title: "MSc Civil Engineering", org: "University of Ibadan" },
+  { date: "2026-01", title: "Full-stack Developer", org: "CDLPHUB" },
+  { date: "2026-06", title: "Full-stack Engineer", org: "NCDF Group" },
 ];
 
 export const education = [

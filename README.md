@@ -20,7 +20,7 @@ All copy, projects, links and experience live in `src/data/content.ts`. Componen
 - **Screenshots:** export each as WebP (and optionally AVIF), around 1600×1000, into `public/images/`. Then replace the `{ kind: "pending", ... }` entry with:
 
   ```ts
-  { kind: "image", webp: "/images/pmcsms-dashboard.webp", avif: "/images/pmcsms-dashboard.avif",
+  { kind: "image", webp: "/images/pmcsms-compose.webp", avif: "/images/pmcsms-compose.avif",
     width: 1600, height: 1000, alt: "…", caption: "…" }
   ```
 

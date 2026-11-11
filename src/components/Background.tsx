@@ -1,4 +1,5 @@
 import { education, memberships } from "../data/content";
+import { PathChain } from "./PathChain";
 import { Sheet } from "./Sheet";
 import { Award, BadgeCheck, GraduationCap } from "lucide-react";
 import { Icon } from "./Icon";
@@ -50,6 +51,9 @@ export function Background() {
             ))}
           </ul>
         </div>
+      </div>
+      <div className="px-4 pb-10 sm:px-6 lg:px-10 lg:pb-12">
+        <PathChain />
       </div>
     </Sheet>
   );

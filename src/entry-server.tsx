@@ -29,7 +29,7 @@ export function jsonLd() {
     sameAs: [contact.linkedin.href, contact.github.href],
     worksFor: { "@type": "Organization", name: current.company },
     alumniOf: education.map((e) => ({ "@type": "CollegeOrUniversity", name: e.school })),
-    knowsAbout: skills.flatMap((g) => g.items),
+    knowsAbout: skills.flatMap((g) => g.items.map((i) => i.name)),
     subjectOf: caseStudies
       .filter((c) => c.url.href)
       .map((c) => ({ "@type": "CreativeWork", name: c.name, url: c.url.href, description: c.kind })),

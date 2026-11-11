@@ -404,6 +404,21 @@
     animation: dg-flow 1.6s linear infinite;
   }
 
+  /* Background: the dimension chain draws left to right */
+  .chain-line {
+    transform-origin: left;
+    transition: transform 1.4s cubic-bezier(0.6, 0, 0.2, 1);
+  }
+  .js .chain:not([data-inview]) .chain-line {
+    transform: scaleX(0);
+  }
+
+  /* Skills cross-reference: links arrive one after another on each pick */
+  .xref-in {
+    animation: xref-in 380ms ease backwards;
+    animation-delay: calc(var(--i, 0) * 55ms);
+  }
+
   /* Bubu elevation: phones fan out, then the markers pop on */
   .fan-item {
     transition:
@@ -438,6 +453,12 @@
   100% {
     transform: scaleX(1);
     opacity: 0;
+  }
+}
+@keyframes xref-in {
+  from {
+    opacity: 0;
+    translate: 0 6px;
   }
 }
 @keyframes pin-pop {
