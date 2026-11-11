@@ -16,6 +16,11 @@
   header { position:relative; z-index:2; }
   .nav { display:flex; align-items:center; gap:16px; height:clamp(60px, 7vw, 76px); }
   .brand { display:flex; align-items:center; gap:10px; min-width:0; font-weight:800; font-size:clamp(17px, 1vw + 13px, 20px); letter-spacing:-.01em; }
+  .mark { overflow:hidden; }
+  .mark img { width:100%; height:100%; object-fit:cover; display:block; }
+  .mark img:not([src]) { display:none; }
+  .mark:has(img[src]) { background:#fff; }
+  .mark:has(img[src]) svg { display:none; }
   .brand-name { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
   .mark { width:36px; height:36px; border-radius:11px; display:grid; place-items:center; flex:none; box-shadow:0 6px 16px color-mix(in srgb, var(--primary-color) 35%, transparent); }
   .links { display:none; gap:26px; margin-left:auto; font-size:14px; color:var(--muted); font-weight:500; }
@@ -88,7 +93,7 @@
 </head>
 <body>
   <header><div class="wrap nav">
-    <div class="brand"><span class="mark grad"><svg width="18" height="18" viewBox="0 0 24 24" fill="#fff"><path d="M13 2 5 13h6l-1 9 8-12h-6z"/></svg></span><span class="brand-name" data-editable-id="brand_name">Ember Topup</span></div>
+    <div class="brand"><span class="mark grad" data-editable-id="brand_logo" data-editable-kind="image"><img id="brand-logo" alt="" /><svg width="18" height="18" viewBox="0 0 24 24" fill="#fff"><path d="M13 2 5 13h6l-1 9 8-12h-6z"/></svg></span><span class="brand-name" data-editable-id="brand_name">Ember Topup</span></div>
     <nav class="links"><span>Airtime</span><span>Data</span><span>Bills</span><span>Pricing</span></nav>
     <div class="actions"><span class="btn btn-ghost">Log in</span><span class="btn btn-solid grad">Sign up</span></div>
   </div></header>
@@ -150,6 +155,8 @@
   style.textContent =
     "[contenteditable][data-editable-id]{cursor:text;outline:1px dashed transparent;outline-offset:4px;transition:outline-color .15s}" +
     "[contenteditable][data-editable-id]:hover{outline-color:rgba(255,230,0,.95)}" +
+    "[data-editable-kind=image]{cursor:pointer;outline:1px dashed transparent;outline-offset:3px;transition:outline-color .15s}" +
+    "[data-editable-kind=image]:hover{outline-color:rgba(255,230,0,.95)}" +
     "[data-editable-active]{outline:2px solid #ffe600 !important}";
   document.head.appendChild(style);
 
@@ -159,8 +166,11 @@
   }
 
   document.querySelectorAll("[data-editable-id]").forEach(function (el) {
-    el.setAttribute("contenteditable", "true");
-    el.setAttribute("spellcheck", "false");
+    // Text regions are edited in place; image regions are only selectable.
+    if (el.dataset.editableKind !== "image") {
+      el.setAttribute("contenteditable", "true");
+      el.setAttribute("spellcheck", "false");
+    }
     el.addEventListener("click", function () { activate(el); post("ELEMENT_CLICKED", { editableId: el.dataset.editableId }); });
     el.addEventListener("input", function () { post("FIELD_UPDATED", { editableId: el.dataset.editableId, value: el.textContent }); });
   });
@@ -170,6 +180,11 @@
     var d = e.data; if (!d || d.source !== "template-editor") return;
     var p = d.payload || {};
     if (d.type === "UPDATE_TEXT") document.querySelectorAll(p.selector).forEach(function (el) { el.textContent = p.value; });
+    if (d.type === "UPDATE_IMAGE" && (p.value === "" || /^data:image\/(png|jpeg|webp|gif|svg\+xml);/.test(p.value))) {
+      document.querySelectorAll(p.selector).forEach(function (el) {
+        if (p.value) el.setAttribute("src", p.value); else el.removeAttribute("src");
+      });
+    }
     if (d.type === "UPDATE_CSS_VAR" && /^--[a-z-]+$/.test(p.variable)) root.style.setProperty(p.variable, p.value);
     if (d.type === "HIGHLIGHT_ELEMENT") {
       var el = document.querySelector('[data-editable-id="' + CSS.escape(p.editableId) + '"]');

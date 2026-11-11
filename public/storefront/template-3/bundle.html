@@ -16,6 +16,11 @@
   .brand { display:flex; align-items:center; gap:10px; min-width:0; font-weight:800; font-size:clamp(16px, 1vw + 12px, 19px); }
   .brand-name { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
   .logo { width:clamp(30px, 3vw, 38px); height:clamp(30px, 3vw, 38px); border-radius:9px; background:var(--primary-color); color:#fff; display:grid; place-items:center; font-weight:800; flex:none; }
+  .logo { overflow:hidden; }
+  .logo img { width:100%; height:100%; object-fit:cover; display:block; }
+  .logo img:not([src]) { display:none; }
+  .logo:has(img[src]) { background:#fff; }
+  .logo:has(img[src]) .logo-letter { display:none; }
   .login { flex:none; padding:7px 14px; border-radius:999px; border:1.5px solid var(--primary-color); color:var(--primary-color); font-weight:600; font-size:13px; }
 
   .hero { background:linear-gradient(135deg, var(--primary-color), var(--secondary-color)); color:#fff; }
@@ -49,7 +54,7 @@
 </head>
 <body>
   <header><div class="wrap nav">
-    <div class="brand"><span class="logo">S</span><span class="brand-name" data-editable-id="brand_name">Sunrise Data Hub</span></div>
+    <div class="brand"><span class="logo" data-editable-id="brand_logo" data-editable-kind="image"><img id="brand-logo" alt="" /><span class="logo-letter">S</span></span><span class="brand-name" data-editable-id="brand_name">Sunrise Data Hub</span></div>
     <span class="login">Log in</span>
   </div></header>
 
@@ -95,6 +100,8 @@
   style.textContent =
     "[contenteditable][data-editable-id]{cursor:text;outline:1px dashed transparent;outline-offset:4px;transition:outline-color .15s}" +
     "[contenteditable][data-editable-id]:hover{outline-color:rgba(255,230,0,.95)}" +
+    "[data-editable-kind=image]{cursor:pointer;outline:1px dashed transparent;outline-offset:3px;transition:outline-color .15s}" +
+    "[data-editable-kind=image]:hover{outline-color:rgba(255,230,0,.95)}" +
     "[data-editable-active]{outline:2px solid #ffe600 !important}";
   document.head.appendChild(style);
 
@@ -104,8 +111,11 @@
   }
 
   document.querySelectorAll("[data-editable-id]").forEach(function (el) {
-    el.setAttribute("contenteditable", "true");
-    el.setAttribute("spellcheck", "false");
+    // Text regions are edited in place; image regions are only selectable.
+    if (el.dataset.editableKind !== "image") {
+      el.setAttribute("contenteditable", "true");
+      el.setAttribute("spellcheck", "false");
+    }
     el.addEventListener("click", function () { activate(el); post("ELEMENT_CLICKED", { editableId: el.dataset.editableId }); });
     el.addEventListener("input", function () { post("FIELD_UPDATED", { editableId: el.dataset.editableId, value: el.textContent }); });
   });
@@ -115,6 +125,11 @@
     var d = e.data; if (!d || d.source !== "template-editor") return;
     var p = d.payload || {};
     if (d.type === "UPDATE_TEXT") document.querySelectorAll(p.selector).forEach(function (el) { el.textContent = p.value; });
+    if (d.type === "UPDATE_IMAGE" && (p.value === "" || /^data:image\/(png|jpeg|webp|gif|svg\+xml);/.test(p.value))) {
+      document.querySelectorAll(p.selector).forEach(function (el) {
+        if (p.value) el.setAttribute("src", p.value); else el.removeAttribute("src");
+      });
+    }
     if (d.type === "UPDATE_CSS_VAR" && /^--[a-z-]+$/.test(p.variable)) root.style.setProperty(p.variable, p.value);
     if (d.type === "HIGHLIGHT_ELEMENT") {
       var el = document.querySelector('[data-editable-id="' + CSS.escape(p.editableId) + '"]');

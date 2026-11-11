@@ -19,7 +19,7 @@ type CssVar = { label: string; variable: string; default: string };
 type Editable = {
   id: string;
   label: string;
-  type: "text" | "textarea";
+  type: "text" | "textarea" | "image";
   section: string;
   selectors: string[];
   default: string;
@@ -193,7 +193,13 @@ function LoadedEditor({
     (type: string, payload: Record<string, string>) => {
       iframeRef.current?.contentWindow?.postMessage({ source: "template-editor", type, payload }, "*");
       const detail =
-        type === "UPDATE_CSS_VAR" ? `${payload.variable}: ${payload.value}` : type === "UPDATE_TEXT" ? `${payload.selector} ← "${payload.value}"` : payload.editableId;
+        type === "UPDATE_CSS_VAR"
+          ? `${payload.variable}: ${payload.value}`
+          : type === "UPDATE_TEXT"
+            ? `${payload.selector} ← "${payload.value}"`
+            : type === "UPDATE_IMAGE"
+              ? `${payload.selector} ← ${payload.value ? `image (${Math.max(1, Math.round(payload.value.length / 1024))} KB)` : "removed"}`
+              : payload.editableId;
       pushLog("out", type, detail);
     },
     [pushLog],
@@ -217,6 +223,11 @@ function LoadedEditor({
   const updateField = (e: Editable, value: string) => {
     setFields((f) => ({ ...f, [e.id]: value }));
     e.selectors.forEach((selector) => enqueue(`text:${selector}`, "UPDATE_TEXT", { selector, value }));
+  };
+  const updateImage = (e: Editable, value: string) => {
+    setFields((f) => ({ ...f, [e.id]: value }));
+    setActive(e.id);
+    e.selectors.forEach((selector) => send("UPDATE_IMAGE", { selector, value }));
   };
   const updateColor = (variable: string, value: string) => {
     setColors((c) => ({ ...c, [variable]: value }));
@@ -369,7 +380,15 @@ function LoadedEditor({
                           {e.label}
                           {isActive ? <span className="text-[0.6875rem] text-[#ffe600]">● active</span> : null}
                         </label>
-                        {e.type === "textarea" ? (
+                        {e.type === "image" ? (
+                          <ImageField
+                            id={`input-${e.id}`}
+                            value={fields[e.id] ?? ""}
+                            brand={fields.brand_name ?? config.name}
+                            onFocus={() => focusField(e.id)}
+                            onChange={(v) => updateImage(e, v)}
+                          />
+                        ) : e.type === "textarea" ? (
                           <textarea {...common} rows={2} onChange={(ev) => updateField(e, ev.target.value)} />
                         ) : (
                           <input {...common} onChange={(ev) => updateField(e, ev.target.value)} />
@@ -552,6 +571,101 @@ function Thumbnail({ html, name }: { html: string; name: string }) {
         />
       ) : null}
     </span>
+  );
+}
+
+const IMAGE_TYPES = ["image/png", "image/jpeg", "image/webp", "image/gif", "image/svg+xml"];
+
+/** Read an uploaded logo; raster images are scaled to at most 256px so snapshots stay small. */
+async function readLogo(file: File): Promise<string> {
+  if (!IMAGE_TYPES.includes(file.type)) throw new Error("Use a PNG, JPEG, WebP, GIF or SVG image.");
+  if (file.size > 2 * 1024 * 1024) throw new Error("Use an image under 2 MB.");
+  if (file.type === "image/svg+xml") {
+    return new Promise((resolve, reject) => {
+      const r = new FileReader();
+      r.onload = () => resolve(String(r.result));
+      r.onerror = () => reject(new Error("Couldn't read that file."));
+      r.readAsDataURL(file);
+    });
+  }
+  const bmp = await createImageBitmap(file);
+  const scale = Math.min(1, 256 / Math.max(bmp.width, bmp.height));
+  const canvas = document.createElement("canvas");
+  canvas.width = Math.round(bmp.width * scale);
+  canvas.height = Math.round(bmp.height * scale);
+  canvas.getContext("2d")?.drawImage(bmp, 0, 0, canvas.width, canvas.height);
+  return canvas.toDataURL("image/png");
+}
+
+/** A simple generated mark, so visitors can try the logo field without a file. */
+function sampleLogo(brand: string) {
+  const letter = (brand.trim()[0] ?? "S").toUpperCase().replace(/[^A-Z0-9]/, "S");
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1f2937"/><stop offset="1" stop-color="#4338ca"/></linearGradient></defs><rect width="64" height="64" rx="16" fill="url(#g)"/><circle cx="32" cy="32" r="19" fill="none" stroke="#facc15" stroke-width="4"/><text x="32" y="41" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" font-weight="700" fill="#fff">${letter}</text></svg>`;
+  return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;
+}
+
+function ImageField({
+  id,
+  value,
+  brand,
+  onFocus,
+  onChange,
+}: {
+  id: string;
+  value: string;
+  brand: string;
+  onFocus: () => void;
+  onChange: (value: string) => void;
+}) {
+  const [error, setError] = useState("");
+  const onFile = async (file: File | undefined) => {
+    if (!file) return;
+    try {
+      setError("");
+      onChange(await readLogo(file));
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Couldn't use that image.");
+    }
+  };
+  return (
+    <div>
+      {value ? (
+        <div className="flex items-center gap-3">
+          <img src={value} alt="Current logo" width={40} height={40} className="h-10 w-10 rounded border border-[#2a2a2a] bg-white object-cover" />
+          <button
+            type="button"
+            onFocus={onFocus}
+            onClick={() => onChange("")}
+            className="rounded border border-[#2a2a2a] px-2.5 py-1 text-xs text-[#a3a3a3] hover:border-[#555] hover:text-[#f0f0f0]"
+          >
+            Remove
+          </button>
+        </div>
+      ) : (
+        <label className="flex cursor-pointer items-center justify-center gap-2 rounded border border-dashed border-[#2a2a2a] py-2 text-xs text-[#a3a3a3] transition-colors hover:border-[#ffe600] hover:bg-[#1a1a00] hover:text-[#ffe600] has-focus-visible:border-[#ffe600] has-focus-visible:text-[#ffe600]">
+          <span aria-hidden="true">+</span> Upload image
+          <input
+            id={id}
+            type="file"
+            accept={IMAGE_TYPES.join(",")}
+            onFocus={onFocus}
+            onChange={(ev) => {
+              void onFile(ev.target.files?.[0]);
+              ev.target.value = "";
+            }}
+            className="sr-only"
+          />
+        </label>
+      )}
+      {!value ? (
+        <button type="button" onFocus={onFocus} onClick={() => onChange(sampleLogo(brand))} className="mt-1.5 text-[0.6875rem] text-[#a3a3a3] underline underline-offset-2 hover:text-[#ffe600]">
+          or use a sample logo
+        </button>
+      ) : null}
+      <p className="mt-1 text-[0.6875rem] text-[#f87171]" aria-live="polite">
+        {error}
+      </p>
+    </div>
   );
 }
 

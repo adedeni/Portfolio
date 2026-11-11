@@ -3,16 +3,92 @@
   "name": "Pulse",
   "description": "Bold and colourful, with an app preview and a data plan price list.",
   "cssVars": [
-    { "label": "Primary colour", "variable": "--primary-color", "default": "#e8590c" },
-    { "label": "Secondary colour", "variable": "--secondary-color", "default": "#c2255c" },
-    { "label": "Page tint", "variable": "--tint-color", "default": "#fff4ec" }
+    {
+      "label": "Primary colour",
+      "variable": "--primary-color",
+      "default": "#e8590c"
+    },
+    {
+      "label": "Secondary colour",
+      "variable": "--secondary-color",
+      "default": "#c2255c"
+    },
+    {
+      "label": "Page tint",
+      "variable": "--tint-color",
+      "default": "#fff4ec"
+    }
   ],
   "editables": [
-    { "id": "brand_name", "label": "Business name", "type": "text", "section": "Header", "selectors": [".brand-name"], "default": "Ember Topup" },
-    { "id": "hero_eyebrow", "label": "Eyebrow", "type": "text", "section": "Hero", "selectors": ["#hero-eyebrow"], "default": "Instant top-up, any time" },
-    { "id": "hero_title", "label": "Headline", "type": "textarea", "section": "Hero", "selectors": ["#hero-title"], "default": "Data and airtime that land before you blink." },
-    { "id": "hero_subtitle", "label": "Subheadline", "type": "textarea", "section": "Hero", "selectors": ["#hero-subtitle"], "default": "Top up MTN, Airtel and 9mobile, pay for electricity and renew cable TV from one wallet." },
-    { "id": "hero_cta", "label": "Button text", "type": "text", "section": "Hero", "selectors": ["#hero-cta"], "default": "Buy data" },
-    { "id": "plans_title", "label": "Section title", "type": "text", "section": "Plans", "selectors": ["#plans-title"], "default": "Popular data plans" }
+    {
+      "id": "brand_logo",
+      "label": "Logo",
+      "type": "image",
+      "section": "Header",
+      "selectors": [
+        "#brand-logo"
+      ],
+      "default": ""
+    },
+    {
+      "id": "brand_name",
+      "label": "Business name",
+      "type": "text",
+      "section": "Header",
+      "selectors": [
+        ".brand-name"
+      ],
+      "default": "Ember Topup"
+    },
+    {
+      "id": "hero_eyebrow",
+      "label": "Eyebrow",
+      "type": "text",
+      "section": "Hero",
+      "selectors": [
+        "#hero-eyebrow"
+      ],
+      "default": "Instant top-up, any time"
+    },
+    {
+      "id": "hero_title",
+      "label": "Headline",
+      "type": "textarea",
+      "section": "Hero",
+      "selectors": [
+        "#hero-title"
+      ],
+      "default": "Data and airtime that land before you blink."
+    },
+    {
+      "id": "hero_subtitle",
+      "label": "Subheadline",
+      "type": "textarea",
+      "section": "Hero",
+      "selectors": [
+        "#hero-subtitle"
+      ],
+      "default": "Top up MTN, Airtel and 9mobile, pay for electricity and renew cable TV from one wallet."
+    },
+    {
+      "id": "hero_cta",
+      "label": "Button text",
+      "type": "text",
+      "section": "Hero",
+      "selectors": [
+        "#hero-cta"
+      ],
+      "default": "Buy data"
+    },
+    {
+      "id": "plans_title",
+      "label": "Section title",
+      "type": "text",
+      "section": "Plans",
+      "selectors": [
+        "#plans-title"
+      ],
+      "default": "Popular data plans"
+    }
   ]
 }

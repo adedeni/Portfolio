@@ -3,15 +3,82 @@
   "name": "Noir",
   "description": "Minimal and dark, with large type and a one-line quick top-up.",
   "cssVars": [
-    { "label": "Accent colour", "variable": "--accent-color", "default": "#c6f432" },
-    { "label": "Background", "variable": "--bg-color", "default": "#0c0c10" },
-    { "label": "Surface", "variable": "--surface-color", "default": "#16161d" }
+    {
+      "label": "Accent colour",
+      "variable": "--accent-color",
+      "default": "#c6f432"
+    },
+    {
+      "label": "Background",
+      "variable": "--bg-color",
+      "default": "#0c0c10"
+    },
+    {
+      "label": "Surface",
+      "variable": "--surface-color",
+      "default": "#16161d"
+    }
   ],
   "editables": [
-    { "id": "brand_name", "label": "Business name", "type": "text", "section": "Header", "selectors": [".brand-name"], "default": "Northline" },
-    { "id": "hero_title", "label": "Headline", "type": "textarea", "section": "Hero", "selectors": ["#hero-title"], "default": "Recharge anything. Right now." },
-    { "id": "hero_subtitle", "label": "Subheadline", "type": "textarea", "section": "Hero", "selectors": ["#hero-subtitle"], "default": "Airtime, data, electricity and cable TV, paid from one wallet and delivered automatically." },
-    { "id": "hero_cta", "label": "Button text", "type": "text", "section": "Hero", "selectors": ["#hero-cta"], "default": "Top up" },
-    { "id": "services_title", "label": "Section title", "type": "text", "section": "Services", "selectors": ["#services-title"], "default": "What you can pay for" }
+    {
+      "id": "brand_logo",
+      "label": "Logo",
+      "type": "image",
+      "section": "Header",
+      "selectors": [
+        "#brand-logo"
+      ],
+      "default": ""
+    },
+    {
+      "id": "brand_name",
+      "label": "Business name",
+      "type": "text",
+      "section": "Header",
+      "selectors": [
+        ".brand-name"
+      ],
+      "default": "Northline"
+    },
+    {
+      "id": "hero_title",
+      "label": "Headline",
+      "type": "textarea",
+      "section": "Hero",
+      "selectors": [
+        "#hero-title"
+      ],
+      "default": "Recharge anything. Right now."
+    },
+    {
+      "id": "hero_subtitle",
+      "label": "Subheadline",
+      "type": "textarea",
+      "section": "Hero",
+      "selectors": [
+        "#hero-subtitle"
+      ],
+      "default": "Airtime, data, electricity and cable TV, paid from one wallet and delivered automatically."
+    },
+    {
+      "id": "hero_cta",
+      "label": "Button text",
+      "type": "text",
+      "section": "Hero",
+      "selectors": [
+        "#hero-cta"
+      ],
+      "default": "Top up"
+    },
+    {
+      "id": "services_title",
+      "label": "Section title",
+      "type": "text",
+      "section": "Services",
+      "selectors": [
+        "#services-title"
+      ],
+      "default": "What you can pay for"
+    }
   ]
 }

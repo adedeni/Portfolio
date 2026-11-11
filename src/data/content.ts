@@ -45,6 +45,8 @@ export type CaseStudy = {
   screenshot: Screenshot;
 };
 
+export type PhoneShot = { webp: string; avif?: string; width: number; height: number; alt: string };
+
 export type ShippedProject = {
   name: string;
   summary: string;
@@ -52,6 +54,8 @@ export type ShippedProject = {
   stack: string[];
   platforms: string;
   links: LinkItem[];
+  /** Optional app screenshots (portrait), shown under the row */
+  screenshots?: { caption: string; shots: PhoneShot[] };
 };
 
 export type Job = {
@@ -219,6 +223,32 @@ export const shippedProjects: ShippedProject[] = [
     ],
     stack: ["Flutter", "Firebase", "PHP API", "MySQL"],
     platforms: "Android",
+    screenshots: {
+      caption: "Bubu Browser: home, profile and account menu",
+      shots: [
+        {
+          webp: "/images/bubu-home.webp",
+          avif: "/images/bubu-home.avif",
+          width: 480,
+          height: 1043,
+          alt: "Bubu Browser home screen: a search bar, a grid of shortcut tiles to news and social sites, and a row of video reels.",
+        },
+        {
+          webp: "/images/bubu-profile.webp",
+          avif: "/images/bubu-profile.avif",
+          width: 480,
+          height: 1043,
+          alt: "Bubu Browser profile screen with post, follower and following counts, and a post below.",
+        },
+        {
+          webp: "/images/bubu-menu.webp",
+          avif: "/images/bubu-menu.avif",
+          width: 480,
+          height: 1043,
+          alt: "Bubu Browser account menu with posts, verification, profile editing, notification settings, blocked users and help.",
+        },
+      ],
+    },
     links: [
       {
         label: "Google Play",
