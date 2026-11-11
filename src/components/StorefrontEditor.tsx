@@ -29,11 +29,30 @@ type Loaded = { config: TemplateConfig; html: string };
 type LogEntry = { key: number; dir: "out" | "in"; type: string; detail: string };
 type Snapshot = { bytes: number; removedNodes: number; cleaned: number; url: string };
 
-const TEMPLATE_SLUG = "template-3";
-const BASE = `/storefront/${TEMPLATE_SLUG}`;
+const DEFAULT_SLUG = "template-1";
+type TemplateCard = { template_slug: string; template_name: string; template_description: string; cssVars: CssVar[]; html: string };
+
+/** Same role as get_user_templates in the production API: the list behind the picker. */
+async function fetchTemplates(): Promise<TemplateCard[]> {
+  const res = await fetch("/storefront/templates.json");
+  if (!res.ok) throw new Error(`templates.json: HTTP ${res.status}`);
+  const list = (await res.json()).data as Omit<TemplateCard, "cssVars">[];
+  // The picker shows each template's colours, read from its config.json.
+  return Promise.all(
+    list.map(async (t) => {
+      const [cfg, html] = await Promise.all([
+        fetch(`/storefront/${t.template_slug}/config.json`).then((r) => (r.ok ? (r.json() as Promise<TemplateConfig>) : null)),
+        fetch(`/storefront/${t.template_slug}/bundle.html`).then((r) => (r.ok ? r.text() : "")),
+      ]);
+      // Thumbnails are static pictures: drop scripts so the script-free sandbox has nothing to block.
+      return { ...t, cssVars: cfg?.cssVars ?? [], html: html.replace(/<script[\s\S]*?<\/script>/gi, "") };
+    }),
+  );
+}
 
 /** Same shape as fetchTemplate() in the production editor. */
-async function fetchTemplate(): Promise<Loaded> {
+async function fetchTemplate(slug: string): Promise<Loaded> {
+  const BASE = `/storefront/${slug}`;
   const [html, config] = await Promise.all([
     fetch(`${BASE}/bundle.html`).then((r) => {
       if (!r.ok) throw new Error(`bundle.html: HTTP ${r.status}`);
@@ -52,28 +71,53 @@ export function StorefrontEditor() {
     { status: "loading" } | { status: "error"; message: string } | ({ status: "ready" } & Loaded)
   >({ status: "loading" });
   const [run, setRun] = useState(0);
+  const [slug, setSlug] = useState(DEFAULT_SLUG);
+  const [view, setView] = useState<"editor" | "picker">("editor");
+  const [cards, setCards] = useState<TemplateCard[] | null>(null);
 
   useEffect(() => {
     let alive = true;
-    fetchTemplate()
+    setState({ status: "loading" });
+    fetchTemplate(slug)
       .then((d) => alive && setState({ status: "ready", ...d }))
       .catch((e: Error) => alive && setState({ status: "error", message: e.message }));
     return () => {
       alive = false;
     };
-  }, []);
+  }, [slug]);
+
+  useEffect(() => {
+    if (view !== "picker" || cards) return;
+    fetchTemplates()
+      .then(setCards)
+      .catch(() => setCards([]));
+  }, [view, cards]);
+
+  const choose = (next: string) => {
+    if (next !== slug) setSlug(next);
+    else setRun((n) => n + 1);
+    setView("editor");
+  };
 
   return (
     <div className="border-t border-line-strong">
       <div className="flex flex-wrap items-center justify-between gap-x-6 gap-y-1 border-b border-line px-4 py-2 sm:px-6 lg:px-10">
         <h3 className="label text-ink">Detail A: Template editor (working model)</h3>
-        <p className="label">Try it: change a colour, or type in the preview</p>
+        <p className="label">Try it: switch templates, change a colour, or type in the preview</p>
       </div>
 
       <div className="px-4 py-8 sm:px-6 lg:px-10 lg:py-10">
-        {state.status === "ready" ? (
+        {view === "picker" ? (
+          <TemplatePicker cards={cards} current={slug} onSelect={choose} onCancel={() => setView("editor")} />
+        ) : state.status === "ready" ? (
           // Remounting with a new key is the Reset.
-          <LoadedEditor key={run} config={state.config} html={state.html} onReset={() => setRun((n) => n + 1)} />
+          <LoadedEditor
+            key={`${state.config.id}-${run}`}
+            config={state.config}
+            html={state.html}
+            onReset={() => setRun((n) => n + 1)}
+            onBack={() => setView("picker")}
+          />
         ) : (
           <div className="flex h-[560px] flex-col items-center justify-center gap-3 border border-ink bg-[#0f0f0f] text-center">
             {state.status === "loading" ? (
@@ -92,7 +136,8 @@ export function StorefrontEditor() {
         <ol className="grid gap-x-10 gap-y-4 text-[0.9375rem] text-ink-2 md:grid-cols-2">
           <Note n={1} title="Template config.">
             Each template ships a <Code>config.json</Code> listing its colour variables and editable regions. The sidebar is
-            generated from it, so a new template needs no editor changes.
+            generated from it: pick another template under ‹ Templates and the panel rebuilds itself, with no editor
+            changes.
           </Note>
           <Note n={2} title="Preview.">
             The template's <Code>bundle.html</Code> loads into an iframe through <Code>srcdoc</Code>, with a small editor-only
@@ -118,7 +163,17 @@ export function StorefrontEditor() {
   );
 }
 
-function LoadedEditor({ config, html, onReset }: { config: TemplateConfig; html: string; onReset: () => void }) {
+function LoadedEditor({
+  config,
+  html,
+  onReset,
+  onBack,
+}: {
+  config: TemplateConfig;
+  html: string;
+  onReset: () => void;
+  onBack: () => void;
+}) {
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
   const [fields, setFields] = useState(() => Object.fromEntries(config.editables.map((e) => [e.id, e.default])));
@@ -234,13 +289,19 @@ function LoadedEditor({ config, html, onReset }: { config: TemplateConfig; html:
       {/* Editor window, styled like the production editor */}
       <div className="overflow-hidden border border-ink bg-[#0f0f0f] text-[#f0f0f0]">
         <div className="flex items-center justify-between gap-3 border-b border-[#2a2a2a] px-3 py-2 sm:px-4">
-          <p className="flex min-w-0 items-center gap-1.5 text-sm">
-            <Icon icon={ChevronLeft} size={14} className="text-[#a3a3a3]" />
-            <span className="hidden text-[#a3a3a3] sm:inline">Templates</span>
+          <div className="flex min-w-0 items-center gap-1.5 text-sm">
+            <button
+              type="button"
+              onClick={onBack}
+              className="flex shrink-0 items-center gap-1 rounded px-1 py-1 text-[#a3a3a3] hover:text-[#ffe600]"
+            >
+              <Icon icon={ChevronLeft} size={14} />
+              <span className="sr-only sm:not-sr-only">Templates</span>
+            </button>
             <span className="hidden text-[#555] sm:inline">/</span>
             <span className="truncate font-semibold">{config.name}</span>
             <Balloon n={1} className="ml-1 shrink-0" />
-          </p>
+          </div>
           <div className="flex items-center gap-2">
             <button
               type="button"
@@ -372,7 +433,7 @@ function LoadedEditor({ config, html, onReset }: { config: TemplateConfig; html:
                 {snapshot.removedNodes} editor-only nodes removed · {snapshot.cleaned} regions un-editable again
               </p>
               <p className="truncate">
-                POST vtunownow.php · action=save_template · template_slug={TEMPLATE_SLUG}
+                POST vtunownow.php · action=save_template · template_slug={config.id}
               </p>
               <p className="text-ink-3">Not sent: this is a demo.</p>
               <a href={snapshot.url} target="_blank" rel="noopener" className="ink-link inline-flex items-center gap-1 text-ink">
@@ -387,6 +448,110 @@ function LoadedEditor({ config, html, onReset }: { config: TemplateConfig; html:
         </div>
       </div>
     </div>
+  );
+}
+
+function TemplatePicker({
+  cards,
+  current,
+  onSelect,
+  onCancel,
+}: {
+  cards: TemplateCard[] | null;
+  current: string;
+  onSelect: (slug: string) => void;
+  onCancel: () => void;
+}) {
+  return (
+    <div className="overflow-hidden border border-ink bg-[#0f0f0f] text-[#f0f0f0]">
+      <div className="flex items-center justify-between gap-3 border-b border-[#2a2a2a] px-3 py-2 sm:px-4">
+        <p className="flex items-center gap-2 text-sm font-semibold">
+          Templates
+          <Balloon n={1} />
+        </p>
+        <button
+          type="button"
+          onClick={onCancel}
+          className="flex items-center gap-1.5 rounded border border-[#2a2a2a] px-2.5 py-1.5 text-xs text-[#a3a3a3] hover:border-[#555] hover:text-[#f0f0f0]"
+        >
+          <Icon icon={ChevronLeft} size={13} />
+          Back to editor
+        </button>
+      </div>
+      <div className="overflow-y-auto p-4 md:h-[560px] md:p-6">
+        <p className="mb-5 max-w-[60ch] text-sm text-[#a3a3a3]">
+          Choose a template. The editor fetches its <code className="font-mono text-[#f0f0f0]">bundle.html</code> and{" "}
+          <code className="font-mono text-[#f0f0f0]">config.json</code>, then builds the sidebar from the config.
+        </p>
+        {cards === null ? (
+          <p className="text-sm text-[#a3a3a3]">Loading templates…</p>
+        ) : cards.length === 0 ? (
+          <p className="text-sm text-[#f0f0f0]">Couldn't load the template list.</p>
+        ) : (
+          <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {cards.map((t) => {
+              const isCurrent = t.template_slug === current;
+              return (
+                <li
+                  key={t.template_slug}
+                  className={`group relative flex h-full flex-col gap-3 rounded-lg border p-4 transition-colors has-[button:hover]:border-[#ffe600] has-[button:hover]:bg-[#1a1a00] has-[button:focus-visible]:outline has-[button:focus-visible]:outline-2 has-[button:focus-visible]:outline-[#ffe600] ${
+                    isCurrent ? "border-[#ffe600]" : "border-[#2a2a2a] bg-[#141414]"
+                  }`}
+                >
+                  <Thumbnail html={t.html} name={t.template_name} />
+                  <span className="flex gap-1.5" aria-hidden="true">
+                    {t.cssVars.map((v) => (
+                      <span key={v.variable} className="h-4 w-4 rounded-full border border-[#2a2a2a]" style={{ backgroundColor: v.default }} />
+                    ))}
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => onSelect(t.template_slug)}
+                    aria-current={isCurrent ? "true" : undefined}
+                    className="flex-1 text-left outline-none after:absolute after:inset-0 after:content-['']"
+                  >
+                    <span className="block text-sm font-semibold group-has-[button:hover]:text-[#ffe600]">{t.template_name}</span>
+                    <span className="mt-1 block text-xs leading-relaxed text-[#a3a3a3]">{t.template_description}</span>
+                  </button>
+                  <span className="flex items-center justify-between border-t border-[#2a2a2a] pt-2 font-mono text-[0.6875rem] text-[#a3a3a3]">
+                    {t.template_slug}
+                    {isCurrent ? <span className="text-[#ffe600]">current</span> : <span aria-hidden="true">→</span>}
+                  </span>
+                </li>
+              );
+            })}
+          </ul>
+        )}
+      </div>
+    </div>
+  );
+}
+
+/** A static, script-free preview of a template, scaled down to fit its card. */
+function Thumbnail({ html, name }: { html: string; name: string }) {
+  const boxRef = useRef<HTMLSpanElement>(null);
+  const [scale, setScale] = useState(0.25);
+  useEffect(() => {
+    const el = boxRef.current;
+    if (!el) return;
+    const ro = new ResizeObserver(([entry]) => setScale(entry.contentRect.width / 1280));
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+  return (
+    <span ref={boxRef} className="relative block aspect-[16/10] w-full overflow-hidden rounded border border-[#2a2a2a] bg-white" aria-hidden="true">
+      {html ? (
+        <iframe
+          srcDoc={html}
+          sandbox=""
+          tabIndex={-1}
+          title={`${name} template thumbnail`}
+          loading="lazy"
+          className="pointer-events-none absolute left-0 top-0 origin-top-left border-0"
+          style={{ width: 1280, height: 800, transform: `scale(${scale})` }}
+        />
+      ) : null}
+    </span>
   );
 }
 

@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Ember Topup</title>
+<style>
+  :root { --primary-color:#e8590c; --secondary-color:#c2255c; --tint-color:#fff4ec; --ink:#1a1523; --muted:#6b6475; }
+  * { box-sizing:border-box; }
+  body { margin:0; min-height:100vh; display:flex; flex-direction:column; font-family:ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; color:var(--ink); background:#fff; }
+  main { flex:1; }
+  .wrap { width:100%; max-width:1120px; margin:0 auto; padding:0 clamp(16px, 4vw, 32px); }
+  .grad { background:linear-gradient(120deg, var(--primary-color), var(--secondary-color)); }
+  .grad-text { background:linear-gradient(120deg, var(--primary-color), var(--secondary-color)); -webkit-background-clip:text; background-clip:text; color:transparent; }
+
+  header { position:relative; z-index:2; }
+  .nav { display:flex; align-items:center; gap:16px; height:clamp(60px, 7vw, 76px); }
+  .brand { display:flex; align-items:center; gap:10px; min-width:0; font-weight:800; font-size:clamp(17px, 1vw + 13px, 20px); letter-spacing:-.01em; }
+  .brand-name { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .mark { width:36px; height:36px; border-radius:11px; display:grid; place-items:center; flex:none; box-shadow:0 6px 16px color-mix(in srgb, var(--primary-color) 35%, transparent); }
+  .links { display:none; gap:26px; margin-left:auto; font-size:14px; color:var(--muted); font-weight:500; }
+  .actions { display:flex; gap:8px; margin-left:auto; flex:none; }
+  .btn { display:inline-flex; align-items:center; gap:8px; border-radius:999px; font-weight:700; font-size:14px; padding:10px 18px; white-space:nowrap; }
+  .btn-ghost { color:var(--ink); }
+  .btn-solid { color:#fff; }
+  @media (min-width: 900px) { .links { display:flex; } .actions { margin-left:24px; } }
+  @media (max-width: 420px) { .btn-ghost { display:none; } }
+
+  .hero { position:relative; overflow:hidden; background:var(--tint-color); }
+  .hero::before, .hero::after { content:""; position:absolute; border-radius:50%; filter:blur(60px); opacity:.35; pointer-events:none; }
+  .hero::before { width:480px; height:480px; background:var(--primary-color); top:-200px; right:-120px; }
+  .hero::after { width:380px; height:380px; background:var(--secondary-color); bottom:-220px; left:-140px; opacity:.22; }
+  .hero .wrap { position:relative; display:grid; gap:clamp(32px, 5vw, 56px); padding-top:clamp(28px, 5vw, 56px); padding-bottom:clamp(40px, 7vw, 88px); }
+  .eyebrow { display:inline-flex; align-items:center; gap:8px; background:#fff; border-radius:999px; padding:6px 12px 6px 6px; font-size:13px; font-weight:600; box-shadow:0 1px 2px rgba(0,0,0,.06); }
+  .eyebrow .dot { width:22px; height:22px; border-radius:50%; display:grid; place-items:center; color:#fff; }
+  #hero-title { font-size:clamp(32px, 4.6vw + 12px, 62px); line-height:1.02; letter-spacing:-.035em; margin:18px 0 16px; max-width:15ch; font-weight:850; }
+  #hero-subtitle { font-size:clamp(15px, .5vw + 13px, 18px); line-height:1.6; color:var(--muted); margin:0 0 26px; max-width:44ch; }
+  .cta-row { display:flex; flex-wrap:wrap; gap:10px; align-items:center; }
+  #hero-cta { padding:14px 24px; font-size:15px; box-shadow:0 10px 24px color-mix(in srgb, var(--primary-color) 35%, transparent); }
+  .ghost-lg { padding:14px 20px; font-size:15px; background:#fff; border-radius:999px; font-weight:700; }
+  .nets { display:flex; gap:8px; margin-top:22px; flex-wrap:wrap; }
+  .net { font-size:12px; font-weight:700; letter-spacing:.02em; padding:6px 10px; border-radius:8px; background:#fff; color:var(--muted); }
+
+  .phone { justify-self:center; width:min(300px, 100%); aspect-ratio:9/17.2; background:#16121c; border-radius:42px; padding:12px; box-shadow:0 40px 80px -20px rgba(30,10,40,.45), inset 0 0 0 2px #2a2431; }
+  .screen { height:100%; border-radius:32px; background:#faf8fb; overflow:hidden; display:flex; flex-direction:column; padding:18px 14px; gap:12px; font-size:12px; }
+  .notch { width:84px; height:20px; border-radius:999px; background:#16121c; margin:-6px auto 2px; }
+  .bal { border-radius:18px; color:#fff; padding:16px; }
+  .bal small { opacity:.85; }
+  .bal b { display:block; font-size:24px; letter-spacing:-.02em; margin-top:4px; }
+  .quick { display:grid; grid-template-columns:repeat(4, 1fr); gap:8px; }
+  .q { background:#fff; border-radius:14px; padding:10px 4px; text-align:center; font-size:10.5px; font-weight:600; color:var(--muted); box-shadow:0 1px 2px rgba(0,0,0,.05); }
+  .q i { display:grid; place-items:center; width:28px; height:28px; margin:0 auto 6px; border-radius:9px; background:color-mix(in srgb, var(--primary-color) 14%, #fff); }
+  .tx { background:#fff; border-radius:14px; padding:4px 12px; box-shadow:0 1px 2px rgba(0,0,0,.05); }
+  .tx div { display:flex; justify-content:space-between; align-items:center; padding:9px 0; border-bottom:1px solid #f0edf3; }
+  .tx div:last-child { border-bottom:0; }
+  .ok { color:#2b8a3e; font-weight:700; font-size:11px; }
+  .recent { display:flex; justify-content:space-between; font-weight:700; font-size:12px; padding:2px 2px 0; }
+  .recent span { color:var(--muted); font-weight:600; }
+  .tabs { margin-top:auto; display:grid; grid-template-columns:repeat(4, 1fr); background:#fff; border-radius:16px; padding:8px 4px; box-shadow:0 1px 2px rgba(0,0,0,.05); font-size:10px; color:var(--muted); text-align:center; font-weight:600; }
+  .tabs .on { color:var(--primary-color); }
+  .tabs i { display:block; width:18px; height:3px; border-radius:2px; margin:0 auto 5px; background:currentColor; opacity:.5; }
+  .tabs .on i { opacity:1; }
+  @media (min-width: 880px) { .hero .wrap { grid-template-columns:minmax(0, 1.1fr) minmax(280px, .9fr); align-items:center; } }
+
+  .plans { padding:clamp(44px, 7vw, 88px) 0; }
+  .plans-head { display:flex; flex-wrap:wrap; justify-content:space-between; align-items:end; gap:12px; margin-bottom:clamp(20px, 3vw, 32px); }
+  #plans-title { font-size:clamp(24px, 2vw + 16px, 38px); letter-spacing:-.025em; margin:0; font-weight:800; }
+  .plans-head p { margin:0; color:var(--muted); font-size:14px; }
+  .cards { display:grid; grid-template-columns:repeat(auto-fit, minmax(min(220px, 100%), 1fr)); gap:16px; }
+  .plan { position:relative; border:1.5px solid #eee9f1; border-radius:22px; padding:24px; background:#fff; }
+  .plan.hot { border-color:transparent; background:linear-gradient(#fff, #fff) padding-box, linear-gradient(120deg, var(--primary-color), var(--secondary-color)) border-box; box-shadow:0 20px 40px -16px color-mix(in srgb, var(--primary-color) 40%, transparent); }
+  .badge { position:absolute; top:-12px; left:24px; color:#fff; font-size:11px; font-weight:700; padding:5px 10px; border-radius:999px; }
+  .size { font-size:clamp(30px, 2vw + 22px, 40px); font-weight:850; letter-spacing:-.03em; }
+  .valid { color:var(--muted); font-size:14px; margin:2px 0 18px; }
+  .price { font-size:20px; font-weight:800; margin-bottom:16px; }
+  .plan .btn { width:100%; justify-content:center; padding:12px; }
+  .plan .btn-line { border:1.5px solid #eee9f1; color:var(--ink); }
+
+  .perks { border-top:1px solid #f1edf4; padding:clamp(28px, 4vw, 44px) 0; }
+  .perks .wrap { display:grid; grid-template-columns:repeat(auto-fit, minmax(min(220px, 100%), 1fr)); gap:18px; }
+  .perk { display:flex; gap:12px; align-items:flex-start; font-size:14px; color:var(--muted); }
+  .perk b { display:block; color:var(--ink); font-size:15px; margin-bottom:2px; }
+  .perk i { flex:none; width:36px; height:36px; border-radius:11px; display:grid; place-items:center; background:color-mix(in srgb, var(--primary-color) 12%, #fff); }
+
+  footer { background:#16121c; color:#cbc4d3; font-size:13px; padding:22px 0; }
+  footer .wrap { display:flex; flex-wrap:wrap; gap:8px 20px; justify-content:space-between; }
+</style>
+</head>
+<body>
+  <header><div class="wrap nav">
+    <div class="brand"><span class="mark grad"><svg width="18" height="18" viewBox="0 0 24 24" fill="#fff"><path d="M13 2 5 13h6l-1 9 8-12h-6z"/></svg></span><span class="brand-name" data-editable-id="brand_name">Ember Topup</span></div>
+    <nav class="links"><span>Airtime</span><span>Data</span><span>Bills</span><span>Pricing</span></nav>
+    <div class="actions"><span class="btn btn-ghost">Log in</span><span class="btn btn-solid grad">Sign up</span></div>
+  </div></header>
+
+  <main>
+  <section class="hero"><div class="wrap">
+    <div>
+      <span class="eyebrow"><span class="dot grad"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M5 12l5 5L20 7"/></svg></span><span id="hero-eyebrow" data-editable-id="hero_eyebrow">Instant top-up, any time</span></span>
+      <h1 id="hero-title" data-editable-id="hero_title">Data and airtime that land before you blink.</h1>
+      <p id="hero-subtitle" data-editable-id="hero_subtitle">Top up MTN, Airtel and 9mobile, pay for electricity and renew cable TV from one wallet.</p>
+      <div class="cta-row"><span id="hero-cta" class="btn btn-solid grad" data-editable-id="hero_cta">Buy data</span><span class="ghost-lg">See prices</span></div>
+      <div class="nets"><span class="net">MTN</span><span class="net">Airtel</span><span class="net">9mobile</span><span class="net">DSTV</span><span class="net">Electricity</span></div>
+    </div>
+    <div class="phone" aria-hidden="true"><div class="screen">
+      <div class="notch"></div>
+      <div class="bal grad"><small>Wallet balance</small><b>₦12,450.00</b></div>
+      <div class="quick">
+        <div class="q"><i><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--primary-color)" stroke-width="2.4"><rect x="7" y="2" width="10" height="20" rx="2"/></svg></i>Airtime</div>
+        <div class="q"><i><svg width="14" height="14" viewBox="0 0 24 24" fill="var(--primary-color)"><path d="M4 18h3v-5H4zm6.5 0h3V9h-3zM17 18h3V5h-3z"/></svg></i>Data</div>
+        <div class="q"><i><svg width="14" height="14" viewBox="0 0 24 24" fill="var(--primary-color)"><path d="M13 2 5 13h6l-1 9 8-12h-6z"/></svg></i>Power</div>
+        <div class="q"><i><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--primary-color)" stroke-width="2.4"><rect x="2" y="5" width="20" height="13" rx="2"/></svg></i>TV</div>
+      </div>
+      <div class="recent">Recent<span>See all</span></div>
+      <div class="tx">
+        <div><span>Data · 4GB MTN</span><span class="ok">Delivered</span></div>
+        <div><span>Airtime · ₦500 Airtel</span><span class="ok">Delivered</span></div>
+        <div><span>Electricity token</span><span class="ok">Delivered</span></div>
+        <div><span>Cable TV · DSTV</span><span class="ok">Delivered</span></div>
+      </div>
+      <div class="tabs"><span class="on"><i></i>Home</span><span><i></i>History</span><span><i></i>Wallet</span><span><i></i>Profile</span></div>
+    </div></div>
+  </div></section>
+
+  <section class="plans"><div class="wrap">
+    <div class="plans-head"><h2 id="plans-title" data-editable-id="plans_title">Popular data plans</h2><p>Sample prices · 30-day validity</p></div>
+    <div class="cards">
+      <div class="plan"><div class="size">1.5GB</div><div class="valid">30 days</div><div class="price">₦1,000</div><span class="btn btn-line">Choose plan</span></div>
+      <div class="plan hot"><span class="badge grad">Most popular</span><div class="size grad-text">4GB</div><div class="valid">30 days</div><div class="price">₦2,200</div><span class="btn btn-solid grad">Choose plan</span></div>
+      <div class="plan"><div class="size">10GB</div><div class="valid">30 days</div><div class="price">₦4,500</div><span class="btn btn-line">Choose plan</span></div>
+    </div>
+  </div></section>
+
+  <section class="perks"><div class="wrap">
+    <div class="perk"><i><svg width="16" height="16" viewBox="0 0 24 24" fill="var(--primary-color)"><path d="M13 2 5 13h6l-1 9 8-12h-6z"/></svg></i><div><b>Delivered automatically</b>Orders go straight to the network.</div></div>
+    <div class="perk"><i><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--primary-color)" stroke-width="2.2"><rect x="3" y="6" width="18" height="13" rx="3"/><path d="M3 10h18"/></svg></i><div><b>One wallet</b>Fund by bank transfer or card.</div></div>
+    <div class="perk"><i><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--primary-color)" stroke-width="2.2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></i><div><b>Real people on support</b>Chat with us when you need help.</div></div>
+  </div></section>
+  </main>
+
+  <footer><div class="wrap"><span>© Ember Topup</span><span>Sample store for a portfolio demo</span></div></footer>
+<script data-editor-only>
+/* Editor-only bridge: removed from the saved snapshot. */
+(function () {
+  var root = document.documentElement;
+  function post(type, payload) { parent.postMessage({ source: "template-iframe", type: type, payload: payload }, "*"); }
+
+  var style = document.createElement("style");
+  style.setAttribute("data-editor-only", "");
+  style.textContent =
+    "[contenteditable][data-editable-id]{cursor:text;outline:1px dashed transparent;outline-offset:4px;transition:outline-color .15s}" +
+    "[contenteditable][data-editable-id]:hover{outline-color:rgba(255,230,0,.95)}" +
+    "[data-editable-active]{outline:2px solid #ffe600 !important}";
+  document.head.appendChild(style);
+
+  function activate(el) {
+    document.querySelectorAll("[data-editable-active]").forEach(function (x) { x.removeAttribute("data-editable-active"); });
+    if (el) el.setAttribute("data-editable-active", "true");
+  }
+
+  document.querySelectorAll("[data-editable-id]").forEach(function (el) {
+    el.setAttribute("contenteditable", "true");
+    el.setAttribute("spellcheck", "false");
+    el.addEventListener("click", function () { activate(el); post("ELEMENT_CLICKED", { editableId: el.dataset.editableId }); });
+    el.addEventListener("input", function () { post("FIELD_UPDATED", { editableId: el.dataset.editableId, value: el.textContent }); });
+  });
+
+  window.addEventListener("message", function (e) {
+    if (e.source !== parent) return;
+    var d = e.data; if (!d || d.source !== "template-editor") return;
+    var p = d.payload || {};
+    if (d.type === "UPDATE_TEXT") document.querySelectorAll(p.selector).forEach(function (el) { el.textContent = p.value; });
+    if (d.type === "UPDATE_CSS_VAR" && /^--[a-z-]+$/.test(p.variable)) root.style.setProperty(p.variable, p.value);
+    if (d.type === "HIGHLIGHT_ELEMENT") {
+      var el = document.querySelector('[data-editable-id="' + CSS.escape(p.editableId) + '"]');
+      activate(el);
+      // Scroll within the preview only, never the host page.
+      if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - window.innerHeight / 3, behavior: "smooth" });
+    }
+  });
+})();
+</script>
+</body>
+</html>

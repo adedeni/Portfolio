@@ -26,7 +26,7 @@ export function App() {
       <main id="main" className="flex flex-col gap-6 px-4 py-6 sm:gap-10 sm:px-6 sm:py-10">
         <Hero />
         <CaseStudy study={vtu} fig="2.1" detail={<StorefrontEditor />} />
-        <CaseStudy study={pmc} fig="3.2" side={<ChannelDiagram />} />
+        <CaseStudy study={pmc} fig="3.2" detail={<ChannelDiagram />} />
         <WorkSchedule />
         <Experience />
         <Skills />

@@ -306,6 +306,19 @@
     line-height: 1;
   }
 
+  /* Text inside inline SVG schematics */
+  .diagram .dg-label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    fill: var(--ink-2);
+  }
+  .diagram .dg-sans {
+    font-family: var(--font-sans);
+    font-size: 13px;
+    fill: var(--ink);
+  }
+
   .tag {
     display: inline-block;
     padding: 0.15rem 0.5rem;

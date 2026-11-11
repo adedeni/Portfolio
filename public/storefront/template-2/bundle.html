@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Northline</title>
+<style>
+  :root { --accent-color:#c6f432; --bg-color:#0c0c10; --surface-color:#16161d; --text:#f4f4f6; --muted:#9a9aa6; --line:rgba(255,255,255,.09); }
+  * { box-sizing:border-box; }
+  body { margin:0; min-height:100vh; display:flex; flex-direction:column; background:var(--bg-color); color:var(--text); font-family:ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  main { flex:1; }
+  .wrap { width:100%; max-width:1120px; margin:0 auto; padding:0 clamp(16px, 4vw, 32px); }
+
+  .nav { display:flex; align-items:center; justify-content:space-between; gap:16px; height:clamp(60px, 7vw, 76px); border-bottom:1px solid var(--line); }
+  .brand { display:flex; align-items:center; gap:10px; min-width:0; font-weight:700; font-size:clamp(16px, 1vw + 12px, 19px); letter-spacing:-.01em; }
+  .brand-name { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .mark { width:12px; height:12px; border-radius:3px; background:var(--accent-color); box-shadow:0 0 18px var(--accent-color); flex:none; }
+  .login { flex:none; font-size:14px; color:var(--muted); border:1px solid var(--line); padding:8px 16px; border-radius:999px; }
+
+  .hero { padding:clamp(40px, 8vw, 112px) 0 clamp(36px, 6vw, 72px); }
+  .kicker { font-family:ui-monospace, "SFMono-Regular", Menlo, monospace; font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); }
+  .kicker b { color:var(--accent-color); font-weight:500; }
+  #hero-title { font-size:clamp(38px, 7vw + 8px, 96px); line-height:.98; letter-spacing:-.045em; font-weight:700; margin:16px 0 20px; max-width:12ch; }
+  .rule { width:72px; height:4px; border-radius:2px; background:var(--accent-color); margin-bottom:22px; }
+  #hero-subtitle { color:var(--muted); font-size:clamp(15px, .6vw + 13px, 19px); line-height:1.6; max-width:48ch; margin:0 0 clamp(26px, 4vw, 40px); }
+
+  .quick { display:grid; grid-template-columns:1fr; gap:8px; background:var(--surface-color); border:1px solid var(--line); border-radius:18px; padding:8px; max-width:760px; }
+  .seg { display:flex; gap:4px; background:rgba(255,255,255,.04); border-radius:12px; padding:4px; }
+  .seg span { flex:1; text-align:center; font-size:13px; padding:9px 8px; border-radius:9px; color:var(--muted); }
+  .seg .on { background:var(--bg-color); color:var(--text); box-shadow:inset 0 0 0 1px var(--line); }
+  .in { border-radius:12px; padding:13px 14px; font-size:14px; color:var(--muted); background:rgba(255,255,255,.04); }
+  #hero-cta { border-radius:12px; padding:13px 22px; font-weight:700; font-size:15px; text-align:center; background:var(--accent-color); color:#0c0c10; }
+  @media (min-width: 760px) { .quick { grid-template-columns:auto 1fr auto; align-items:center; } .seg { min-width:270px; } }
+
+  .hero-grid { display:grid; gap:40px; align-items:center; }
+  .receipt { display:none; position:relative; background:var(--surface-color); border:1px solid var(--line); border-radius:20px; padding:24px; font-family:ui-monospace, "SFMono-Regular", Menlo, monospace; font-size:13px; transform:rotate(2deg); box-shadow:0 30px 60px -20px rgba(0,0,0,.6), 0 0 0 1px rgba(255,255,255,.02); }
+  .receipt::before { content:""; position:absolute; inset:-1px; border-radius:20px; box-shadow:0 0 60px -10px color-mix(in srgb, var(--accent-color) 35%, transparent); pointer-events:none; }
+  .receipt .head { display:flex; justify-content:space-between; color:var(--muted); font-size:11px; letter-spacing:.12em; text-transform:uppercase; margin-bottom:18px; }
+  .receipt .row2 { display:flex; justify-content:space-between; padding:7px 0; color:var(--muted); }
+  .receipt .row2 b { color:var(--text); font-weight:500; }
+  .receipt hr { border:0; border-top:1px dashed var(--line); margin:14px 0; }
+  .receipt .status { display:flex; justify-content:space-between; align-items:center; }
+  .receipt .status b { color:var(--accent-color); font-weight:600; letter-spacing:.08em; }
+  .receipt .amount { font-family:ui-sans-serif, system-ui, -apple-system, sans-serif; font-size:30px; font-weight:700; letter-spacing:-.02em; color:var(--text); margin:6px 0 2px; }
+  @media (min-width: 980px) { .hero-grid { grid-template-columns:minmax(0, 1fr) 320px; } .receipt { display:block; } }
+  .services { padding:clamp(36px, 6vw, 80px) 0; border-top:1px solid var(--line); }
+  .services-head { display:flex; justify-content:space-between; align-items:end; gap:12px; flex-wrap:wrap; margin-bottom:18px; }
+  #services-title { margin:0; font-size:clamp(22px, 2vw + 14px, 34px); letter-spacing:-.025em; font-weight:700; }
+  .row { display:grid; grid-template-columns:44px 1fr auto; align-items:center; gap:16px; padding:clamp(16px, 2.4vw, 24px) 4px; border-bottom:1px solid var(--line); }
+  .row .n { font-family:ui-monospace, Menlo, monospace; font-size:13px; color:var(--muted); }
+  .row b { font-size:clamp(18px, 1.4vw + 12px, 26px); font-weight:600; letter-spacing:-.02em; }
+  .row small { display:block; color:var(--muted); font-size:14px; margin-top:2px; }
+  .row .go { width:40px; height:40px; border-radius:50%; border:1px solid var(--line); display:grid; place-items:center; color:var(--accent-color); }
+  .row:hover .go { background:var(--accent-color); color:#0c0c10; border-color:transparent; }
+
+  .facts { display:grid; grid-template-columns:repeat(auto-fit, minmax(min(200px, 100%), 1fr)); gap:1px; background:var(--line); border:1px solid var(--line); border-radius:18px; overflow:hidden; margin-top:clamp(28px, 4vw, 48px); }
+  .fact { background:var(--bg-color); padding:20px; font-size:14px; color:var(--muted); }
+  .fact b { display:block; color:var(--text); font-size:16px; margin-bottom:4px; }
+
+  footer { border-top:1px solid var(--line); padding:20px 0; font-size:13px; color:var(--muted); }
+  footer .wrap { display:flex; justify-content:space-between; gap:8px 20px; flex-wrap:wrap; }
+</style>
+</head>
+<body>
+  <header><div class="wrap nav">
+    <div class="brand"><span class="mark"></span><span class="brand-name" data-editable-id="brand_name">Northline</span></div>
+    <span class="login">Log in</span>
+  </div></header>
+
+  <main>
+  <section class="hero"><div class="wrap hero-grid"><div>
+    <div class="kicker"><b>●</b> MTN · Airtel · 9mobile · DSTV · Electricity</div>
+    <h1 id="hero-title" data-editable-id="hero_title">Recharge anything. Right now.</h1>
+    <div class="rule"></div>
+    <p id="hero-subtitle" data-editable-id="hero_subtitle">Airtime, data, electricity and cable TV, paid from one wallet and delivered automatically.</p>
+    <div class="quick" aria-hidden="true">
+      <div class="seg"><span class="on">MTN</span><span>Airtel</span><span>9mobile</span></div>
+      <div class="in">Phone number</div>
+      <span id="hero-cta" data-editable-id="hero_cta">Top up</span>
+    </div>
+    </div>
+    <aside class="receipt" aria-hidden="true">
+      <div class="head"><span>Receipt</span><span>#NL-2048</span></div>
+      <div class="amount">₦2,200</div>
+      <div class="row2"><span>Item</span><b>Data · 4GB</b></div>
+      <div class="row2"><span>Network</span><b>MTN</b></div>
+      <div class="row2"><span>To</span><b>0803 ••• 4412</b></div>
+      <div class="row2"><span>Paid from</span><b>Wallet</b></div>
+      <hr />
+      <div class="status"><span>Status</span><b>● DELIVERED</b></div>
+    </aside>
+  </div></section>
+
+  <section class="services"><div class="wrap">
+    <div class="services-head"><h2 id="services-title" data-editable-id="services_title">What you can pay for</h2><span class="kicker">04 services</span></div>
+    <div class="row"><span class="n">01</span><div><b>Airtime</b><small>Any amount, any network</small></div><span class="go">→</span></div>
+    <div class="row"><span class="n">02</span><div><b>Data bundles</b><small>Daily, weekly and monthly plans</small></div><span class="go">→</span></div>
+    <div class="row"><span class="n">03</span><div><b>Electricity</b><small>Prepaid tokens sent to your phone</small></div><span class="go">→</span></div>
+    <div class="row"><span class="n">04</span><div><b>Cable TV</b><small>Renew DSTV in a few taps</small></div><span class="go">→</span></div>
+    <div class="facts">
+      <div class="fact"><b>One wallet</b>Fund it once, pay for everything.</div>
+      <div class="fact"><b>Automatic delivery</b>Orders go straight to the network.</div>
+      <div class="fact"><b>Receipts for every order</b>See what you paid for and when.</div>
+    </div>
+  </div></section>
+  </main>
+
+  <footer><div class="wrap"><span>© Northline</span><span>Sample store for a portfolio demo</span></div></footer>
+<script data-editor-only>
+/* Editor-only bridge: removed from the saved snapshot. */
+(function () {
+  var root = document.documentElement;
+  function post(type, payload) { parent.postMessage({ source: "template-iframe", type: type, payload: payload }, "*"); }
+
+  var style = document.createElement("style");
+  style.setAttribute("data-editor-only", "");
+  style.textContent =
+    "[contenteditable][data-editable-id]{cursor:text;outline:1px dashed transparent;outline-offset:4px;transition:outline-color .15s}" +
+    "[contenteditable][data-editable-id]:hover{outline-color:rgba(255,230,0,.95)}" +
+    "[data-editable-active]{outline:2px solid #ffe600 !important}";
+  document.head.appendChild(style);
+
+  function activate(el) {
+    document.querySelectorAll("[data-editable-active]").forEach(function (x) { x.removeAttribute("data-editable-active"); });
+    if (el) el.setAttribute("data-editable-active", "true");
+  }
+
+  document.querySelectorAll("[data-editable-id]").forEach(function (el) {
+    el.setAttribute("contenteditable", "true");
+    el.setAttribute("spellcheck", "false");
+    el.addEventListener("click", function () { activate(el); post("ELEMENT_CLICKED", { editableId: el.dataset.editableId }); });
+    el.addEventListener("input", function () { post("FIELD_UPDATED", { editableId: el.dataset.editableId, value: el.textContent }); });
+  });
+
+  window.addEventListener("message", function (e) {
+    if (e.source !== parent) return;
+    var d = e.data; if (!d || d.source !== "template-editor") return;
+    var p = d.payload || {};
+    if (d.type === "UPDATE_TEXT") document.querySelectorAll(p.selector).forEach(function (el) { el.textContent = p.value; });
+    if (d.type === "UPDATE_CSS_VAR" && /^--[a-z-]+$/.test(p.variable)) root.style.setProperty(p.variable, p.value);
+    if (d.type === "HIGHLIGHT_ELEMENT") {
+      var el = document.querySelector('[data-editable-id="' + CSS.escape(p.editableId) + '"]');
+      activate(el);
+      // Scroll within the preview only, never the host page.
+      if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - window.innerHeight / 3, behavior: "smooth" });
+    }
+  });
+})();
+</script>
+</body>
+</html>
