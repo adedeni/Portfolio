@@ -47,17 +47,22 @@ export function Experience() {
                       </li>
                     ))}
                   </ul>
-                  {job.highlight ? (
+                  {job.highlights?.length ? (
                     <div className="mt-4 border-l-2 border-accent bg-paper-2 px-4 py-3">
                       <p className="label flex items-center gap-2 text-ink">
                         <Icon icon={Star} size={14} className="text-accent" />
-                        Highlight
+                        {job.highlights.length === 1 ? "Highlight" : "Highlights"}
                       </p>
-                      <p className="mt-1">
-                        <ExtLink link={{ label: job.highlight.name, href: job.highlight.href }} className="font-semibold text-ink" />
-                        {": "}
-                        {job.highlight.text}
-                      </p>
+                      <ul className="mt-1 divide-y divide-line">
+                        {job.highlights.map((h) => (
+                          <li key={h.name} className="py-2.5 first:pt-1 last:pb-0">
+                            <p>
+                              <ExtLink link={{ label: h.name, href: h.href }} className="font-semibold text-ink" />
+                            </p>
+                            <p className="mt-0.5">{h.text}</p>
+                          </li>
+                        ))}
+                      </ul>
                     </div>
                   ) : null}
                 </div>

@@ -61,7 +61,8 @@ export type Job = {
   start: string;
   end: string;
   points: string[];
-  highlight?: { name: string; href: string; text: string };
+  /** Named projects shown as highlight boxes under the job. */
+  highlights?: { name: string; href: string; text: string }[];
 };
 
 export const site = {
@@ -229,11 +230,23 @@ export const experience: Job[] = [
       "I build Flutter/Dart apps for Android and iOS.",
       "I build web services with TypeScript, React, PHP and Bootstrap.",
     ],
-    highlight: {
-      name: "ImpactKnowledge",
-      href: "https://impactknowledge.net",
-      text: "An EdTech platform with courses, exams, payments and a mobile app. I led its development alone.",
-    },
+    highlights: [
+      {
+        name: "ImpactKnowledge",
+        href: "https://impactknowledge.net",
+        text: "An EdTech platform with courses, exams, payments and a mobile app. I led its development alone.",
+      },
+      {
+        name: "Aldrenor",
+        href: "https://www.aldrenor.com",
+        text: "A news and analysis platform covering Africa, with video, podcasts and a newsletter. I led development and built the frontend, the admin, and the video and podcast features, on a Node.js backend with PostgreSQL.",
+      },
+      {
+        name: "LifeCome Health",
+        href: "https://www.lifecomelive.com",
+        text: "A health and care platform with online GP appointments by secure video, in-person clinics, wellbeing and care plans. I led development and built the frontend, the admin and the video features, on a Node.js backend with PostgreSQL.",
+      },
+    ],
   },
   {
     company: "CDLPHUB Solutions LTD",
