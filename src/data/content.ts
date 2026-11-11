@@ -180,8 +180,9 @@ export const shippedProjects: ShippedProject[] = [
     stack: ["Flutter", "Firebase", "PHP/Laravel", "MySQL"],
     platforms: "Android · iOS",
     links: [
-      { label: "Google Play", href: null },
-      { label: "App Store", href: null },
+      { label: "Website", href: "https://autobiz.app/" },
+      { label: "Google Play", href: "https://play.google.com/store/apps/details?id=com.cdlp.autobiz" },
+      { label: "App Store", href: "https://apps.apple.com/ng/app/autobizapp/id6754074392" },
     ],
   },
   {
@@ -195,8 +196,9 @@ export const shippedProjects: ShippedProject[] = [
     stack: ["Flutter", "PHP", "FCM"],
     platforms: "Android · iOS",
     links: [
-      { label: "Google Play", href: null },
-      { label: "App Store", href: null },
+      { label: "Website", href: "https://simservers.io/" },
+      { label: "Google Play", href: "https://play.google.com/store/apps/details?id=com.cdlp.simserver" },
+      { label: "App Store", href: "https://apps.apple.com/ng/app/simservers-io/id6753812596" },
     ],
   },
   {
@@ -209,11 +211,11 @@ export const shippedProjects: ShippedProject[] = [
     stack: ["Flutter", "Firebase", "PHP API", "MySQL"],
     platforms: "Android",
     links: [
+      { label: "Website", href: "https://bububrowser.netlify.app/" },
       {
         label: "Google Play",
         href: "https://play.google.com/store/apps/details?id=com.jacombeventures.bububrowser",
       },
-      { label: "Website", href: "https://bububrowser.netlify.app/" },
     ],
   },
 ];
