@@ -22,6 +22,7 @@ export function Figure({ shot, fig }: { shot: Screenshot; fig: string }) {
   }
   return (
     <figure>
+      <a href={shot.webp} target="_blank" rel="noopener" className="group block cursor-zoom-in">
       <picture>
         {shot.avif ? <source srcSet={shot.avif} type="image/avif" /> : null}
         <img
@@ -31,9 +32,11 @@ export function Figure({ shot, fig }: { shot: Screenshot; fig: string }) {
           alt={shot.alt}
           loading="lazy"
           decoding="async"
-          className="h-auto w-full border border-line-strong"
+          className="h-auto w-full border border-line-strong transition-opacity group-hover:opacity-90"
         />
       </picture>
+      <span className="sr-only"> (open full-size image in a new tab)</span>
+      </a>
       <figcaption className="label mt-2">
         Fig. {fig}: {shot.caption}
       </figcaption>

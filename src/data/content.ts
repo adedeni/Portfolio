@@ -135,9 +135,13 @@ export const caseStudies: CaseStudy[] = [
       "10,000+ entrepreneurs run airtime, data, electricity and bill-payment businesses on the platform, and non-technical vendors restyle their storefronts themselves.",
     stack: ["Laravel", "MySQL", "React", "TypeScript", "Vite", "Tailwind", "Node.js", "PHP"],
     screenshot: {
-      kind: "pending",
-      caption: "VTUNowNow template editor in production",
-      needed: "Screenshot of the editor with a vendor storefront loaded, about 1600×1000",
+      kind: "image",
+      webp: "/images/vtunownow-editor.webp",
+      avif: "/images/vtunownow-editor.avif",
+      width: 1600,
+      height: 1000,
+      alt: "The VTUNowNow template editor: a sidebar of colour pickers and text fields on the left, and a live vendor storefront preview on the right with the edited headline highlighted.",
+      caption: "VTUNowNow template editor, run locally with a sample storefront",
     },
   },
   {
@@ -163,9 +167,13 @@ export const caseStudies: CaseStudy[] = [
       "Used by 50,000+ businesses, with a 98.6% message delivery rate.",
     stack: ["Laravel", "PHP", "MySQL", "JavaScript"],
     screenshot: {
-      kind: "pending",
-      caption: "PMCSMS analytics dashboard",
-      needed: "Screenshot of the real-time analytics dashboard, about 1600×1000",
+      kind: "image",
+      webp: "/images/pmcsms-dashboard.webp",
+      avif: "/images/pmcsms-dashboard.avif",
+      width: 1600,
+      height: 1000,
+      alt: "The PMCSMS user dashboard: a sidebar menu, a wallet card with balance and SMS volume coverage, and an overview of groups, scheduled SMS, sender IDs and drafts.",
+      caption: "PMCSMS user dashboard, rendered locally with sample data",
     },
   },
 ];
