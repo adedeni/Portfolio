@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Sunrise Data Hub</title>
+<style>
+  :root { --primary-color:#0f766e; --secondary-color:#134e4a; --accent-color:#facc15; }
+  * { box-sizing: border-box; }
+  body { margin:0; font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif; background:#f7faf9; color:#10201d; }
+  .wrap { max-width: 1000px; margin: 0 auto; padding: 0 22px; }
+  header { background:#fff; border-bottom:1px solid rgba(0,0,0,.07); }
+  .nav { display:flex; align-items:center; justify-content:space-between; height:60px; gap:12px; }
+  .brand { display:flex; align-items:center; gap:10px; font-weight:800; font-size:17px; }
+  .logo { width:32px; height:32px; border-radius:9px; background:var(--primary-color); color:#fff; display:grid; place-items:center; font-weight:800; flex:none; }
+  .login { padding:7px 15px; border-radius:999px; border:1.5px solid var(--primary-color); color:var(--primary-color); font-weight:600; font-size:13px; flex:none; }
+  .hero { background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); color:#fff; }
+  .hero .wrap { display:grid; grid-template-columns: 1.2fr .8fr; gap:28px; align-items:center; padding-top:40px; padding-bottom:44px; }
+  .pill { display:inline-block; background:rgba(255,255,255,.15); padding:5px 11px; border-radius:999px; font-size:12px; margin-bottom:14px; }
+  #hero-title { font-size:34px; line-height:1.08; margin:0 0 12px; letter-spacing:-.02em; }
+  #hero-subtitle { font-size:15px; line-height:1.55; opacity:.92; margin:0 0 20px; max-width:44ch; }
+  #hero-cta { display:inline-block; background:var(--accent-color); color:#111; font-weight:700; padding:11px 20px; border-radius:10px; font-size:14px; }
+  .card { background:#fff; color:#10201d; border-radius:16px; padding:18px; box-shadow:0 18px 40px rgba(0,0,0,.18); }
+  .card h3 { margin:0 0 12px; font-size:15px; }
+  .chips { display:flex; gap:6px; margin-bottom:10px; flex-wrap:wrap; }
+  .chip { padding:5px 10px; border-radius:999px; border:1px solid #e3e8e6; font-size:12px; }
+  .chip.on { border-color:var(--primary-color); background:color-mix(in srgb, var(--primary-color) 10%, #fff); font-weight:600; }
+  .field { border:1px solid #e3e8e6; border-radius:9px; padding:9px 10px; font-size:13px; color:#6b7773; margin-bottom:8px; }
+  .buy { background:var(--primary-color); color:#fff; text-align:center; padding:10px; border-radius:9px; font-weight:700; font-size:14px; }
+  .services { padding:36px 0 40px; }
+  #services-title { font-size:22px; margin:0 0 16px; letter-spacing:-.01em; }
+  .grid { display:grid; grid-template-columns:repeat(4, 1fr); gap:12px; }
+  .tile { background:#fff; border:1px solid #e6ece9; border-radius:14px; padding:14px; font-size:13px; }
+  .ico { width:34px; height:34px; border-radius:10px; background:color-mix(in srgb, var(--primary-color) 12%, #fff); display:grid; place-items:center; margin-bottom:10px; }
+  .tile b { display:block; margin-bottom:2px; font-size:14px; }
+  .tile span { color:#5f6b67; }
+  footer { background:var(--secondary-color); color:rgba(255,255,255,.88); padding:16px 0; font-size:13px; }
+  @media (max-width: 640px) {
+    .hero .wrap { grid-template-columns:1fr; padding-top:28px; padding-bottom:30px; }
+    .card { display:none; }
+    #hero-title { font-size:26px; }
+    .grid { grid-template-columns:1fr 1fr; }
+    .login { display:none; }
+  }
+</style>
+</head>
+<body>
+  <header><div class="wrap nav">
+    <div class="brand"><span class="logo">S</span><span class="brand-name" data-editable-id="brand_name">Sunrise Data Hub</span></div>
+    <span class="login">Log in</span>
+  </div></header>
+
+  <section class="hero"><div class="wrap">
+    <div>
+      <span class="pill">MTN · Airtel · 9mobile</span>
+      <h1 id="hero-title" data-editable-id="hero_title">Cheap data. Instant airtime. Zero stress.</h1>
+      <p id="hero-subtitle" data-editable-id="hero_subtitle">Top up any network in seconds, pay electricity bills and renew your TV subscription, any time of day.</p>
+      <span id="hero-cta" data-editable-id="hero_cta">Buy data now</span>
+    </div>
+    <div class="card" aria-hidden="true">
+      <h3>Quick top-up</h3>
+      <div class="chips"><span class="chip on">MTN</span><span class="chip">Airtel</span><span class="chip">9mobile</span></div>
+      <div class="field">Phone number</div>
+      <div class="field">Data plan · 2GB / 30 days</div>
+      <div class="buy">Continue</div>
+    </div>
+  </div></section>
+
+  <section class="services"><div class="wrap">
+    <h2 id="services-title" data-editable-id="services_title">Everything you need, in one place</h2>
+    <div class="grid">
+      <div class="tile"><div class="ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--primary-color)" stroke-width="2"><rect x="7" y="2" width="10" height="20" rx="2"/></svg></div><b>Airtime</b><span>All networks</span></div>
+      <div class="tile"><div class="ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="var(--primary-color)"><path d="M4 18h3v-5H4zm6.5 0h3V9h-3zM17 18h3V5h-3z"/></svg></div><b>Data</b><span>Daily to monthly</span></div>
+      <div class="tile"><div class="ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="var(--primary-color)"><path d="M13 2 5 13h6l-1 9 8-12h-6z"/></svg></div><b>Electricity</b><span>Prepaid tokens</span></div>
+      <div class="tile"><div class="ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--primary-color)" stroke-width="2"><rect x="2" y="5" width="20" height="13" rx="2"/><path d="M8 21h8"/></svg></div><b>Cable TV</b><span>Renew in a tap</span></div>
+    </div>
+  </div></section>
+
+  <footer><div class="wrap">© Sunrise Data Hub · sample store for a portfolio demo</div></footer>
+
+<script data-editor-only>
+/* Editor-only bridge: removed from the saved snapshot. */
+(function () {
+  var root = document.documentElement;
+  function post(type, payload) { parent.postMessage({ source: "template-iframe", type: type, payload: payload }, "*"); }
+
+  var style = document.createElement("style");
+  style.setAttribute("data-editor-only", "");
+  style.textContent =
+    "[contenteditable][data-editable-id]{cursor:text;outline:1px dashed transparent;outline-offset:4px;border-radius:3px;transition:outline-color .15s}" +
+    "[contenteditable][data-editable-id]:hover{outline-color:rgba(255,230,0,.95)}" +
+    "[data-editable-active]{outline:2px solid #ffe600 !important}";
+  document.head.appendChild(style);
+
+  function activate(el) {
+    document.querySelectorAll("[data-editable-active]").forEach(function (x) { x.removeAttribute("data-editable-active"); });
+    if (el) el.setAttribute("data-editable-active", "true");
+  }
+
+  document.querySelectorAll("[data-editable-id]").forEach(function (el) {
+    el.setAttribute("contenteditable", "true");
+    el.setAttribute("spellcheck", "false");
+    el.addEventListener("click", function () { activate(el); post("ELEMENT_CLICKED", { editableId: el.dataset.editableId }); });
+    el.addEventListener("input", function () { post("FIELD_UPDATED", { editableId: el.dataset.editableId, value: el.textContent }); });
+  });
+
+  window.addEventListener("message", function (e) {
+    if (e.source !== parent) return;
+    var d = e.data; if (!d || d.source !== "template-editor") return;
+    var p = d.payload || {};
+    if (d.type === "UPDATE_TEXT") document.querySelectorAll(p.selector).forEach(function (el) { el.textContent = p.value; });
+    if (d.type === "UPDATE_CSS_VAR" && /^--[a-z-]+$/.test(p.variable)) root.style.setProperty(p.variable, p.value);
+    if (d.type === "HIGHLIGHT_ELEMENT") {
+      var el = document.querySelector('[data-editable-id="' + CSS.escape(p.editableId) + '"]');
+      activate(el);
+      // Scroll within the preview only, never the host page.
+      if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - window.innerHeight / 3, behavior: "smooth" });
+    }
+  });
+})();
+</script>
+</body>
+</html>

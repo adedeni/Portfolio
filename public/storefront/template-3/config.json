@@ -1,0 +1,17 @@
+{
+  "id": "template-3",
+  "name": "Swift Topup",
+  "description": "A clean, mobile-first storefront for airtime, data, electricity and cable TV vendors.",
+  "cssVars": [
+    { "label": "Primary colour", "variable": "--primary-color", "default": "#0f766e" },
+    { "label": "Secondary colour", "variable": "--secondary-color", "default": "#134e4a" },
+    { "label": "Accent colour", "variable": "--accent-color", "default": "#facc15" }
+  ],
+  "editables": [
+    { "id": "brand_name", "label": "Business name", "type": "text", "section": "Header", "selectors": [".brand-name"], "default": "Sunrise Data Hub" },
+    { "id": "hero_title", "label": "Headline", "type": "textarea", "section": "Hero", "selectors": ["#hero-title"], "default": "Cheap data. Instant airtime. Zero stress." },
+    { "id": "hero_subtitle", "label": "Subheadline", "type": "textarea", "section": "Hero", "selectors": ["#hero-subtitle"], "default": "Top up any network in seconds, pay electricity bills and renew your TV subscription, any time of day." },
+    { "id": "hero_cta", "label": "Button text", "type": "text", "section": "Hero", "selectors": ["#hero-cta"], "default": "Buy data now" },
+    { "id": "services_title", "label": "Section title", "type": "text", "section": "Services", "selectors": ["#services-title"], "default": "Everything you need, in one place" }
+  ]
+}
