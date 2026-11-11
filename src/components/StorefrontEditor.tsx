@@ -1,4 +1,6 @@
 import { useCallback, useEffect, useId, useRef, useState, type ReactNode } from "react";
+import { RotateCcw } from "lucide-react";
+import { Icon } from "./Icon";
 
 /**
  * Detail A: a working model of the VTUNowNow template-editor pattern.
@@ -241,6 +243,7 @@ export function StorefrontEditor() {
           />
 
           <button type="button" onClick={reset} className="btn btn-ghost mt-5 w-full">
+            <Icon icon={RotateCcw} size={15} />
             Reset
           </button>
         </div>

@@ -1,6 +1,8 @@
 import { contact, heroMetrics, person, sheets } from "../data/content";
 import { Dimension } from "./Dimension";
 import { Sheet } from "./Sheet";
+import { FileDown, Mail, Phone } from "lucide-react";
+import { GitHubIcon, Icon, LinkedInIcon } from "./Icon";
 
 export function Hero() {
   return (
@@ -39,22 +41,27 @@ export function Hero() {
 
             <div className="order-3 mt-6 flex flex-wrap gap-3 sm:mt-8 lg:order-4">
               <a href={`mailto:${contact.email}`} className="btn btn-primary">
+                <Icon icon={Mail} />
                 Email me
               </a>
               <a href={contact.cv.href} download={contact.cv.downloadName} className="btn btn-ghost">
-                Download CV<span aria-hidden="true"> ↓</span>
+                <Icon icon={FileDown} />
+                Download CV
                 <span className="sr-only"> ({contact.cv.meta})</span>
               </a>
               <p className="flex w-full flex-wrap gap-x-5 gap-y-1 pt-1 font-mono text-[0.875rem]">
-                <a href={contact.linkedin.href} target="_blank" rel="noopener noreferrer" className="ink-link">
-                  LinkedIn<span aria-hidden="true"> ↗</span>
+                <a href={contact.linkedin.href} target="_blank" rel="noopener noreferrer" className="ink-link inline-flex items-center gap-1.5">
+                  <Icon icon={LinkedInIcon} size={15} />
+                  LinkedIn
                   <span className="sr-only"> (opens in a new tab)</span>
                 </a>
-                <a href={contact.github.href} target="_blank" rel="noopener noreferrer" className="ink-link">
-                  GitHub<span aria-hidden="true"> ↗</span>
+                <a href={contact.github.href} target="_blank" rel="noopener noreferrer" className="ink-link inline-flex items-center gap-1.5">
+                  <Icon icon={GitHubIcon} size={15} />
+                  GitHub
                   <span className="sr-only"> (opens in a new tab)</span>
                 </a>
-                <a href={contact.phone.href} className="ink-link">
+                <a href={contact.phone.href} className="ink-link inline-flex items-center gap-1.5">
+                  <Icon icon={Phone} size={15} />
                   {contact.phone.display}
                 </a>
               </p>

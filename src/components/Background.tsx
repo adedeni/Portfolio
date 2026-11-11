@@ -1,5 +1,7 @@
 import { education, memberships } from "../data/content";
 import { Sheet } from "./Sheet";
+import { Award, BadgeCheck, GraduationCap } from "lucide-react";
+import { Icon } from "./Icon";
 
 export function Background() {
   return (
@@ -21,14 +23,23 @@ export function Background() {
               <li key={e.degree} className="grid gap-x-6 gap-y-1 border-b border-line-strong py-5 sm:grid-cols-[7rem_1fr]">
                 <p className="font-mono text-[0.875rem] text-ink-2 sm:pt-0.5">{e.date}</p>
                 <div>
-                  <h3 className="text-[1.25rem] font-semibold leading-tight [font-stretch:112%]">{e.degree}</h3>
+                  <h3 className="flex items-center gap-2 text-[1.25rem] font-semibold leading-tight [font-stretch:112%]">
+                    <Icon icon={GraduationCap} size={20} className="text-accent" />
+                    {e.degree}
+                  </h3>
                   <p className="text-ink-2">{e.school}</p>
-                  <p className="mt-1 font-mono text-[0.875rem] text-ink">{e.detail}</p>
+                  <p className="mt-1 flex items-start gap-2 font-mono text-[0.875rem] text-ink">
+                    <Icon icon={Award} size={15} className="mt-0.5" />
+                    {e.detail}
+                  </p>
                 </div>
               </li>
             ))}
           </ol>
-          <h3 className="label mt-6 text-ink">Professional memberships</h3>
+          <h3 className="label mt-6 flex items-center gap-2 text-ink">
+            <Icon icon={BadgeCheck} size={15} />
+            Professional memberships
+          </h3>
           <ul className="mt-2 space-y-1 text-ink-2">
             {memberships.map((m) => (
               <li key={m} className="grid grid-cols-[1rem_1fr]">

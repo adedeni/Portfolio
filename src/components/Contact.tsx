@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { contact, person, sheets } from "../data/content";
 import { Sheet } from "./Sheet";
+import { ArrowUpRight, Check, Copy, FileDown, FileText, Mail, Phone } from "lucide-react";
+import { GitHubIcon, Icon, LinkedInIcon } from "./Icon";
 
 export function Contact({ year }: { year: number }) {
   const [copied, setCopied] = useState(false);
@@ -18,12 +20,14 @@ export function Contact({ year }: { year: number }) {
   const rows = [
     {
       k: "Email",
+      icon: Mail,
       v: (
         <span className="flex flex-wrap items-center gap-x-3 gap-y-1">
           <a href={`mailto:${contact.email}`} className="ink-link break-all">
             {contact.email}
           </a>
           <button type="button" onClick={copy} className="btn btn-ghost min-h-9 px-2.5 py-1 text-xs">
+            <Icon icon={copied ? Check : Copy} size={14} />
             {copied ? "Copied" : "Copy"}
             <span className="sr-only"> email address</span>
           </button>
@@ -35,6 +39,7 @@ export function Contact({ year }: { year: number }) {
     },
     {
       k: "Phone",
+      icon: Phone,
       v: (
         <a href={contact.phone.href} className="ink-link">
           {contact.phone.display}
@@ -43,26 +48,29 @@ export function Contact({ year }: { year: number }) {
     },
     {
       k: "LinkedIn",
+      icon: LinkedInIcon,
       v: (
         <a href={contact.linkedin.href} target="_blank" rel="noopener noreferrer" className="ink-link">
           {contact.linkedin.display}
-          <span aria-hidden="true"> ↗</span>
+          <Icon icon={ArrowUpRight} size={14} className="ml-0.5 inline-block align-[-2px]" />
           <span className="sr-only"> (opens in a new tab)</span>
         </a>
       ),
     },
     {
       k: "GitHub",
+      icon: GitHubIcon,
       v: (
         <a href={contact.github.href} target="_blank" rel="noopener noreferrer" className="ink-link">
           {contact.github.display}
-          <span aria-hidden="true"> ↗</span>
+          <Icon icon={ArrowUpRight} size={14} className="ml-0.5 inline-block align-[-2px]" />
           <span className="sr-only"> (opens in a new tab)</span>
         </a>
       ),
     },
     {
       k: "CV",
+      icon: FileText,
       v: (
         <a href={contact.cv.href} download={contact.cv.downloadName} className="ink-link">
           Download CV <span className="text-ink-3">({contact.cv.meta})</span>
@@ -83,10 +91,12 @@ export function Contact({ year }: { year: number }) {
           </p>
           <div className="mt-6 flex flex-wrap gap-3">
             <a href={`mailto:${contact.email}`} className="btn btn-primary">
+              <Icon icon={Mail} />
               Email me
             </a>
             <a href={contact.cv.href} download={contact.cv.downloadName} className="btn btn-ghost">
-              Download CV<span aria-hidden="true"> ↓</span>
+              <Icon icon={FileDown} />
+              Download CV
               <span className="sr-only"> ({contact.cv.meta})</span>
             </a>
           </div>
@@ -94,7 +104,10 @@ export function Contact({ year }: { year: number }) {
         <dl className="self-start border-t border-ink">
           {rows.map((r) => (
             <div key={r.k} className="grid gap-1 border-b border-line-strong py-3 sm:grid-cols-[6.5rem_1fr] sm:gap-4">
-              <dt className="label pt-0.5">{r.k}</dt>
+              <dt className="label flex items-center gap-2 pt-0.5">
+                <Icon icon={r.icon} size={15} />
+                {r.k}
+              </dt>
               <dd>{r.v}</dd>
             </div>
           ))}

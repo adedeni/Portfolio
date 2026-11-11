@@ -1,5 +1,7 @@
 import type { ReactNode } from "react";
 import type { LinkItem } from "../data/content";
+import { ArrowUpRight } from "lucide-react";
+import { Icon } from "./Icon";
 
 /** External link, or a clearly marked placeholder when the URL isn't supplied yet. */
 export function ExtLink({
@@ -30,7 +32,7 @@ export function ExtLink({
       className={`ink-link ${className}`}
     >
       {children ?? link.label}
-      <span aria-hidden="true"> ↗</span>
+      <Icon icon={ArrowUpRight} size={14} className="ml-0.5 inline-block align-[-2px]" />
       <span className="sr-only"> (opens in a new tab)</span>
     </a>
   );

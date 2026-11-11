@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { contact, person } from "../data/content";
 import { ThemeToggle } from "./ThemeToggle";
+import { FileDown, Menu as MenuIcon, X } from "lucide-react";
+import { Icon } from "./Icon";
 
 const nav = [
   { href: "#vtunownow", label: "Work" },
@@ -56,7 +58,8 @@ export function Header() {
         <div className="flex items-center gap-2">
           <ThemeToggle />
           <a href={contact.cv.href} download={contact.cv.downloadName} className="btn btn-ghost min-h-10 px-3">
-            CV<span aria-hidden="true"> ↓</span>
+            <Icon icon={FileDown} />
+            CV
             <span className="sr-only"> (download PDF)</span>
           </a>
           <button
@@ -67,6 +70,7 @@ export function Header() {
             aria-controls="mobile-nav"
             onClick={() => setOpen((v) => !v)}
           >
+            <Icon icon={open ? X : MenuIcon} />
             {open ? "Close" : "Menu"}
           </button>
         </div>

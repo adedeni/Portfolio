@@ -1,6 +1,8 @@
 import { shippedProjects } from "../data/content";
 import { ExtLink } from "./ExtLink";
 import { Sheet } from "./Sheet";
+import { Smartphone } from "lucide-react";
+import { Icon } from "./Icon";
 
 const cols = "md:grid-cols-[3rem_minmax(0,1.05fr)_minmax(0,1.6fr)_minmax(0,1fr)_minmax(0,1fr)]";
 
@@ -46,7 +48,10 @@ export function WorkSchedule() {
                 </div>
                 <div>
                   <p className="label mb-1 md:sr-only">Platform · links</p>
-                  <p className="font-mono text-[0.8125rem] text-ink">{p.platforms}</p>
+                  <p className="flex items-center gap-1.5 font-mono text-[0.8125rem] text-ink">
+                    <Icon icon={Smartphone} size={15} />
+                    {p.platforms}
+                  </p>
                   <ul className="mt-1.5 flex flex-col items-start gap-1.5 text-[0.9375rem]">
                     {p.links.map((l) => (
                       <li key={l.label}>

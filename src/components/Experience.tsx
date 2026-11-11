@@ -1,6 +1,8 @@
 import { experience } from "../data/content";
 import { ExtLink } from "./ExtLink";
 import { Sheet } from "./Sheet";
+import { Star } from "lucide-react";
+import { Icon } from "./Icon";
 
 const cols = "md:grid-cols-[3rem_10rem_minmax(0,1fr)_minmax(0,1.6fr)]";
 
@@ -47,7 +49,10 @@ export function Experience() {
                   </ul>
                   {job.highlight ? (
                     <div className="mt-4 border-l-2 border-accent bg-paper-2 px-4 py-3">
-                      <p className="label text-ink">Highlight</p>
+                      <p className="label flex items-center gap-2 text-ink">
+                        <Icon icon={Star} size={14} className="text-accent" />
+                        Highlight
+                      </p>
                       <p className="mt-1">
                         <ExtLink link={{ label: job.highlight.name, href: job.highlight.href }} className="font-semibold text-ink" />
                         {": "}
