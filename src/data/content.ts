@@ -45,7 +45,9 @@ export type CaseStudy = {
   screenshot: Screenshot;
 };
 
-export type PhoneShot = { webp: string; avif?: string; width: number; height: number; alt: string };
+/** A numbered marker on a screenshot; x/y are percentages of the image. */
+export type Callout = { n: number; x: number; y: number; label: string };
+export type PhoneShot = { webp: string; avif?: string; width: number; height: number; alt: string; callouts?: Callout[] };
 
 export type ShippedProject = {
   name: string;
@@ -232,6 +234,12 @@ export const shippedProjects: ShippedProject[] = [
           width: 480,
           height: 1043,
           alt: "Bubu Browser home screen: a search bar, a grid of shortcut tiles to news and social sites, and a row of video reels.",
+          callouts: [
+            { n: 1, x: 82, y: 18, label: "Search the web with any of 5 search engines" },
+            { n: 2, x: 8, y: 37, label: "Shortcut tiles to news and social sites" },
+            { n: 3, x: 12, y: 66, label: "Reels: short videos on the home screen" },
+            { n: 4, x: 58, y: 92, label: "Browser controls with a multi-tab switcher" },
+          ],
         },
         {
           webp: "/images/bubu-profile.webp",
@@ -239,6 +247,7 @@ export const shippedProjects: ShippedProject[] = [
           width: 480,
           height: 1043,
           alt: "Bubu Browser profile screen with post, follower and following counts, and a post below.",
+          callouts: [{ n: 5, x: 88, y: 35, label: "Profiles with posts and followers" }],
         },
         {
           webp: "/images/bubu-menu.webp",
@@ -246,6 +255,7 @@ export const shippedProjects: ShippedProject[] = [
           width: 480,
           height: 1043,
           alt: "Bubu Browser account menu with posts, verification, profile editing, notification settings, blocked users and help.",
+          callouts: [{ n: 6, x: 90, y: 60, label: "Account menu: verification, notifications and blocked users" }],
         },
       ],
     },

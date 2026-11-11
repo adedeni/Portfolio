@@ -23,7 +23,7 @@ export function Experience() {
           </div>
           <ol>
             {experience.map((job, i) => (
-              <li key={job.company} className={`grid gap-x-6 gap-y-2 border-b border-line-strong py-6 ${cols}`}>
+              <li key={job.company} className={`grid grid-cols-[minmax(0,1fr)] gap-x-6 gap-y-2 border-b border-line-strong py-6 ${cols}`}>
                 <span
                   aria-hidden="true"
                   className="flex h-8 w-8 items-center justify-center border border-ink font-mono text-sm font-medium"
@@ -47,25 +47,26 @@ export function Experience() {
                       </li>
                     ))}
                   </ul>
-                  {job.highlights?.length ? (
-                    <div className="mt-4 border-l-2 border-accent bg-paper-2 px-4 py-3">
-                      <p className="label flex items-center gap-2 text-ink">
-                        <Icon icon={Star} size={14} className="text-accent" />
-                        {job.highlights.length === 1 ? "Highlight" : "Highlights"}
-                      </p>
-                      <ul className="mt-1 divide-y divide-line">
-                        {job.highlights.map((h) => (
-                          <li key={h.name} className="py-2.5 first:pt-1 last:pb-0">
-                            <p>
-                              <ExtLink link={{ label: h.name, href: h.href }} className="font-semibold text-ink" />
-                            </p>
-                            <p className="mt-0.5">{h.text}</p>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  ) : null}
                 </div>
+                {job.highlights?.length ? (
+                  // Full-width band under the row, so long highlights don't leave the left columns empty.
+                  <div className="mt-4 border-l-2 border-accent bg-paper-2 px-4 py-4 text-ink-2 md:col-[2/-1] md:px-5">
+                    <p className="label flex items-center gap-2 text-ink">
+                      <Icon icon={Star} size={14} className="text-accent" />
+                      {job.highlights.length === 1 ? "Highlight" : "Highlights"}
+                    </p>
+                    <ul className="mt-3 grid divide-y divide-line lg:grid-cols-3 lg:divide-x lg:divide-y-0">
+                      {job.highlights.map((h) => (
+                        <li key={h.name} className="py-4 first:pt-0 last:pb-0 lg:px-8 lg:py-0 lg:first:pl-0 lg:last:pr-0">
+                          <p>
+                            <ExtLink link={{ label: h.name, href: h.href }} className="font-semibold text-ink" />
+                          </p>
+                          <p className="mt-1 text-[0.9375rem]">{h.text}</p>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ) : null}
               </li>
             ))}
           </ol>

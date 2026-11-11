@@ -1,5 +1,6 @@
 import { shippedProjects } from "../data/content";
 import { ExtLink } from "./ExtLink";
+import { PhoneShowcase } from "./PhoneShowcase";
 import { Sheet } from "./Sheet";
 import { Smartphone } from "lucide-react";
 import { Icon } from "./Icon";
@@ -47,30 +48,13 @@ export function WorkSchedule() {
                   <p className="font-mono text-[0.8125rem] leading-relaxed text-ink-2">{p.stack.join(" · ")}</p>
                 </div>
                 {p.screenshots ? (
-                  <figure className="order-last min-w-0 md:col-[2/-1]">
-                    <ul className="flex snap-x gap-3 overflow-x-auto pb-1 sm:gap-4">
-                      {p.screenshots.shots.map((s) => (
-                        <li key={s.webp} className="relative w-[140px] shrink-0 snap-start sm:w-[170px]">
-                          <a href={s.webp} target="_blank" rel="noopener" className="block cursor-zoom-in">
-                            <picture>
-                              {s.avif ? <source srcSet={s.avif} type="image/avif" /> : null}
-                              <img
-                                src={s.webp}
-                                width={s.width}
-                                height={s.height}
-                                alt={s.alt}
-                                loading="lazy"
-                                decoding="async"
-                                className="h-auto w-full rounded-[18px] border border-line-strong"
-                              />
-                            </picture>
-                            <span className="sr-only"> (open full-size image in a new tab)</span>
-                          </a>
-                        </li>
-                      ))}
-                    </ul>
-                    <figcaption className="label mt-2">Fig. 4.{shippedProjects.filter((x) => x.screenshots).indexOf(p) + 1}: {p.screenshots.caption}</figcaption>
-                  </figure>
+                  <div className="order-last mt-2 min-w-0 md:col-[2/-1]">
+                    <PhoneShowcase
+                      shots={p.screenshots.shots}
+                      caption={p.screenshots.caption}
+                      fig={`4.${shippedProjects.filter((x) => x.screenshots).indexOf(p) + 1}`}
+                    />
+                  </div>
                 ) : null}
                 <div>
                   <p className="label mb-1 md:sr-only">Platform · links</p>
