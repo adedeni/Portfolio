@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "tsc --noEmit && vite build && vite build --ssr src/entry-server.tsx --outDir dist-ssr && node scripts/prerender.mjs",
     "preview": "vite preview --port 4173",
-    "og": "node scripts/og-image.mjs"
+    "og": "node scripts/og-image.mjs",
+    "indexnow": "node scripts/indexnow.mjs"
   },
   "dependencies": {
     "lucide-react": "^1.72.0",

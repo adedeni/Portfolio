@@ -92,6 +92,7 @@ export const person = {
 export const contact = {
   email: "adeshinaolayodemubaraq@gmail.com",
   phone: { display: "+234 903 617 6161", href: "tel:+2349036176161" },
+  whatsapp: { display: "WhatsApp", href: "https://wa.me/2349036176161" },
   linkedin: {
     display: "linkedin.com/in/adeshina-olayode",
     href: "https://www.linkedin.com/in/adeshina-olayode/",
@@ -193,7 +194,7 @@ export const shippedProjects: ShippedProject[] = [
       "REST APIs for third-party telecom vendors.",
       "FCM push notifications.",
     ],
-    stack: ["Flutter", "PHP", "FCM"],
+    stack: ["Flutter", "Firebase", "PHP", "MySQL"],
     platforms: "Android · iOS",
     links: [
       { label: "Website", href: "https://simservers.io/" },
@@ -211,7 +212,6 @@ export const shippedProjects: ShippedProject[] = [
     stack: ["Flutter", "Firebase", "PHP API", "MySQL"],
     platforms: "Android",
     links: [
-      { label: "Website", href: "https://bububrowser.netlify.app/" },
       {
         label: "Google Play",
         href: "https://play.google.com/store/apps/details?id=com.jacombeventures.bububrowser",
@@ -228,7 +228,7 @@ export const experience: Job[] = [
     start: "Jun 2026",
     end: "Present",
     points: [
-      "I lead development of fintech, EdTech, e-commerce and investment platforms.",
+      "I lead development of fintech, EdTech, health, media, e-commerce and investment platforms.",
       "I build Flutter/Dart apps for Android and iOS.",
       "I build web services with TypeScript, React, PHP and Bootstrap.",
     ],
@@ -244,7 +244,7 @@ export const experience: Job[] = [
         text: "A news and analysis platform covering Africa, with video, podcasts and a newsletter. I led development and built the frontend, the admin, and the video and podcast features, on a Node.js backend with PostgreSQL.",
       },
       {
-        name: "LifeCome Health",
+        name: "LifeComeLive",
         href: "https://www.lifecomelive.com",
         text: "A health and care platform with online GP appointments by secure video, in-person clinics, wellbeing and care plans. I led development and built the frontend, the admin and the video features, on a Node.js backend with PostgreSQL.",
       },

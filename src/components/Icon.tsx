@@ -37,6 +37,17 @@ export const GitHubIcon = createLucideIcon("github", [
   ["path", { d: "M9 18c-4.51 2-5-2-7-2", key: "tail" }],
 ]);
 
+export const WhatsAppIcon = createLucideIcon("whatsapp", [
+  ["path", { d: "M3.5 20.5 4.8 16A8.5 8.5 0 1 1 8 19.2Z", key: "bubble" }],
+  [
+    "path",
+    {
+      d: "M9 8.2c.2-.5.5-.7.9-.7h.5l1 2.2-.7.9a6 6 0 0 0 2.7 2.7l.9-.7 2.2 1v.5c0 .4-.2.7-.7.9-1 .5-2.3.3-3.7-.6a9 9 0 0 1-2.6-2.6C8.7 10.5 8.5 9.2 9 8.2Z",
+      key: "handset",
+    },
+  ],
+]);
+
 export const LinkedInIcon = createLucideIcon("linkedin", [
   ["path", { d: "M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z", key: "n" }],
   ["rect", { width: "4", height: "12", x: "2", y: "9", key: "i" }],

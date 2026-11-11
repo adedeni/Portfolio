@@ -1,8 +1,10 @@
 import type { ReactNode } from "react";
+import { ArrowUpRight, Globe } from "lucide-react";
 import type { CaseStudy as Study } from "../data/content";
 import { Dimension } from "./Dimension";
 import { ExtLink } from "./ExtLink";
 import { Figure } from "./Figure";
+import { Icon } from "./Icon";
 import { Sheet } from "./Sheet";
 
 function Row({ label, children }: { label: string; children: ReactNode }) {
@@ -34,10 +36,22 @@ export function CaseStudy({
       aside={<ExtLink link={study.url} className="normal-case tracking-normal text-ink" />}
     >
       <div className="px-4 pb-10 pt-8 sm:px-6 lg:px-10 lg:pb-12 lg:pt-10">
-        <p className="label">{study.kind}</p>
-        <h2 id={titleId} className="display mt-2 text-[clamp(2.4rem,1.6rem+3.6vw,4.6rem)]">
-          {study.name}
-        </h2>
+        <div className="flex flex-wrap items-end justify-between gap-x-8 gap-y-5">
+          <div>
+            <p className="label">{study.kind}</p>
+            <h2 id={titleId} className="display mt-2 text-[clamp(2.4rem,1.6rem+3.6vw,4.6rem)]">
+              {study.name}
+            </h2>
+          </div>
+          {study.url.href ? (
+            <a href={study.url.href} target="_blank" rel="noopener noreferrer" className="btn btn-ghost sm:mb-2">
+              <Icon icon={Globe} />
+              Visit {study.url.label}
+              <Icon icon={ArrowUpRight} size={14} />
+              <span className="sr-only"> (opens in a new tab)</span>
+            </a>
+          ) : null}
+        </div>
 
         <div
           className="mt-8 grid gap-x-8 gap-y-6 sm:grid-cols-[repeat(var(--n),minmax(0,1fr))]"

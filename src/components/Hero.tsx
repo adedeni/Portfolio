@@ -2,7 +2,7 @@ import { contact, heroMetrics, person, sheets } from "../data/content";
 import { Dimension } from "./Dimension";
 import { Sheet } from "./Sheet";
 import { FileDown, Mail, Phone } from "lucide-react";
-import { GitHubIcon, Icon, LinkedInIcon } from "./Icon";
+import { GitHubIcon, Icon, LinkedInIcon, WhatsAppIcon } from "./Icon";
 
 export function Hero() {
   return (
@@ -63,6 +63,11 @@ export function Hero() {
                 <a href={contact.phone.href} className="ink-link inline-flex items-center gap-1.5">
                   <Icon icon={Phone} size={15} />
                   {contact.phone.display}
+                </a>
+                <a href={contact.whatsapp.href} target="_blank" rel="noopener noreferrer" className="ink-link inline-flex items-center gap-1.5">
+                  <Icon icon={WhatsAppIcon} size={15} />
+                  {contact.whatsapp.display}
+                  <span className="sr-only"> (opens in a new tab)</span>
                 </a>
               </p>
             </div>

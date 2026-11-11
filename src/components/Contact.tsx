@@ -2,7 +2,7 @@ import { useState } from "react";
 import { contact, person, sheets } from "../data/content";
 import { Sheet } from "./Sheet";
 import { ArrowUpRight, Check, Copy, FileDown, FileText, Mail, Phone } from "lucide-react";
-import { GitHubIcon, Icon, LinkedInIcon } from "./Icon";
+import { GitHubIcon, Icon, LinkedInIcon, WhatsAppIcon } from "./Icon";
 
 export function Contact({ year }: { year: number }) {
   const [copied, setCopied] = useState(false);
@@ -43,6 +43,17 @@ export function Contact({ year }: { year: number }) {
       v: (
         <a href={contact.phone.href} className="ink-link">
           {contact.phone.display}
+        </a>
+      ),
+    },
+    {
+      k: "WhatsApp",
+      icon: WhatsAppIcon,
+      v: (
+        <a href={contact.whatsapp.href} target="_blank" rel="noopener noreferrer" className="ink-link">
+          Chat on WhatsApp
+          <Icon icon={ArrowUpRight} size={14} className="ml-0.5 inline-block align-[-2px]" />
+          <span className="sr-only"> (opens in a new tab)</span>
         </a>
       ),
     },
