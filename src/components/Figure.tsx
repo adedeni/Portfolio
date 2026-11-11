@@ -1,12 +1,13 @@
 import type { Screenshot } from "../data/content";
 import { ImagePlus } from "lucide-react";
 import { Icon } from "./Icon";
+import { reveal } from "../reveal";
 
 /** A project screenshot, or a hatched "to be supplied" placeholder. */
 export function Figure({ shot, fig }: { shot: Screenshot; fig: string }) {
   if (shot.kind === "pending") {
     return (
-      <figure>
+      <figure {...reveal(1)}>
         <div className="hatch flex aspect-[16/10] w-full items-center justify-center border border-line-strong p-4">
           <div className="max-w-[28ch] border border-line-strong bg-paper px-4 py-3 text-center">
             <Icon icon={ImagePlus} size={22} className="mx-auto mb-2 text-ink-3" />
@@ -21,7 +22,7 @@ export function Figure({ shot, fig }: { shot: Screenshot; fig: string }) {
     );
   }
   return (
-    <figure>
+    <figure {...reveal(1)}>
       <a href={shot.webp} target="_blank" rel="noopener" className="group block cursor-zoom-in">
       <picture>
         {shot.avif ? <source srcSet={shot.avif} type="image/avif" /> : null}

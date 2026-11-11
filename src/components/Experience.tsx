@@ -3,6 +3,7 @@ import { ExtLink } from "./ExtLink";
 import { Sheet } from "./Sheet";
 import { Star } from "lucide-react";
 import { Icon } from "./Icon";
+import { reveal } from "../reveal";
 
 const cols = "md:grid-cols-[3rem_10rem_minmax(0,1fr)_minmax(0,1.6fr)]";
 
@@ -23,7 +24,7 @@ export function Experience() {
           </div>
           <ol>
             {experience.map((job, i) => (
-              <li key={job.company} className={`grid grid-cols-[minmax(0,1fr)] gap-x-6 gap-y-2 border-b border-line-strong py-6 ${cols}`}>
+              <li key={job.company} {...reveal()} className={`grid grid-cols-[minmax(0,1fr)] gap-x-6 gap-y-2 border-b border-line-strong py-6 ${cols}`}>
                 <span
                   aria-hidden="true"
                   className="flex h-8 w-8 items-center justify-center border border-ink font-mono text-sm font-medium"

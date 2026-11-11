@@ -21,12 +21,13 @@ type BoxProps = {
   icon?: LucideIcon;
   strong?: boolean;
   center?: boolean;
+  i?: number;
 };
 
-function Box({ x, y, w, h, title, lines = [], icon: Glyph, strong, center }: BoxProps) {
+function Box({ x, y, w, h, title, lines = [], icon: Glyph, strong, center, i = 0 }: BoxProps) {
   const cx = x + w / 2;
   return (
-    <g>
+    <g className="dg-box" style={{ ["--i" as string]: i }}>
       <rect
         x={x}
         y={y}
@@ -78,7 +79,9 @@ function Markers({ id }: { id: string }) {
 }
 
 const line = { stroke: "var(--ink-3)", strokeWidth: 1, fill: "none" } as const;
-const dlr = { stroke: "var(--accent)", strokeWidth: 1.5, fill: "none", strokeDasharray: "6 5" } as const;
+const dlr = { stroke: "var(--accent)", strokeWidth: 1.5, fill: "none", strokeDasharray: "6 5", className: "dg-dlr" } as const;
+/** A connector that draws itself in order i. */
+const draw = (i: number) => ({ className: "dg-draw", pathLength: 1, style: { ["--i" as string]: i } });
 
 /** Left-to-right drawing for wide screens. */
 function Horizontal() {
@@ -91,37 +94,37 @@ function Horizontal() {
   return (
     <svg viewBox="0 0 1100 340" className="hidden h-auto w-full lg:block" aria-hidden="true">
       <Markers id={id} />
-      <Box x={0} y={108} w={170} h={84} title="WALLET TOP-UP" icon={Wallet} lines={["Bank transfer, card", "or USSD"]} />
-      <path d="M170 150H204" {...line} markerEnd={`url(#${id}-arrow)`} />
-      <Box x={206} y={108} w={170} h={84} title="CAMPAIGN" icon={Send} strong lines={["Recipients, groups", "and message"]} />
-      <path d="M376 150H410" {...line} markerEnd={`url(#${id}-arrow)`} />
+      <Box i={0} x={0} y={108} w={170} h={84} title="WALLET TOP-UP" icon={Wallet} lines={["Bank transfer, card", "or USSD"]} />
+      <path d="M170 150H204" {...line} {...draw(1)} markerEnd={`url(#${id}-arrow)`} />
+      <Box i={2} x={206} y={108} w={170} h={84} title="CAMPAIGN" icon={Send} strong lines={["Recipients, groups", "and message"]} />
+      <path d="M376 150H410" {...line} {...draw(3)} markerEnd={`url(#${id}-arrow)`} />
 
       {/* Checks, in series */}
       <text x={412} y={112} className="dg-label">CHECKS</text>
       <path d="M412 118H722" stroke="var(--line-strong)" strokeWidth={1} />
       <path d="M412 114V122M722 114V122" stroke="var(--line-strong)" strokeWidth={1} />
-      <Box x={412} y={128} w={96} h={44} title="Sender ID" center />
-      <path d="M508 150H519" {...line} markerEnd={`url(#${id}-arrow)`} />
-      <Box x={519} y={128} w={96} h={44} title="DND filter" center />
-      <path d="M615 150H626" {...line} markerEnd={`url(#${id}-arrow)`} />
-      <Box x={626} y={128} w={96} h={44} title="Schedule" center />
+      <Box i={4} x={412} y={128} w={96} h={44} title="Sender ID" center />
+      <path d="M508 150H519" {...line} {...draw(5)} markerEnd={`url(#${id}-arrow)`} />
+      <Box i={6} x={519} y={128} w={96} h={44} title="DND filter" center />
+      <path d="M615 150H626" {...line} {...draw(7)} markerEnd={`url(#${id}-arrow)`} />
+      <Box i={8} x={626} y={128} w={96} h={44} title="Schedule" center />
 
       {/* Fan-out */}
-      <path d="M722 150H760M760 48V252" {...line} />
+      <path d="M722 150H760M760 48V252" {...line} {...draw(9)} />
       {channels.map(([label, glyph, y]) => (
         <g key={label}>
-          <path d={`M760 ${y + 28}H794`} {...line} markerEnd={`url(#${id}-arrow)`} />
-          <Box x={796} y={y} w={140} h={56} title={label} icon={glyph} center />
+          <path d={`M760 ${y + 28}H794`} {...line} {...draw(10)} markerEnd={`url(#${id}-arrow)`} />
+          <Box i={11} x={796} y={y} w={140} h={56} title={label} icon={glyph} center />
         </g>
       ))}
 
       {/* Delivery reports back into analytics */}
       <path d="M936 48H990M936 150H990M936 252H990M990 48V306" {...dlr} />
       <path d="M990 306H724" {...dlr} markerEnd={`url(#${id}-accent)`} />
-      <text x={858} y={326} textAnchor="middle" className="dg-label" style={{ fill: "var(--accent)" }}>
+      <text x={858} y={326} textAnchor="middle" className="dg-label dg-dlr-label" style={{ fill: "var(--accent)" }}>
         DELIVERY REPORTS (DLR)
       </text>
-      <Box x={412} y={270} w={310} h={68} title="REAL-TIME ANALYTICS" icon={ChartColumn} lines={["Delivery by campaign and channel"]} strong />
+      <Box i={12} x={412} y={270} w={310} h={68} title="REAL-TIME ANALYTICS" icon={ChartColumn} lines={["Delivery by campaign and channel"]} strong />
     </svg>
   );
 }
@@ -133,19 +136,19 @@ function Vertical() {
   return (
     <svg viewBox="0 0 340 520" className="mx-auto block h-auto w-full max-w-[440px] lg:hidden" aria-hidden="true">
       <Markers id={id} />
-      <Box x={0} y={0} w={340} h={66} title="WALLET TOP-UP" icon={Wallet} lines={["Bank transfer, card or USSD"]} />
-      <path d="M170 66V92" {...line} markerEnd={`url(#${id}-arrow)`} />
-      <Box x={0} y={94} w={340} h={66} title="CAMPAIGN" icon={Send} strong lines={["Recipients, groups and message"]} />
-      <path d="M170 160V196" {...line} markerEnd={`url(#${id}-arrow)`} />
+      <Box i={0} x={0} y={0} w={340} h={66} title="WALLET TOP-UP" icon={Wallet} lines={["Bank transfer, card or USSD"]} />
+      <path d="M170 66V92" {...line} {...draw(1)} markerEnd={`url(#${id}-arrow)`} />
+      <Box i={2} x={0} y={94} w={340} h={66} title="CAMPAIGN" icon={Send} strong lines={["Recipients, groups and message"]} />
+      <path d="M170 160V196" {...line} {...draw(3)} markerEnd={`url(#${id}-arrow)`} />
 
       <text x={0} y={190} className="dg-label">CHECKS</text>
       {["Sender ID", "DND filter", "Schedule"].map((t, i) => (
-        <Box key={t} x={col(i)} y={198} w={106} h={44} title={t} center />
+        <Box i={4} key={t} x={col(i)} y={198} w={106} h={44} title={t} center />
       ))}
-      <path d="M106 220H117M223 220H234" {...line} />
+      <path d="M106 220H117M223 220H234" {...line} {...draw(5)} />
 
       {/* Fan-out */}
-      <path d="M170 242V266M53 266H287M53 266V282M170 266V282M287 266V282" {...line} />
+      <path d="M170 242V266M53 266H287M53 266V282M170 266V282M287 266V282" {...line} {...draw(6)} />
       {(
         [
           ["SMS", MessageSquareText],
@@ -153,16 +156,16 @@ function Vertical() {
           ["Voice", Phone],
         ] as [string, LucideIcon][]
       ).map(([t, g], i) => (
-        <Box key={t} x={col(i)} y={284} w={106} h={58} title={t} icon={g} center />
+        <Box i={7} key={t} x={col(i)} y={284} w={106} h={58} title={t} icon={g} center />
       ))}
 
       {/* Delivery reports */}
       <path d="M53 342V370M170 342V370M287 342V370M53 370H287M170 370V424" {...dlr} markerEnd={`url(#${id}-accent)`} />
-      <text x={180} y={394} className="dg-label" style={{ fill: "var(--accent)" }}>
+      <text x={180} y={394} className="dg-label dg-dlr-label" style={{ fill: "var(--accent)" }}>
         <tspan x={180}>DELIVERY</tspan>
         <tspan x={180} dy={14}>REPORTS (DLR)</tspan>
       </text>
-      <Box x={0} y={426} w={340} h={70} title="REAL-TIME ANALYTICS" icon={ChartColumn} strong lines={["Delivery by campaign and channel"]} />
+      <Box i={8} x={0} y={426} w={340} h={70} title="REAL-TIME ANALYTICS" icon={ChartColumn} strong lines={["Delivery by campaign and channel"]} />
     </svg>
   );
 }
@@ -175,7 +178,7 @@ export function ChannelDiagram() {
         <p className="label">Not to scale</p>
       </div>
       <figure className="sheet-grid px-4 py-8 sm:px-6 lg:px-10 lg:py-10">
-        <div role="img" aria-label={DESCRIPTION} className="diagram">
+        <div role="img" aria-label={DESCRIPTION} className="diagram" data-observe="">
           <Horizontal />
           <Vertical />
         </div>

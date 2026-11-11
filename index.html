@@ -33,6 +33,7 @@
     <!--preload-fonts-->
     <script>
       (function () {
+        document.documentElement.classList.add("js");
         var t = null;
         try { t = localStorage.getItem("theme"); } catch (e) {}
         // Blueprint (dark) is the default; only a saved "light" choice overrides it.

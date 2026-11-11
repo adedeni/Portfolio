@@ -9,10 +9,14 @@ import { Hero } from "./components/Hero";
 import { Skills } from "./components/Skills";
 import { StorefrontEditor } from "./components/StorefrontEditor";
 import { WorkSchedule } from "./components/WorkSchedule";
+import { useEffect } from "react";
+import { startReveal } from "./reveal";
 
 declare const __BUILD_YEAR__: number;
 
 export function App() {
+  // Start scroll-in motion after React has rendered (dev) or hydrated (prod).
+  useEffect(() => startReveal(), []);
   const [vtu, pmc] = caseStudies;
   return (
     <>

@@ -330,6 +330,127 @@
   }
 }
 
+/* ------------------------------------------------------------------
+   Motion: the page "draws itself" as sheets scroll into view.
+   Only active when JS is running (html.js) and motion is allowed.
+   ------------------------------------------------------------------ */
+@media (prefers-reduced-motion: no-preference) {
+  /* Content rises into place, staggered by --i */
+  .js [data-reveal] {
+    opacity: 0;
+    translate: 0 16px;
+    transition:
+      opacity 700ms ease,
+      translate 800ms cubic-bezier(0.2, 0.7, 0.2, 1);
+    transition-delay: calc(var(--i, 0) * 70ms);
+  }
+  .js [data-reveal][data-inview] {
+    opacity: 1;
+    translate: 0 0;
+  }
+
+  /* A pen stroke runs along the top edge of each sheet as it arrives */
+  .js .sheet::after {
+    content: "";
+    position: absolute;
+    left: -1px;
+    right: -1px;
+    top: -1px;
+    height: 2px;
+    background: var(--accent);
+    transform-origin: left;
+    transform: scaleX(0);
+    pointer-events: none;
+  }
+  .js .sheet[data-inview]::after {
+    animation: sheet-stroke 1.5s cubic-bezier(0.6, 0, 0.2, 1) forwards;
+  }
+
+  /* Dimension lines measure only once visible */
+  .js [data-reveal]:not([data-inview]) .dim-line {
+    animation-play-state: paused;
+  }
+
+  /* Detail B: connectors draw, boxes appear in order, the DLR loop flows */
+  .diagram .dg-draw {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 0;
+    transition:
+      stroke-dashoffset 900ms ease,
+      opacity 200ms ease;
+    transition-delay: calc(var(--i, 0) * 140ms);
+  }
+  /* Hidden (arrowheads included) until each connector starts drawing */
+  .js .diagram:not([data-inview]) .dg-draw {
+    stroke-dashoffset: 1;
+    opacity: 0;
+  }
+  .diagram .dg-box {
+    transition: opacity 500ms ease;
+    transition-delay: calc(var(--i, 0) * 140ms);
+  }
+  .js .diagram:not([data-inview]) .dg-box {
+    opacity: 0;
+  }
+  .js .diagram:not([data-inview]) .dg-dlr,
+  .js .diagram:not([data-inview]) .dg-dlr-label {
+    opacity: 0;
+  }
+  .diagram .dg-dlr,
+  .diagram .dg-dlr-label {
+    transition: opacity 600ms ease 1.4s;
+  }
+  .diagram[data-inview] .dg-dlr {
+    animation: dg-flow 1.6s linear infinite;
+  }
+
+  /* Bubu elevation: phones fan out, then the markers pop on */
+  .fan-item {
+    transition:
+      rotate 900ms cubic-bezier(0.2, 0.8, 0.2, 1),
+      translate 900ms cubic-bezier(0.2, 0.8, 0.2, 1),
+      scale 900ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .js [data-observe]:not([data-inview]) .fan-item {
+    rotate: 0deg;
+    translate: 0 24px;
+    scale: 0.94;
+  }
+  .js [data-observe]:not([data-inview]) .pin {
+    scale: 0;
+  }
+  /* "backwards" only holds the start state during the delay, so hover scaling still works afterwards */
+  .js [data-observe][data-inview] .pin {
+    animation: pin-pop 450ms cubic-bezier(0.3, 1.6, 0.5, 1) backwards;
+    animation-delay: calc(700ms + var(--i, 0) * 110ms);
+  }
+}
+
+@keyframes sheet-stroke {
+  0% {
+    transform: scaleX(0);
+    opacity: 1;
+  }
+  65% {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scaleX(1);
+    opacity: 0;
+  }
+}
+@keyframes pin-pop {
+  from {
+    scale: 0;
+  }
+}
+@keyframes dg-flow {
+  to {
+    stroke-dashoffset: -22;
+  }
+}
+
 /* Theme switch shows the theme you'd switch to */
 .theme-icon-dark {
   display: none;

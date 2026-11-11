@@ -11,7 +11,7 @@ export function Dimension({
   size?: "lg" | "md";
 }) {
   return (
-    <div style={{ ["--dim-delay" as string]: `${delay}ms` }}>
+    <div data-reveal="" style={{ ["--dim-delay" as string]: `${delay}ms`, ["--i" as string]: Math.round(delay / 150) }}>
       <div className="dim">
         <span className="dim-line" aria-hidden="true" />
         <span

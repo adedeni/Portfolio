@@ -3,6 +3,7 @@ import { contact, person, sheets } from "../data/content";
 import { Sheet } from "./Sheet";
 import { ArrowUpRight, Check, Copy, FileDown, FileText, Mail, Phone } from "lucide-react";
 import { GitHubIcon, Icon, LinkedInIcon, WhatsAppIcon } from "./Icon";
+import { reveal } from "../reveal";
 
 export function Contact({ year }: { year: number }) {
   const [copied, setCopied] = useState(false);
@@ -113,8 +114,8 @@ export function Contact({ year }: { year: number }) {
           </div>
         </div>
         <dl className="self-start border-t border-ink">
-          {rows.map((r) => (
-            <div key={r.k} className="grid gap-1 border-b border-line-strong py-3 sm:grid-cols-[6.5rem_1fr] sm:gap-4">
+          {rows.map((r, i) => (
+            <div key={r.k} {...reveal(i)} className="grid gap-1 border-b border-line-strong py-3 sm:grid-cols-[6.5rem_1fr] sm:gap-4">
               <dt className="label flex items-center gap-2 pt-0.5">
                 <Icon icon={r.icon} size={15} />
                 {r.k}

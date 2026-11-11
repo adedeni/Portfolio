@@ -4,6 +4,7 @@ import { PhoneShowcase } from "./PhoneShowcase";
 import { Sheet } from "./Sheet";
 import { Smartphone } from "lucide-react";
 import { Icon } from "./Icon";
+import { reveal } from "../reveal";
 
 const cols = "md:grid-cols-[3rem_minmax(0,1.05fr)_minmax(0,1.6fr)_minmax(0,1fr)_minmax(0,1fr)]";
 
@@ -26,7 +27,7 @@ export function WorkSchedule() {
           </div>
           <ol>
             {shippedProjects.map((p, i) => (
-              <li key={p.name} className={`grid grid-cols-[minmax(0,1fr)] gap-x-6 gap-y-3 border-b border-line-strong py-5 ${cols}`}>
+              <li key={p.name} {...reveal(i)} className={`grid grid-cols-[minmax(0,1fr)] gap-x-6 gap-y-3 border-b border-line-strong py-5 ${cols}`}>
                 <span className="font-mono text-sm text-ink-3">W-{String(i + 1).padStart(2, "0")}</span>
                 <div>
                   <h3 className="text-[1.25rem] font-semibold leading-tight [font-stretch:112%]">{p.name}</h3>

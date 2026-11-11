@@ -3,6 +3,7 @@ import { Dimension } from "./Dimension";
 import { Sheet } from "./Sheet";
 import { FileDown, Mail, Phone } from "lucide-react";
 import { GitHubIcon, Icon, LinkedInIcon, WhatsAppIcon } from "./Icon";
+import { reveal } from "../reveal";
 
 export function Hero() {
   return (
@@ -39,7 +40,7 @@ export function Hero() {
               ))}
             </div>
 
-            <div className="order-3 mt-6 flex flex-wrap gap-3 sm:mt-8 lg:order-4">
+            <div {...reveal(3)} className="order-3 mt-6 flex flex-wrap gap-3 sm:mt-8 lg:order-4">
               <a href={`mailto:${contact.email}`} className="btn btn-primary">
                 <Icon icon={Mail} />
                 Email me
@@ -78,8 +79,8 @@ export function Hero() {
             <nav aria-label="Drawing index" className="border border-line-strong bg-paper">
               <p className="label border-b border-line-strong px-3 py-2 text-ink">Drawing index</p>
               <ol className="divide-y divide-line">
-                {sheets.slice(1).map((s) => (
-                  <li key={s.id}>
+                {sheets.slice(1).map((s, i) => (
+                  <li key={s.id} {...reveal(i + 5)}>
                     <a
                       href={`#${s.id}`}
                       className="group flex items-baseline gap-3 px-3 py-1.5 text-[0.9375rem] no-underline hover:bg-paper-2"
@@ -110,8 +111,8 @@ function TitleBlock() {
     <div className="border border-line-strong bg-paper">
       <p className="label border-b border-line-strong px-3 py-2 text-ink">Title block</p>
       <dl className="divide-y divide-line">
-        {rows.map(([k, v]) => (
-          <div key={k} className="grid grid-cols-[92px_1fr] gap-3 px-3 py-2">
+        {rows.map(([k, v], i) => (
+          <div key={k} {...reveal(i)} className="grid grid-cols-[92px_1fr] gap-3 px-3 py-2">
             <dt className="label pt-0.5">{k}</dt>
             <dd className="text-[0.9375rem] leading-snug">{v}</dd>
           </div>

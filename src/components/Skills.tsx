@@ -2,6 +2,7 @@ import { skills } from "../data/content";
 import { Sheet } from "./Sheet";
 import { AppWindow, Server, Smartphone, Wrench, type LucideIcon } from "lucide-react";
 import { Icon } from "./Icon";
+import { reveal } from "../reveal";
 
 const areaIcons: Record<string, LucideIcon> = {
   Frontend: AppWindow,
@@ -19,7 +20,7 @@ export function Skills() {
         </h2>
         <dl className="mt-8 grid border-l border-t border-line-strong sm:grid-cols-2 lg:grid-cols-4">
           {skills.map((g, i) => (
-            <div key={g.area} className="border-b border-r border-line-strong p-4 sm:p-5">
+            <div key={g.area} {...reveal(i)} className="border-b border-r border-line-strong p-4 sm:p-5">
               <dt className="flex items-baseline justify-between">
                 <span className="flex items-center gap-2 text-[1.125rem] font-semibold [font-stretch:112%]">
                   <Icon icon={areaIcons[g.area] ?? Wrench} size={18} className="text-accent" />

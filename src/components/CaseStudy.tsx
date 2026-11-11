@@ -6,10 +6,11 @@ import { ExtLink } from "./ExtLink";
 import { Figure } from "./Figure";
 import { Icon } from "./Icon";
 import { Sheet } from "./Sheet";
+import { reveal } from "../reveal";
 
 function Row({ label, children }: { label: string; children: ReactNode }) {
   return (
-    <div className="grid gap-1 border-t border-line py-4 sm:grid-cols-[120px_1fr] sm:gap-6">
+    <div {...reveal()} className="grid gap-1 border-t border-line py-4 sm:grid-cols-[120px_1fr] sm:gap-6">
       <dt className="label pt-1">{label}</dt>
       <dd className="text-ink-2">{children}</dd>
     </div>

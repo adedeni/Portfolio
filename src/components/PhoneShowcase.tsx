@@ -19,7 +19,7 @@ export function PhoneShowcase({ shots, caption, fig }: { shots: PhoneShot[]; cap
   };
 
   return (
-    <figure className="min-w-0">
+    <figure data-observe="" className="min-w-0">
       <div className="grid grid-cols-[minmax(0,1fr)] gap-6 lg:grid-cols-[minmax(0,1.45fr)_minmax(0,1fr)] lg:items-center lg:gap-10">
         {/* Stage */}
         <div className="sheet-grid relative border border-line-strong px-3 pb-6 pt-8 lg:px-6 lg:pb-14 lg:pt-12">
@@ -28,7 +28,7 @@ export function PhoneShowcase({ shots, caption, fig }: { shots: PhoneShot[]; cap
             {shots.map((s, i) => (
               <li
                 key={s.webp}
-                className={`relative w-[150px] shrink-0 snap-center transition-transform duration-300 sm:w-[170px] lg:-mx-3 lg:w-[31%] lg:max-w-[200px] ${pose(i)}`}
+                className={`fan-item relative w-[150px] shrink-0 snap-center sm:w-[170px] lg:-mx-3 lg:w-[31%] lg:max-w-[200px] ${pose(i)}`}
               >
                 <a
                   href={s.webp}
@@ -56,8 +56,8 @@ export function PhoneShowcase({ shots, caption, fig }: { shots: PhoneShot[]; cap
                     aria-hidden="true"
                     onMouseEnter={() => setActive(c.n)}
                     onMouseLeave={() => setActive(null)}
-                    style={{ left: `${c.x}%`, top: `${c.y}%` }}
-                    className={`absolute flex h-6 w-6 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border-2 font-mono text-[0.6875rem] font-semibold shadow-md transition-transform duration-150 ${
+                    style={{ left: `${c.x}%`, top: `${c.y}%`, ["--i" as string]: c.n }}
+                    className={`pin absolute flex h-6 w-6 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border-2 font-mono text-[0.6875rem] font-semibold shadow-md transition-transform duration-150 ${
                       active === c.n
                         ? "scale-125 border-on-accent bg-accent text-on-accent"
                         : "border-[#0b0b0f] bg-accent text-on-accent"

@@ -2,6 +2,7 @@ import { education, memberships } from "../data/content";
 import { Sheet } from "./Sheet";
 import { Award, BadgeCheck, GraduationCap } from "lucide-react";
 import { Icon } from "./Icon";
+import { reveal } from "../reveal";
 
 export function Background() {
   return (
@@ -19,8 +20,8 @@ export function Background() {
         </div>
         <div>
           <ol className="border-t border-ink">
-            {education.map((e) => (
-              <li key={e.degree} className="grid gap-x-6 gap-y-1 border-b border-line-strong py-5 sm:grid-cols-[7rem_1fr]">
+            {education.map((e, i) => (
+              <li key={e.degree} {...reveal(i)} className="grid gap-x-6 gap-y-1 border-b border-line-strong py-5 sm:grid-cols-[7rem_1fr]">
                 <p className="font-mono text-[0.875rem] text-ink-2 sm:pt-0.5">{e.date}</p>
                 <div>
                   <h3 className="flex items-center gap-2 text-[1.25rem] font-semibold leading-tight [font-stretch:112%]">
