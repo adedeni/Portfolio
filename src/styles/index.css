@@ -413,6 +413,11 @@
     transform: scaleX(0);
   }
 
+  /* Editor: the "View page" button pops in after the first save */
+  .pop-in {
+    animation: pin-pop 380ms cubic-bezier(0.3, 1.6, 0.5, 1) backwards;
+  }
+
   /* Skills cross-reference: links arrive one after another on each pick */
   .xref-in {
     animation: xref-in 380ms ease backwards;

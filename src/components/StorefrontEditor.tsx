@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
-import { ArrowUpRight, ChevronLeft, RotateCcw, Save } from "lucide-react";
+import { ArrowUpRight, Check, ChevronLeft, RotateCcw, Save } from "lucide-react";
 import { Icon } from "./Icon";
 
 /**
@@ -103,7 +103,7 @@ export function StorefrontEditor() {
     <div className="no-print border-t border-line-strong">
       <div className="flex flex-wrap items-center justify-between gap-x-6 gap-y-1 border-b border-line px-4 py-2 sm:px-6 lg:px-10">
         <h3 className="label text-ink">Detail A: Template editor (working model)</h3>
-        <p className="label">Try it: switch templates, change a colour, or type in the preview</p>
+        <p className="label">Try it: edit the store, then save to see the finished page</p>
       </div>
 
       <div className="px-4 py-8 sm:px-6 lg:px-10 lg:py-10">
@@ -184,6 +184,10 @@ function LoadedEditor({
   const [active, setActive] = useState<string | null>(null);
   const [log, setLog] = useState<LogEntry[]>([]);
   const [snapshot, setSnapshot] = useState<Snapshot | null>(null);
+  // Edits made after the last save, so the saved page may be out of date
+  const [dirty, setDirty] = useState(false);
+  // Brief "Saved" confirmation in the top bar
+  const [justSaved, setJustSaved] = useState(false);
   const logKey = useRef(0);
   const queue = useRef(new Map<string, { type: string; payload: Record<string, string> }>());
   const frame = useRef<number | null>(null);
@@ -224,15 +228,18 @@ function LoadedEditor({
   );
 
   const updateField = (e: Editable, value: string) => {
+    setDirty(true);
     setFields((f) => ({ ...f, [e.id]: value }));
     e.selectors.forEach((selector) => enqueue(`text:${selector}`, "UPDATE_TEXT", { selector, value }));
   };
   const updateImage = (e: Editable, value: string) => {
+    setDirty(true);
     setFields((f) => ({ ...f, [e.id]: value }));
     setActive(e.id);
     e.selectors.forEach((selector) => send("UPDATE_IMAGE", { selector, value }));
   };
   const updateColor = (variable: string, value: string) => {
+    setDirty(true);
     setColors((c) => ({ ...c, [variable]: value }));
     enqueue(`css:${variable}`, "UPDATE_CSS_VAR", { variable, value });
   };
@@ -264,6 +271,7 @@ function LoadedEditor({
       } else if (d.type === "FIELD_UPDATED" && typeof d.payload.value === "string") {
         const value = d.payload.value;
         pushLog("in", "FIELD_UPDATED", `${id} = "${value}"`);
+        setDirty(true);
         setActive(id);
         setFields((f) => ({ ...f, [id]: value }));
       }
@@ -277,9 +285,9 @@ function LoadedEditor({
 
   useEffect(() => () => void (snapshot && URL.revokeObjectURL(snapshot.url)), [snapshot]);
 
-  const save = () => {
+  const save = (): string | null => {
     const doc = iframeRef.current?.contentDocument;
-    if (!doc) return;
+    if (!doc) return null;
     const clone = doc.documentElement.cloneNode(true) as HTMLElement;
     const editorNodes = clone.querySelectorAll("[data-editor-only]");
     editorNodes.forEach((el) => el.remove());
@@ -294,6 +302,16 @@ function LoadedEditor({
     const url = URL.createObjectURL(new Blob([out], { type: "text/html" }));
     setSnapshot({ bytes: new Blob([out]).size, removedNodes: editorNodes.length, cleaned: editable.length, url });
     pushLog("out", "save_template", `html_snapshot ${(new Blob([out]).size / 1024).toFixed(1)} KB (not sent)`);
+    setDirty(false);
+    setJustSaved(true);
+    window.setTimeout(() => setJustSaved(false), 2200);
+    return url;
+  };
+
+  /** Save, then open the result straight away (runs inside the click, so it isn't blocked as a pop-up). */
+  const saveAndOpen = () => {
+    const url = save();
+    if (url) window.open(url, "_blank", "noopener");
   };
 
   const sections = [...new Set(config.editables.map((e) => e.section))];
@@ -325,13 +343,26 @@ function LoadedEditor({
               <Icon icon={RotateCcw} size={13} />
               <span className="sr-only sm:not-sr-only">Reset</span>
             </button>
+            {snapshot ? (
+              <a
+                href={snapshot.url}
+                target="_blank"
+                rel="noopener"
+                className="pop-in flex items-center gap-1.5 rounded border border-[#ffe600] px-2.5 py-1.5 text-xs font-semibold text-[#ffe600] hover:bg-[#1a1a00]"
+              >
+                <span className="hidden sm:inline">View page</span>
+                <span className="sm:hidden">View</span>
+                <Icon icon={ArrowUpRight} size={13} />
+                <span className="sr-only"> (opens the saved page in a new tab)</span>
+              </a>
+            ) : null}
             <button
               type="button"
-              onClick={save}
+              onClick={() => void save()}
               className="flex items-center gap-1.5 rounded bg-[#ffe600] px-3 py-1.5 text-xs font-semibold text-[#111] hover:bg-[#fff04d]"
             >
-              <Icon icon={Save} size={13} />
-              Save
+              <Icon icon={justSaved ? Check : Save} size={13} />
+              {justSaved ? "Saved" : "Save"}
               <Balloon n={4} className="ml-0.5 hidden border-[#111] bg-[#ffe600] text-[#111] sm:inline-flex" />
             </button>
           </div>
@@ -441,31 +472,57 @@ function LoadedEditor({
           </ol>
         </div>
 
-        <div className="border border-line-strong bg-paper-2" aria-live="polite">
+        <div className="order-first border border-line-strong bg-paper-2 lg:order-none" aria-live="polite">
           <div className="flex items-center gap-2 border-b border-line-strong px-3 py-2">
             <Balloon n={4} />
             <p className="label text-ink">Save · html_snapshot</p>
           </div>
           {snapshot ? (
-            <div className="space-y-1.5 px-3 py-2 font-mono text-[0.75rem] leading-relaxed text-ink-2">
-              <p>
-                <span className="text-ink">{(snapshot.bytes / 1024).toFixed(1)} KB</span> of clean HTML
-              </p>
-              <p>
-                {snapshot.removedNodes} editor-only nodes removed · {snapshot.cleaned} regions un-editable again
-              </p>
-              <p className="truncate">
-                POST vtunownow.php · action=save_template · template_slug={config.id}
-              </p>
-              <p className="text-ink-3">Not sent from this page.</p>
-              <a href={snapshot.url} target="_blank" rel="noopener" className="ink-link inline-flex items-center gap-1 text-ink">
-                Open the saved page
-                <Icon icon={ArrowUpRight} size={13} />
-                <span className="sr-only"> (opens in a new tab)</span>
-              </a>
+            <div className="px-3 py-3">
+              {dirty ? (
+                <p className="mb-3 flex items-start gap-2 text-[0.875rem] text-ink">
+                  <span aria-hidden="true" className="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-accent" />
+                  You've changed the store since saving. Save again to update the page.
+                </p>
+              ) : null}
+              <div className="flex flex-wrap gap-2">
+                {dirty ? (
+                  <button type="button" onClick={saveAndOpen} className="btn btn-primary">
+                    <Icon icon={Save} />
+                    Save and view again
+                    <Icon icon={ArrowUpRight} size={14} />
+                    <span className="sr-only"> (opens in a new tab)</span>
+                  </button>
+                ) : (
+                  <a href={snapshot.url} target="_blank" rel="noopener" className="btn btn-primary">
+                    Open the saved page
+                    <Icon icon={ArrowUpRight} size={14} />
+                    <span className="sr-only"> (opens in a new tab)</span>
+                  </a>
+                )}
+              </div>
+              <div className="mt-3 space-y-1 font-mono text-[0.75rem] leading-relaxed text-ink-2">
+                <p>
+                  <span className="text-ink">{(snapshot.bytes / 1024).toFixed(1)} KB</span> of clean HTML ·{" "}
+                  {snapshot.removedNodes} editor-only nodes removed · {snapshot.cleaned} regions un-editable again
+                </p>
+                <p className="truncate text-ink-3">
+                  POST vtunownow.php · action=save_template · template_slug={config.id} · not sent from this page
+                </p>
+              </div>
             </div>
           ) : (
-            <p className="px-3 py-2 font-mono text-[0.75rem] text-ink-3">Press Save to build the snapshot.</p>
+            <div className="px-3 py-3">
+              <p className="text-[0.9375rem] text-ink">
+                See the result: Save turns your edits into the finished, standalone storefront a vendor would publish.
+              </p>
+              <button type="button" onClick={saveAndOpen} className="btn btn-primary mt-3">
+                <Icon icon={Save} />
+                Save and view the page
+                <Icon icon={ArrowUpRight} size={14} />
+                <span className="sr-only"> (opens in a new tab)</span>
+              </button>
+            </div>
           )}
         </div>
       </div>
