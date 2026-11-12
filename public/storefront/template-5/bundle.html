@@ -7,7 +7,7 @@
 <style>
   :root { --accent-color:#2f6bff; --bg-color:#f2f1ec; --ink-color:#141414; --muted:#6b6b6b; --tile:#ffffff; --line:rgba(0,0,0,.07); }
   * { box-sizing:border-box; }
-  body { margin:0; min-height:100vh; display:flex; flex-direction:column; background:var(--bg-color); color:var(--ink-color); font-family:ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  body { margin:0; min-height:100vh; display:flex; flex-direction:column; background:var(--bg-color); color:var(--ink-color); font-family:var(--font-family, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif); }
   main { flex:1; }
   .wrap { width:100%; max-width:1160px; margin:0 auto; padding:0 clamp(12px, 3vw, 28px); }
 
@@ -65,6 +65,9 @@
   .plans li b { font-size:17px; }
   .plans li small { color:var(--muted); display:block; font-size:12.5px; }
   .plans li em { font-style:normal; font-weight:700; font-size:14px; padding:6px 12px; border-radius:999px; background:var(--bg-color); }
+  .plans li[data-featured] em { background:var(--accent-color); color:#fff; }
+  .plans li .pop { display:none; margin-left:8px; font-size:11px; font-weight:700; letter-spacing:.04em; text-transform:uppercase; color:var(--accent-color); vertical-align:2px; }
+  .plans li[data-featured] .pop { display:inline; }
 
   .power { background:var(--accent-color); color:#fff; border:0; }
   .power .label { color:rgba(255,255,255,.75); }
@@ -99,6 +102,7 @@
 
   footer { padding:22px 0 28px; font-size:14px; color:var(--muted); }
   footer .wrap { display:flex; justify-content:space-between; gap:8px 20px; flex-wrap:wrap; }
+  [hidden] { display:none !important; }
 </style>
 </head>
 <body>
@@ -136,10 +140,10 @@
 
       <section class="t plans" aria-hidden="true">
         <h3>Data plans</h3><p class="sub">Valid for 30 days</p>
-        <ul>
-          <li><div><b>1.5GB</b><small>Everyday browsing</small></div><em>₦1,000</em></li>
-          <li><div><b>4GB</b><small>Streaming and calls</small></div><em>₦2,200</em></li>
-          <li><div><b>10GB</b><small>Work from anywhere</small></div><em>₦4,500</em></li>
+        <ul id="plan-list" data-editable-id="plans" data-editable-kind="list">
+          <li data-list-item><div><b data-slot="size">1.5GB</b><span class="pop">Popular</span><small>30-day validity</small></div><em data-slot="price">₦1,000</em></li>
+          <li data-list-item data-featured><div><b data-slot="size">4GB</b><span class="pop">Popular</span><small>30-day validity</small></div><em data-slot="price">₦2,200</em></li>
+          <li data-list-item><div><b data-slot="size">10GB</b><span class="pop">Popular</span><small>30-day validity</small></div><em data-slot="price">₦4,500</em></li>
         </ul>
       </section>
 
@@ -150,12 +154,12 @@
         <svg class="bolt" viewBox="0 0 24 24" fill="#fff"><path d="M13 2 5 13h6l-1 9 8-12h-6z"/></svg>
       </section>
 
-      <section class="t tv" aria-hidden="true">
+      <section class="t tv" id="tv-tile" aria-hidden="true">
         <h3>Cable TV</h3><p class="sub">Renew before your plan runs out</p>
         <div class="logos"><span>DSTV</span><span>TV+</span></div>
       </section>
 
-      <section class="t support">
+      <section class="t support" id="support-tile">
         <div><span class="label">Support</span><p id="support-text" data-editable-id="support_text">Stuck on an order? Our team answers within minutes, day and night.</p></div>
         <div style="display:flex;align-items:center;gap:14px"><div class="dots" aria-hidden="true"><i></i><i></i><i></i></div><span class="btn dark">Chat with us</span></div>
       </section>
@@ -174,8 +178,8 @@
   style.textContent =
     "[contenteditable][data-editable-id]{cursor:text;outline:1px dashed transparent;outline-offset:4px;transition:outline-color .15s}" +
     "[contenteditable][data-editable-id]:hover{outline-color:rgba(255,230,0,.95)}" +
-    "[data-editable-kind=image]{cursor:pointer;outline:1px dashed transparent;outline-offset:3px;transition:outline-color .15s}" +
-    "[data-editable-kind=image]:hover{outline-color:rgba(255,230,0,.95)}" +
+    "[data-editable-kind]{cursor:pointer;outline:1px dashed transparent;outline-offset:3px;transition:outline-color .15s}" +
+    "[data-editable-kind]:hover{outline-color:rgba(255,230,0,.95)}" +
     "[data-editable-active]{outline:2px solid #ffe600 !important}";
   document.head.appendChild(style);
 
@@ -185,14 +189,37 @@
   }
 
   document.querySelectorAll("[data-editable-id]").forEach(function (el) {
-    // Text regions are edited in place; image regions are only selectable.
-    if (el.dataset.editableKind !== "image") {
+    var kind = el.dataset.editableKind;
+    // Text regions are edited in place; image and list regions are only selectable.
+    if (!kind) {
       el.setAttribute("contenteditable", "true");
       el.setAttribute("spellcheck", "false");
+      el.addEventListener("input", function () { post("FIELD_UPDATED", { editableId: el.dataset.editableId, value: el.textContent }); });
     }
     el.addEventListener("click", function () { activate(el); post("ELEMENT_CLICKED", { editableId: el.dataset.editableId }); });
-    el.addEventListener("input", function () { post("FIELD_UPDATED", { editableId: el.dataset.editableId, value: el.textContent }); });
   });
+
+  // Price lists are rebuilt from the template's own rows, so styling stays intact.
+  var protos = new WeakMap();
+  function rebuildList(list, items) {
+    var p = protos.get(list);
+    if (!p) {
+      var plain = list.querySelector("[data-list-item]:not([data-featured])") || list.querySelector("[data-list-item]");
+      if (!plain) return;
+      p = { plain: plain.cloneNode(true), featured: (list.querySelector("[data-featured]") || plain).cloneNode(true) };
+      protos.set(list, p);
+    }
+    list.querySelectorAll("[data-list-item]").forEach(function (n) { n.remove(); });
+    items.slice(0, 8).forEach(function (it) {
+      var row = (it && it.featured ? p.featured : p.plain).cloneNode(true);
+      if (it && it.featured) row.setAttribute("data-featured", ""); else row.removeAttribute("data-featured");
+      row.querySelectorAll("[data-slot]").forEach(function (slot) {
+        var v = it && it[slot.getAttribute("data-slot")];
+        if (typeof v === "string") slot.textContent = v.slice(0, 24);
+      });
+      list.appendChild(row);
+    });
+  }
 
   window.addEventListener("message", function (e) {
     if (e.source !== parent) return;
@@ -204,7 +231,12 @@
         if (p.value) el.setAttribute("src", p.value); else el.removeAttribute("src");
       });
     }
-    if (d.type === "UPDATE_CSS_VAR" && /^--[a-z-]+$/.test(p.variable)) root.style.setProperty(p.variable, p.value);
+    if (d.type === "UPDATE_CSS_VAR" && /^--[a-z-]+$/.test(p.variable) && typeof p.value === "string" && p.value.length < 300) root.style.setProperty(p.variable, p.value);
+    if (d.type === "UPDATE_VISIBILITY") document.querySelectorAll(p.selector).forEach(function (el) { el.hidden = p.value === "off"; });
+    if (d.type === "UPDATE_LIST") {
+      var items; try { items = JSON.parse(p.value); } catch (err) { return; }
+      if (Array.isArray(items)) document.querySelectorAll(p.selector).forEach(function (list) { rebuildList(list, items); });
+    }
     if (d.type === "HIGHLIGHT_ELEMENT") {
       var el = document.querySelector('[data-editable-id="' + CSS.escape(p.editableId) + '"]');
       activate(el);

@@ -7,7 +7,7 @@
 <style>
   :root { --primary-color:#e8590c; --secondary-color:#c2255c; --tint-color:#fff4ec; --ink:#1a1523; --muted:#6b6475; }
   * { box-sizing:border-box; }
-  body { margin:0; min-height:100vh; display:flex; flex-direction:column; font-family:ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; color:var(--ink); background:#fff; }
+  body { margin:0; min-height:100vh; display:flex; flex-direction:column; font-family:var(--font-family, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif); color:var(--ink); background:#fff; }
   main { flex:1; }
   .wrap { width:100%; max-width:1120px; margin:0 auto; padding:0 clamp(16px, 4vw, 32px); }
   .grad { background:linear-gradient(120deg, var(--primary-color), var(--secondary-color)); }
@@ -89,6 +89,7 @@
 
   footer { background:#16121c; color:#cbc4d3; font-size:13px; padding:22px 0; }
   footer .wrap { display:flex; flex-wrap:wrap; gap:8px 20px; justify-content:space-between; }
+  [hidden] { display:none !important; }
 </style>
 </head>
 <body>
@@ -127,16 +128,16 @@
     </div></div>
   </div></section>
 
-  <section class="plans"><div class="wrap">
+  <section class="plans" id="plans-section"><div class="wrap">
     <div class="plans-head"><h2 id="plans-title" data-editable-id="plans_title">Popular data plans</h2><p>All plans valid for 30 days</p></div>
-    <div class="cards">
-      <div class="plan"><div class="size">1.5GB</div><div class="valid">30 days</div><div class="price">₦1,000</div><span class="btn btn-line">Choose plan</span></div>
-      <div class="plan hot"><span class="badge grad">Most popular</span><div class="size grad-text">4GB</div><div class="valid">30 days</div><div class="price">₦2,200</div><span class="btn btn-solid grad">Choose plan</span></div>
-      <div class="plan"><div class="size">10GB</div><div class="valid">30 days</div><div class="price">₦4,500</div><span class="btn btn-line">Choose plan</span></div>
+    <div class="cards" id="plan-list" data-editable-id="plans" data-editable-kind="list">
+      <div class="plan" data-list-item><div class="size" data-slot="size">1.5GB</div><div class="valid">30 days</div><div class="price" data-slot="price">₦1,000</div><span class="btn btn-line">Choose plan</span></div>
+      <div class="plan hot" data-list-item data-featured><span class="badge grad">Most popular</span><div class="size grad-text" data-slot="size">4GB</div><div class="valid">30 days</div><div class="price" data-slot="price">₦2,200</div><span class="btn btn-solid grad">Choose plan</span></div>
+      <div class="plan" data-list-item><div class="size" data-slot="size">10GB</div><div class="valid">30 days</div><div class="price" data-slot="price">₦4,500</div><span class="btn btn-line">Choose plan</span></div>
     </div>
   </div></section>
 
-  <section class="perks"><div class="wrap">
+  <section class="perks" id="perks-section"><div class="wrap">
     <div class="perk"><i><svg width="16" height="16" viewBox="0 0 24 24" fill="var(--primary-color)"><path d="M13 2 5 13h6l-1 9 8-12h-6z"/></svg></i><div><b>Delivered automatically</b>Orders go straight to the network.</div></div>
     <div class="perk"><i><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--primary-color)" stroke-width="2.2"><rect x="3" y="6" width="18" height="13" rx="3"/><path d="M3 10h18"/></svg></i><div><b>One wallet</b>Fund by bank transfer or card.</div></div>
     <div class="perk"><i><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--primary-color)" stroke-width="2.2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></i><div><b>Real people on support</b>Chat with us when you need help.</div></div>
@@ -155,8 +156,8 @@
   style.textContent =
     "[contenteditable][data-editable-id]{cursor:text;outline:1px dashed transparent;outline-offset:4px;transition:outline-color .15s}" +
     "[contenteditable][data-editable-id]:hover{outline-color:rgba(255,230,0,.95)}" +
-    "[data-editable-kind=image]{cursor:pointer;outline:1px dashed transparent;outline-offset:3px;transition:outline-color .15s}" +
-    "[data-editable-kind=image]:hover{outline-color:rgba(255,230,0,.95)}" +
+    "[data-editable-kind]{cursor:pointer;outline:1px dashed transparent;outline-offset:3px;transition:outline-color .15s}" +
+    "[data-editable-kind]:hover{outline-color:rgba(255,230,0,.95)}" +
     "[data-editable-active]{outline:2px solid #ffe600 !important}";
   document.head.appendChild(style);
 
@@ -166,14 +167,37 @@
   }
 
   document.querySelectorAll("[data-editable-id]").forEach(function (el) {
-    // Text regions are edited in place; image regions are only selectable.
-    if (el.dataset.editableKind !== "image") {
+    var kind = el.dataset.editableKind;
+    // Text regions are edited in place; image and list regions are only selectable.
+    if (!kind) {
       el.setAttribute("contenteditable", "true");
       el.setAttribute("spellcheck", "false");
+      el.addEventListener("input", function () { post("FIELD_UPDATED", { editableId: el.dataset.editableId, value: el.textContent }); });
     }
     el.addEventListener("click", function () { activate(el); post("ELEMENT_CLICKED", { editableId: el.dataset.editableId }); });
-    el.addEventListener("input", function () { post("FIELD_UPDATED", { editableId: el.dataset.editableId, value: el.textContent }); });
   });
+
+  // Price lists are rebuilt from the template's own rows, so styling stays intact.
+  var protos = new WeakMap();
+  function rebuildList(list, items) {
+    var p = protos.get(list);
+    if (!p) {
+      var plain = list.querySelector("[data-list-item]:not([data-featured])") || list.querySelector("[data-list-item]");
+      if (!plain) return;
+      p = { plain: plain.cloneNode(true), featured: (list.querySelector("[data-featured]") || plain).cloneNode(true) };
+      protos.set(list, p);
+    }
+    list.querySelectorAll("[data-list-item]").forEach(function (n) { n.remove(); });
+    items.slice(0, 8).forEach(function (it) {
+      var row = (it && it.featured ? p.featured : p.plain).cloneNode(true);
+      if (it && it.featured) row.setAttribute("data-featured", ""); else row.removeAttribute("data-featured");
+      row.querySelectorAll("[data-slot]").forEach(function (slot) {
+        var v = it && it[slot.getAttribute("data-slot")];
+        if (typeof v === "string") slot.textContent = v.slice(0, 24);
+      });
+      list.appendChild(row);
+    });
+  }
 
   window.addEventListener("message", function (e) {
     if (e.source !== parent) return;
@@ -185,7 +209,12 @@
         if (p.value) el.setAttribute("src", p.value); else el.removeAttribute("src");
       });
     }
-    if (d.type === "UPDATE_CSS_VAR" && /^--[a-z-]+$/.test(p.variable)) root.style.setProperty(p.variable, p.value);
+    if (d.type === "UPDATE_CSS_VAR" && /^--[a-z-]+$/.test(p.variable) && typeof p.value === "string" && p.value.length < 300) root.style.setProperty(p.variable, p.value);
+    if (d.type === "UPDATE_VISIBILITY") document.querySelectorAll(p.selector).forEach(function (el) { el.hidden = p.value === "off"; });
+    if (d.type === "UPDATE_LIST") {
+      var items; try { items = JSON.parse(p.value); } catch (err) { return; }
+      if (Array.isArray(items)) document.querySelectorAll(p.selector).forEach(function (list) { rebuildList(list, items); });
+    }
     if (d.type === "HIGHLIGHT_ELEMENT") {
       var el = document.querySelector('[data-editable-id="' + CSS.escape(p.editableId) + '"]');
       activate(el);

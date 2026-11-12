@@ -7,7 +7,7 @@
 <style>
   :root { --primary-color:#0f766e; --secondary-color:#134e4a; --accent-color:#facc15; }
   * { box-sizing: border-box; }
-  body { margin:0; min-height:100vh; display:flex; flex-direction:column; font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif; background:#f7faf9; color:#10201d; }
+  body { margin:0; min-height:100vh; display:flex; flex-direction:column; font-family:var(--font-family, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif); background:#f7faf9; color:#10201d; }
   main { flex:1; }
   .wrap { width:100%; max-width:1080px; margin:0 auto; padding:0 clamp(16px, 4vw, 28px); }
 
@@ -50,6 +50,7 @@
   .tile span { color:#5f6b67; }
 
   footer { background:var(--secondary-color); color:rgba(255,255,255,.88); padding:18px 0; font-size:13px; }
+  [hidden] { display:none !important; }
 </style>
 </head>
 <body>
@@ -66,7 +67,7 @@
       <p id="hero-subtitle" data-editable-id="hero_subtitle">Top up any network in seconds, pay electricity bills and renew your TV subscription, any time of day.</p>
       <span id="hero-cta" data-editable-id="hero_cta">Buy data now</span>
     </div>
-    <div class="card" aria-hidden="true">
+    <div class="card" id="quick-card" aria-hidden="true">
       <h3>Quick top-up</h3>
       <div class="chips"><span class="chip on">MTN</span><span class="chip">Airtel</span><span class="chip">9mobile</span></div>
       <div class="field">Phone number</div>
@@ -75,7 +76,7 @@
     </div>
   </div></section>
 
-  <section class="services"><div class="wrap">
+  <section class="services" id="services-section"><div class="wrap">
     <h2 id="services-title" data-editable-id="services_title">Everything you need, in one place</h2>
     <div class="grid">
       <div class="tile"><div class="ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--primary-color)" stroke-width="2"><rect x="7" y="2" width="10" height="20" rx="2"/></svg></div><b>Airtime</b><span>All networks</span></div>
@@ -100,8 +101,8 @@
   style.textContent =
     "[contenteditable][data-editable-id]{cursor:text;outline:1px dashed transparent;outline-offset:4px;transition:outline-color .15s}" +
     "[contenteditable][data-editable-id]:hover{outline-color:rgba(255,230,0,.95)}" +
-    "[data-editable-kind=image]{cursor:pointer;outline:1px dashed transparent;outline-offset:3px;transition:outline-color .15s}" +
-    "[data-editable-kind=image]:hover{outline-color:rgba(255,230,0,.95)}" +
+    "[data-editable-kind]{cursor:pointer;outline:1px dashed transparent;outline-offset:3px;transition:outline-color .15s}" +
+    "[data-editable-kind]:hover{outline-color:rgba(255,230,0,.95)}" +
     "[data-editable-active]{outline:2px solid #ffe600 !important}";
   document.head.appendChild(style);
 
@@ -111,14 +112,37 @@
   }
 
   document.querySelectorAll("[data-editable-id]").forEach(function (el) {
-    // Text regions are edited in place; image regions are only selectable.
-    if (el.dataset.editableKind !== "image") {
+    var kind = el.dataset.editableKind;
+    // Text regions are edited in place; image and list regions are only selectable.
+    if (!kind) {
       el.setAttribute("contenteditable", "true");
       el.setAttribute("spellcheck", "false");
+      el.addEventListener("input", function () { post("FIELD_UPDATED", { editableId: el.dataset.editableId, value: el.textContent }); });
     }
     el.addEventListener("click", function () { activate(el); post("ELEMENT_CLICKED", { editableId: el.dataset.editableId }); });
-    el.addEventListener("input", function () { post("FIELD_UPDATED", { editableId: el.dataset.editableId, value: el.textContent }); });
   });
+
+  // Price lists are rebuilt from the template's own rows, so styling stays intact.
+  var protos = new WeakMap();
+  function rebuildList(list, items) {
+    var p = protos.get(list);
+    if (!p) {
+      var plain = list.querySelector("[data-list-item]:not([data-featured])") || list.querySelector("[data-list-item]");
+      if (!plain) return;
+      p = { plain: plain.cloneNode(true), featured: (list.querySelector("[data-featured]") || plain).cloneNode(true) };
+      protos.set(list, p);
+    }
+    list.querySelectorAll("[data-list-item]").forEach(function (n) { n.remove(); });
+    items.slice(0, 8).forEach(function (it) {
+      var row = (it && it.featured ? p.featured : p.plain).cloneNode(true);
+      if (it && it.featured) row.setAttribute("data-featured", ""); else row.removeAttribute("data-featured");
+      row.querySelectorAll("[data-slot]").forEach(function (slot) {
+        var v = it && it[slot.getAttribute("data-slot")];
+        if (typeof v === "string") slot.textContent = v.slice(0, 24);
+      });
+      list.appendChild(row);
+    });
+  }
 
   window.addEventListener("message", function (e) {
     if (e.source !== parent) return;
@@ -130,7 +154,12 @@
         if (p.value) el.setAttribute("src", p.value); else el.removeAttribute("src");
       });
     }
-    if (d.type === "UPDATE_CSS_VAR" && /^--[a-z-]+$/.test(p.variable)) root.style.setProperty(p.variable, p.value);
+    if (d.type === "UPDATE_CSS_VAR" && /^--[a-z-]+$/.test(p.variable) && typeof p.value === "string" && p.value.length < 300) root.style.setProperty(p.variable, p.value);
+    if (d.type === "UPDATE_VISIBILITY") document.querySelectorAll(p.selector).forEach(function (el) { el.hidden = p.value === "off"; });
+    if (d.type === "UPDATE_LIST") {
+      var items; try { items = JSON.parse(p.value); } catch (err) { return; }
+      if (Array.isArray(items)) document.querySelectorAll(p.selector).forEach(function (list) { rebuildList(list, items); });
+    }
     if (d.type === "HIGHLIGHT_ELEMENT") {
       var el = document.querySelector('[data-editable-id="' + CSS.escape(p.editableId) + '"]');
       activate(el);

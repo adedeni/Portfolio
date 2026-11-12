@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
-import { ArrowUpRight, Check, ChevronLeft, RotateCcw, Save } from "lucide-react";
+import { ArrowUpRight, Check, ChevronLeft, RotateCcw, Save, Star, X } from "lucide-react";
 import { Icon } from "./Icon";
 
 /**
@@ -16,14 +16,27 @@ import { Icon } from "./Icon";
  */
 
 type CssVar = { label: string; variable: string; default: string };
+type PlanItem = { size: string; price: string; featured?: boolean };
 type Editable = {
   id: string;
   label: string;
-  type: "text" | "textarea" | "image";
+  /** text/textarea/image mirror production; font/toggle/list were added for this page */
+  type: "text" | "textarea" | "image" | "font" | "toggle" | "list";
   section: string;
   selectors: string[];
-  default: string;
+  default: string | PlanItem[];
+  /** CSS variable for "font" fields */
+  variable?: string;
 };
+
+/** System font stacks only, so saved pages stay self-contained. */
+const FONTS: Record<string, { label: string; stack: string }> = {
+  modern: { label: "Modern", stack: 'ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif' },
+  rounded: { label: "Rounded", stack: 'ui-rounded, "SF Pro Rounded", "Arial Rounded MT Bold", ui-sans-serif, system-ui, sans-serif' },
+  serif: { label: "Classic serif", stack: 'ui-serif, "New York", Georgia, Cambria, "Times New Roman", serif' },
+  mono: { label: "Technical", stack: 'ui-monospace, "SF Mono", Menlo, Consolas, monospace' },
+};
+const MAX_PLANS = 8;
 type TemplateConfig = { id: string; name: string; description: string; cssVars: CssVar[]; editables: Editable[] };
 type Loaded = { config: TemplateConfig; html: string };
 type LogEntry = { key: number; dir: "out" | "in"; type: string; detail: string };
@@ -159,7 +172,8 @@ export function StorefrontEditor() {
         </ol>
         <p className="mt-6 max-w-[80ch] text-sm text-ink-3">
           A working model of the VTUNowNow editor, rebuilt for this page on the same config format, message protocol and save
-          step as production. The storefront brands are fictional.
+          step as production. The font, show/hide and price-list controls go further than the production editor and were added
+          for this page. The storefront brands are fictional.
         </p>
       </div>
     </div>
@@ -179,7 +193,9 @@ function LoadedEditor({
 }) {
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
-  const [fields, setFields] = useState(() => Object.fromEntries(config.editables.map((e) => [e.id, e.default])));
+  const [fields, setFields] = useState<Record<string, string>>(() =>
+    Object.fromEntries(config.editables.map((e) => [e.id, typeof e.default === "string" ? e.default : JSON.stringify(e.default)])),
+  );
   const [colors, setColors] = useState(() => Object.fromEntries(config.cssVars.map((v) => [v.variable, v.default])));
   const [active, setActive] = useState<string | null>(null);
   const [log, setLog] = useState<LogEntry[]>([]);
@@ -201,7 +217,11 @@ function LoadedEditor({
       iframeRef.current?.contentWindow?.postMessage({ source: "template-editor", type, payload }, "*");
       const detail =
         type === "UPDATE_CSS_VAR"
-          ? `${payload.variable}: ${payload.value}`
+          ? `${payload.variable}: ${payload.variable === "--font-family" ? payload.value.split(",")[0] : payload.value}`
+          : type === "UPDATE_VISIBILITY"
+            ? `${payload.selector} → ${payload.value === "off" ? "hidden" : "shown"}`
+            : type === "UPDATE_LIST"
+              ? `${payload.selector} ← ${(() => { try { return (JSON.parse(payload.value) as unknown[]).length; } catch { return 0; } })()} items`
           : type === "UPDATE_TEXT"
             ? `${payload.selector} ← "${payload.value}"`
             : type === "UPDATE_IMAGE"
@@ -243,10 +263,26 @@ function LoadedEditor({
     setColors((c) => ({ ...c, [variable]: value }));
     enqueue(`css:${variable}`, "UPDATE_CSS_VAR", { variable, value });
   };
-  const focusField = (id: string) => {
+  const focusField = (id: string, highlight = true) => {
     if (active === id) return;
     setActive(id);
-    send("HIGHLIGHT_ELEMENT", { editableId: id });
+    if (highlight) send("HIGHLIGHT_ELEMENT", { editableId: id });
+  };
+  const updateFont = (e: Editable, key: string) => {
+    setDirty(true);
+    setFields((f) => ({ ...f, [e.id]: key }));
+    send("UPDATE_CSS_VAR", { variable: e.variable ?? "--font-family", value: FONTS[key]?.stack ?? FONTS.modern.stack });
+  };
+  const updateToggle = (e: Editable, on: boolean) => {
+    setDirty(true);
+    setFields((f) => ({ ...f, [e.id]: on ? "on" : "off" }));
+    e.selectors.forEach((selector) => send("UPDATE_VISIBILITY", { selector, value: on ? "on" : "off" }));
+  };
+  const updateList = (e: Editable, items: PlanItem[]) => {
+    setDirty(true);
+    const value = JSON.stringify(items.slice(0, MAX_PLANS));
+    setFields((f) => ({ ...f, [e.id]: value }));
+    e.selectors.forEach((selector) => enqueue(`list:${selector}`, "UPDATE_LIST", { selector, value }));
   };
 
   // Scroll the sidebar (not the page) to a field.
@@ -410,11 +446,53 @@ function LoadedEditor({
                         id={`field-${e.id}`}
                         className={`px-4 py-2 transition-colors ${isActive ? "bg-[#1a1a00]" : ""}`}
                       >
-                        <label htmlFor={`input-${e.id}`} className="mb-1 flex items-center gap-2 text-xs text-[#a3a3a3]">
-                          {e.label}
-                          {isActive ? <span className="text-[0.6875rem] text-[#ffe600]">● active</span> : null}
-                        </label>
-                        {e.type === "image" ? (
+                        {e.type === "toggle" ? null : e.type === "list" ? (
+                          <p id={`label-${e.id}`} className="mb-1 flex items-center gap-2 text-xs text-[#a3a3a3]">
+                            {e.label}
+                            {isActive ? <span className="text-[0.6875rem] text-[#ffe600]">● active</span> : null}
+                          </p>
+                        ) : (
+                          <label htmlFor={`input-${e.id}`} className="mb-1 flex items-center gap-2 text-xs text-[#a3a3a3]">
+                            {e.label}
+                            {isActive ? <span className="text-[0.6875rem] text-[#ffe600]">● active</span> : null}
+                          </label>
+                        )}
+                        {e.type === "font" ? (
+                          <select
+                            id={`input-${e.id}`}
+                            value={fields[e.id] ?? "modern"}
+                            onFocus={() => focusField(e.id, false)}
+                            onChange={(ev) => updateFont(e, ev.target.value)}
+                            className={common.className}
+                          >
+                            {Object.entries(FONTS).map(([key, f]) => (
+                              <option key={key} value={key}>
+                                {f.label}
+                              </option>
+                            ))}
+                          </select>
+                        ) : e.type === "toggle" ? (
+                          <ToggleField
+                            id={`input-${e.id}`}
+                            label={e.label}
+                            on={(fields[e.id] ?? "on") !== "off"}
+                            onFocus={() => focusField(e.id, false)}
+                            onChange={(on) => updateToggle(e, on)}
+                          />
+                        ) : e.type === "list" ? (
+                          <ListField
+                            labelledBy={`label-${e.id}`}
+                            items={(() => {
+                              try {
+                                return JSON.parse(fields[e.id] ?? "[]") as PlanItem[];
+                              } catch {
+                                return [];
+                              }
+                            })()}
+                            onFocus={() => focusField(e.id)}
+                            onChange={(items) => updateList(e, items)}
+                          />
+                        ) : e.type === "image" ? (
                           <ImageField
                             id={`input-${e.id}`}
                             value={fields[e.id] ?? ""}
@@ -725,6 +803,98 @@ function ImageField({
       <p className="mt-1 text-[0.6875rem] text-[#f87171]" aria-live="polite">
         {error}
       </p>
+    </div>
+  );
+}
+
+/** On/off switch for showing a template section. */
+function ToggleField({
+  id,
+  label,
+  on,
+  onFocus,
+  onChange,
+}: {
+  id: string;
+  label: string;
+  on: boolean;
+  onFocus: () => void;
+  onChange: (on: boolean) => void;
+}) {
+  return (
+    <button
+      id={id}
+      type="button"
+      role="switch"
+      aria-checked={on}
+      onFocus={onFocus}
+      onClick={() => onChange(!on)}
+      className="flex w-full items-center justify-between gap-3 rounded py-1 text-left text-xs text-[#d4d4d4]"
+    >
+      {label}
+      <span
+        aria-hidden="true"
+        className={`relative h-5 w-9 shrink-0 rounded-full border transition-colors ${on ? "border-[#ffe600] bg-[#ffe600]" : "border-[#3a3a3a] bg-[#1a1a1a]"}`}
+      >
+        <span className={`absolute top-0.5 h-3.5 w-3.5 rounded-full transition-all ${on ? "left-[18px] bg-[#111]" : "left-0.5 bg-[#888]"}`} />
+      </span>
+    </button>
+  );
+}
+
+/** Editable price list: name and price per plan, one marked "Most popular". */
+function ListField({
+  labelledBy,
+  items,
+  onFocus,
+  onChange,
+}: {
+  labelledBy: string;
+  items: PlanItem[];
+  onFocus: () => void;
+  onChange: (items: PlanItem[]) => void;
+}) {
+  const set = (i: number, patch: Partial<PlanItem>) => onChange(items.map((it, j) => (j === i ? { ...it, ...patch } : it)));
+  const feature = (i: number) => onChange(items.map((it, j) => ({ ...it, featured: j === i ? !it.featured : false })));
+  const input = "min-w-0 rounded border border-[#2a2a2a] bg-[#1a1a1a] px-2 py-1.5 text-[0.8125rem] text-[#f0f0f0] outline-none focus:border-[#ffe600]";
+  return (
+    <div role="group" aria-labelledby={labelledBy} className="space-y-1.5">
+      {items.map((it, i) => (
+        <div key={i} className="grid grid-cols-[minmax(0,1fr)_minmax(0,1fr)_auto_auto] items-center gap-1.5">
+          <input aria-label={`Plan ${i + 1} name`} value={it.size} maxLength={24} onFocus={onFocus} onChange={(ev) => set(i, { size: ev.target.value })} className={input} />
+          <input aria-label={`Plan ${i + 1} price`} value={it.price} maxLength={24} onFocus={onFocus} onChange={(ev) => set(i, { price: ev.target.value })} className={input} />
+          <button
+            type="button"
+            aria-pressed={!!it.featured}
+            aria-label={`Mark plan ${i + 1} as most popular`}
+            title="Most popular"
+            onFocus={onFocus}
+            onClick={() => feature(i)}
+            className={`grid h-7 w-7 place-items-center rounded border text-xs ${it.featured ? "border-[#ffe600] text-[#ffe600]" : "border-[#2a2a2a] text-[#777] hover:text-[#d4d4d4]"}`}
+          >
+            <Icon icon={Star} size={13} className={it.featured ? "fill-current" : ""} />
+          </button>
+          <button
+            type="button"
+            aria-label={`Remove plan ${i + 1}`}
+            disabled={items.length <= 1}
+            onFocus={onFocus}
+            onClick={() => onChange(items.filter((_, j) => j !== i))}
+            className="grid h-7 w-7 place-items-center rounded border border-[#2a2a2a] text-xs text-[#999] hover:text-[#f0f0f0] disabled:opacity-40"
+          >
+            <Icon icon={X} size={13} />
+          </button>
+        </div>
+      ))}
+      <button
+        type="button"
+        disabled={items.length >= MAX_PLANS}
+        onFocus={onFocus}
+        onClick={() => onChange([...items, { size: "New plan", price: "₦0" }])}
+        className="mt-1 w-full rounded border border-dashed border-[#2a2a2a] py-1.5 text-xs text-[#a3a3a3] hover:border-[#ffe600] hover:text-[#ffe600] disabled:opacity-40"
+      >
+        + Add plan {items.length >= MAX_PLANS ? `(max ${MAX_PLANS})` : ""}
+      </button>
     </div>
   );
 }

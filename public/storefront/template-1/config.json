@@ -21,6 +21,15 @@
   ],
   "editables": [
     {
+      "id": "font",
+      "label": "Font",
+      "type": "font",
+      "section": "Style",
+      "variable": "--font-family",
+      "selectors": [],
+      "default": "modern"
+    },
+    {
       "id": "brand_logo",
       "label": "Logo",
       "type": "image",
@@ -89,6 +98,50 @@
         "#plans-title"
       ],
       "default": "Popular data plans"
+    },
+    {
+      "id": "plans",
+      "label": "Plans",
+      "type": "list",
+      "section": "Plans",
+      "selectors": [
+        "#plan-list"
+      ],
+      "default": [
+        {
+          "size": "1.5GB",
+          "price": "₦1,000"
+        },
+        {
+          "size": "4GB",
+          "price": "₦2,200",
+          "featured": true
+        },
+        {
+          "size": "10GB",
+          "price": "₦4,500"
+        }
+      ]
+    },
+    {
+      "id": "show_plans",
+      "label": "Show plans",
+      "type": "toggle",
+      "section": "Plans",
+      "selectors": [
+        "#plans-section"
+      ],
+      "default": "on"
+    },
+    {
+      "id": "show_perks",
+      "label": "Show perks",
+      "type": "toggle",
+      "section": "Perks",
+      "selectors": [
+        "#perks-section"
+      ],
+      "default": "on"
     }
   ]
 }

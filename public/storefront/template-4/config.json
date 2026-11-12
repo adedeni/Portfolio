@@ -3,18 +3,141 @@
   "name": "Halo",
   "description": "Soft gradients, a layered wallet card, three simple steps and a built-in FAQ.",
   "cssVars": [
-    { "label": "Primary colour", "variable": "--primary-color", "default": "#6d4aff" },
-    { "label": "Accent colour", "variable": "--accent-color", "default": "#ffb547" },
-    { "label": "Page tint", "variable": "--tint-color", "default": "#f4f1ff" }
+    {
+      "label": "Primary colour",
+      "variable": "--primary-color",
+      "default": "#6d4aff"
+    },
+    {
+      "label": "Accent colour",
+      "variable": "--accent-color",
+      "default": "#ffb547"
+    },
+    {
+      "label": "Page tint",
+      "variable": "--tint-color",
+      "default": "#f4f1ff"
+    }
   ],
   "editables": [
-    { "id": "brand_logo", "label": "Logo", "type": "image", "section": "Header", "selectors": ["#brand-logo"], "default": "" },
-    { "id": "brand_name", "label": "Business name", "type": "text", "section": "Header", "selectors": [".brand-name"], "default": "Brightwave Data" },
-    { "id": "hero_eyebrow", "label": "Eyebrow", "type": "text", "section": "Hero", "selectors": ["#hero-eyebrow"], "default": "Fast, secure top-ups" },
-    { "id": "hero_title", "label": "Headline", "type": "textarea", "section": "Hero", "selectors": ["#hero-title"], "default": "Recharge, pay bills and stay connected with ease" },
-    { "id": "hero_subtitle", "label": "Subheadline", "type": "textarea", "section": "Hero", "selectors": ["#hero-subtitle"], "default": "Buy airtime and data for every network, pay for electricity and renew your TV subscription from one simple wallet." },
-    { "id": "hero_cta", "label": "Button text", "type": "text", "section": "Hero", "selectors": ["#hero-cta"], "default": "Get started" },
-    { "id": "steps_title", "label": "Section title", "type": "text", "section": "How it works", "selectors": ["#steps-title"], "default": "Top up in 3 simple steps" },
-    { "id": "faq_title", "label": "Section title", "type": "text", "section": "FAQ", "selectors": ["#faq-title"], "default": "Questions, answered" }
+    {
+      "id": "font",
+      "label": "Font",
+      "type": "font",
+      "section": "Style",
+      "variable": "--font-family",
+      "selectors": [],
+      "default": "modern"
+    },
+    {
+      "id": "brand_logo",
+      "label": "Logo",
+      "type": "image",
+      "section": "Header",
+      "selectors": [
+        "#brand-logo"
+      ],
+      "default": ""
+    },
+    {
+      "id": "brand_name",
+      "label": "Business name",
+      "type": "text",
+      "section": "Header",
+      "selectors": [
+        ".brand-name"
+      ],
+      "default": "Brightwave Data"
+    },
+    {
+      "id": "hero_eyebrow",
+      "label": "Eyebrow",
+      "type": "text",
+      "section": "Hero",
+      "selectors": [
+        "#hero-eyebrow"
+      ],
+      "default": "Fast, secure top-ups"
+    },
+    {
+      "id": "hero_title",
+      "label": "Headline",
+      "type": "textarea",
+      "section": "Hero",
+      "selectors": [
+        "#hero-title"
+      ],
+      "default": "Recharge, pay bills and stay connected with ease"
+    },
+    {
+      "id": "hero_subtitle",
+      "label": "Subheadline",
+      "type": "textarea",
+      "section": "Hero",
+      "selectors": [
+        "#hero-subtitle"
+      ],
+      "default": "Buy airtime and data for every network, pay for electricity and renew your TV subscription from one simple wallet."
+    },
+    {
+      "id": "hero_cta",
+      "label": "Button text",
+      "type": "text",
+      "section": "Hero",
+      "selectors": [
+        "#hero-cta"
+      ],
+      "default": "Get started"
+    },
+    {
+      "id": "steps_title",
+      "label": "Section title",
+      "type": "text",
+      "section": "How it works",
+      "selectors": [
+        "#steps-title"
+      ],
+      "default": "Top up in 3 simple steps"
+    },
+    {
+      "id": "show_steps",
+      "label": "Show this section",
+      "type": "toggle",
+      "section": "How it works",
+      "selectors": [
+        "#steps-section"
+      ],
+      "default": "on"
+    },
+    {
+      "id": "faq_title",
+      "label": "Section title",
+      "type": "text",
+      "section": "FAQ",
+      "selectors": [
+        "#faq-title"
+      ],
+      "default": "Questions, answered"
+    },
+    {
+      "id": "show_faq",
+      "label": "Show this section",
+      "type": "toggle",
+      "section": "FAQ",
+      "selectors": [
+        "#faq-section"
+      ],
+      "default": "on"
+    },
+    {
+      "id": "show_stats",
+      "label": "Show stats band",
+      "type": "toggle",
+      "section": "Stats",
+      "selectors": [
+        "#stats-section"
+      ],
+      "default": "on"
+    }
   ]
 }

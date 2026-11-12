@@ -21,6 +21,15 @@
   ],
   "editables": [
     {
+      "id": "font",
+      "label": "Font",
+      "type": "font",
+      "section": "Style",
+      "variable": "--font-family",
+      "selectors": [],
+      "default": "modern"
+    },
+    {
       "id": "brand_logo",
       "label": "Logo",
       "type": "image",
@@ -71,6 +80,16 @@
       "default": "Buy data now"
     },
     {
+      "id": "show_quick",
+      "label": "Show quick top-up card",
+      "type": "toggle",
+      "section": "Hero",
+      "selectors": [
+        "#quick-card"
+      ],
+      "default": "on"
+    },
+    {
       "id": "services_title",
       "label": "Section title",
       "type": "text",
@@ -79,6 +98,16 @@
         "#services-title"
       ],
       "default": "Everything you need, in one place"
+    },
+    {
+      "id": "show_services",
+      "label": "Show services",
+      "type": "toggle",
+      "section": "Services",
+      "selectors": [
+        "#services-section"
+      ],
+      "default": "on"
     }
   ]
 }

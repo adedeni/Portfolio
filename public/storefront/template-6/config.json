@@ -3,17 +3,163 @@
   "name": "Aurora",
   "description": "Dark and luminous: a gradient headline, a one-line top-up bar and swipeable plans.",
   "cssVars": [
-    { "label": "Glow colour 1", "variable": "--primary-color", "default": "#22d3ee" },
-    { "label": "Glow colour 2", "variable": "--secondary-color", "default": "#a855f7" },
-    { "label": "Background", "variable": "--bg-color", "default": "#05060f" }
+    {
+      "label": "Glow colour 1",
+      "variable": "--primary-color",
+      "default": "#22d3ee"
+    },
+    {
+      "label": "Glow colour 2",
+      "variable": "--secondary-color",
+      "default": "#a855f7"
+    },
+    {
+      "label": "Background",
+      "variable": "--bg-color",
+      "default": "#05060f"
+    }
   ],
   "editables": [
-    { "id": "brand_logo", "label": "Logo", "type": "image", "section": "Header", "selectors": ["#brand-logo"], "default": "" },
-    { "id": "brand_name", "label": "Business name", "type": "text", "section": "Header", "selectors": [".brand-name"], "default": "Nova Recharge" },
-    { "id": "hero_title", "label": "Headline", "type": "textarea", "section": "Hero", "selectors": ["#hero-title"], "default": "Top up at the speed of light" },
-    { "id": "hero_subtitle", "label": "Subheadline", "type": "textarea", "section": "Hero", "selectors": ["#hero-subtitle"], "default": "Airtime, data, electricity and TV for every network. Delivered automatically, any time of day." },
-    { "id": "hero_cta", "label": "Button text", "type": "text", "section": "Hero", "selectors": ["#hero-cta"], "default": "Top up now" },
-    { "id": "plans_title", "label": "Section title", "type": "text", "section": "Plans", "selectors": ["#plans-title"], "default": "Data plans that make sense" },
-    { "id": "app_title", "label": "App banner title", "type": "text", "section": "App", "selectors": ["#app-title"], "default": "Your top-ups, in your pocket" }
+    {
+      "id": "font",
+      "label": "Font",
+      "type": "font",
+      "section": "Style",
+      "variable": "--font-family",
+      "selectors": [],
+      "default": "modern"
+    },
+    {
+      "id": "brand_logo",
+      "label": "Logo",
+      "type": "image",
+      "section": "Header",
+      "selectors": [
+        "#brand-logo"
+      ],
+      "default": ""
+    },
+    {
+      "id": "brand_name",
+      "label": "Business name",
+      "type": "text",
+      "section": "Header",
+      "selectors": [
+        ".brand-name"
+      ],
+      "default": "Nova Recharge"
+    },
+    {
+      "id": "hero_title",
+      "label": "Headline",
+      "type": "textarea",
+      "section": "Hero",
+      "selectors": [
+        "#hero-title"
+      ],
+      "default": "Top up at the speed of light"
+    },
+    {
+      "id": "hero_subtitle",
+      "label": "Subheadline",
+      "type": "textarea",
+      "section": "Hero",
+      "selectors": [
+        "#hero-subtitle"
+      ],
+      "default": "Airtime, data, electricity and TV for every network. Delivered automatically, any time of day."
+    },
+    {
+      "id": "hero_cta",
+      "label": "Button text",
+      "type": "text",
+      "section": "Hero",
+      "selectors": [
+        "#hero-cta"
+      ],
+      "default": "Top up now"
+    },
+    {
+      "id": "plans_title",
+      "label": "Section title",
+      "type": "text",
+      "section": "Plans",
+      "selectors": [
+        "#plans-title"
+      ],
+      "default": "Data plans that make sense"
+    },
+    {
+      "id": "plans",
+      "label": "Plans",
+      "type": "list",
+      "section": "Plans",
+      "selectors": [
+        "#plan-list"
+      ],
+      "default": [
+        {
+          "size": "1.5GB",
+          "price": "₦1,000"
+        },
+        {
+          "size": "4GB",
+          "price": "₦2,200",
+          "featured": true
+        },
+        {
+          "size": "10GB",
+          "price": "₦4,500"
+        },
+        {
+          "size": "25GB",
+          "price": "₦9,000"
+        },
+        {
+          "size": "75GB",
+          "price": "₦20,000"
+        }
+      ]
+    },
+    {
+      "id": "show_plans",
+      "label": "Show this section",
+      "type": "toggle",
+      "section": "Plans",
+      "selectors": [
+        "#plans-section"
+      ],
+      "default": "on"
+    },
+    {
+      "id": "app_title",
+      "label": "App banner title",
+      "type": "text",
+      "section": "App",
+      "selectors": [
+        "#app-title"
+      ],
+      "default": "Your top-ups, in your pocket"
+    },
+    {
+      "id": "show_app",
+      "label": "Show this section",
+      "type": "toggle",
+      "section": "App",
+      "selectors": [
+        "#app-section"
+      ],
+      "default": "on"
+    },
+    {
+      "id": "show_features",
+      "label": "Show features",
+      "type": "toggle",
+      "section": "Features",
+      "selectors": [
+        "#features-section"
+      ],
+      "default": "on"
+    }
   ]
 }

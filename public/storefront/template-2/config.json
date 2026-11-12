@@ -21,6 +21,15 @@
   ],
   "editables": [
     {
+      "id": "font",
+      "label": "Font",
+      "type": "font",
+      "section": "Style",
+      "variable": "--font-family",
+      "selectors": [],
+      "default": "modern"
+    },
+    {
       "id": "brand_logo",
       "label": "Logo",
       "type": "image",
@@ -79,6 +88,26 @@
         "#services-title"
       ],
       "default": "What you can pay for"
+    },
+    {
+      "id": "show_services",
+      "label": "Show services",
+      "type": "toggle",
+      "section": "Services",
+      "selectors": [
+        "#services-section"
+      ],
+      "default": "on"
+    },
+    {
+      "id": "show_facts",
+      "label": "Show facts row",
+      "type": "toggle",
+      "section": "Services",
+      "selectors": [
+        "#facts-block"
+      ],
+      "default": "on"
     }
   ]
 }

@@ -3,16 +3,135 @@
   "name": "Bento",
   "description": "A modern bento grid: wallet, quick buy, plans and bills, each in its own tile.",
   "cssVars": [
-    { "label": "Accent colour", "variable": "--accent-color", "default": "#2f6bff" },
-    { "label": "Background", "variable": "--bg-color", "default": "#f2f1ec" },
-    { "label": "Dark tile", "variable": "--ink-color", "default": "#141414" }
+    {
+      "label": "Accent colour",
+      "variable": "--accent-color",
+      "default": "#2f6bff"
+    },
+    {
+      "label": "Background",
+      "variable": "--bg-color",
+      "default": "#f2f1ec"
+    },
+    {
+      "label": "Dark tile",
+      "variable": "--ink-color",
+      "default": "#141414"
+    }
   ],
   "editables": [
-    { "id": "brand_logo", "label": "Logo", "type": "image", "section": "Header", "selectors": ["#brand-logo"], "default": "" },
-    { "id": "brand_name", "label": "Business name", "type": "text", "section": "Header", "selectors": [".brand-name"], "default": "Tapcharge" },
-    { "id": "hero_title", "label": "Headline", "type": "textarea", "section": "Hero", "selectors": ["#hero-title"], "default": "Every top-up you need, one tap away." },
-    { "id": "hero_subtitle", "label": "Subheadline", "type": "textarea", "section": "Hero", "selectors": ["#hero-subtitle"], "default": "Airtime, data, electricity and cable TV for every network, paid from a single wallet." },
-    { "id": "hero_cta", "label": "Button text", "type": "text", "section": "Hero", "selectors": ["#hero-cta"], "default": "Start topping up" },
-    { "id": "support_text", "label": "Support message", "type": "textarea", "section": "Support", "selectors": ["#support-text"], "default": "Stuck on an order? Our team answers within minutes, day and night." }
+    {
+      "id": "font",
+      "label": "Font",
+      "type": "font",
+      "section": "Style",
+      "variable": "--font-family",
+      "selectors": [],
+      "default": "modern"
+    },
+    {
+      "id": "brand_logo",
+      "label": "Logo",
+      "type": "image",
+      "section": "Header",
+      "selectors": [
+        "#brand-logo"
+      ],
+      "default": ""
+    },
+    {
+      "id": "brand_name",
+      "label": "Business name",
+      "type": "text",
+      "section": "Header",
+      "selectors": [
+        ".brand-name"
+      ],
+      "default": "Tapcharge"
+    },
+    {
+      "id": "hero_title",
+      "label": "Headline",
+      "type": "textarea",
+      "section": "Hero",
+      "selectors": [
+        "#hero-title"
+      ],
+      "default": "Every top-up you need, one tap away."
+    },
+    {
+      "id": "hero_subtitle",
+      "label": "Subheadline",
+      "type": "textarea",
+      "section": "Hero",
+      "selectors": [
+        "#hero-subtitle"
+      ],
+      "default": "Airtime, data, electricity and cable TV for every network, paid from a single wallet."
+    },
+    {
+      "id": "hero_cta",
+      "label": "Button text",
+      "type": "text",
+      "section": "Hero",
+      "selectors": [
+        "#hero-cta"
+      ],
+      "default": "Start topping up"
+    },
+    {
+      "id": "support_text",
+      "label": "Support message",
+      "type": "textarea",
+      "section": "Support",
+      "selectors": [
+        "#support-text"
+      ],
+      "default": "Stuck on an order? Our team answers within minutes, day and night."
+    },
+    {
+      "id": "show_support",
+      "label": "Show support tile",
+      "type": "toggle",
+      "section": "Support",
+      "selectors": [
+        "#support-tile"
+      ],
+      "default": "on"
+    },
+    {
+      "id": "plans",
+      "label": "Plans",
+      "type": "list",
+      "section": "Plans",
+      "selectors": [
+        "#plan-list"
+      ],
+      "default": [
+        {
+          "size": "1.5GB",
+          "price": "₦1,000"
+        },
+        {
+          "size": "4GB",
+          "price": "₦2,200",
+          "featured": true
+        },
+        {
+          "size": "10GB",
+          "price": "₦4,500"
+        }
+      ]
+    },
+    {
+      "id": "show_tv",
+      "label": "Show cable TV tile",
+      "type": "toggle",
+      "section": "Tiles",
+      "selectors": [
+        "#tv-tile"
+      ],
+      "default": "on"
+    }
   ]
 }
