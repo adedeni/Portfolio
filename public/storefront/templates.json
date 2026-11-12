@@ -1,7 +1,34 @@
 {
   "data": [
-    { "template_slug": "template-1", "template_name": "Pulse", "template_description": "Bold and colourful, with an app preview and a data plan price list." },
-    { "template_slug": "template-2", "template_name": "Noir", "template_description": "Minimal and dark, with large type and a one-line quick top-up." },
-    { "template_slug": "template-3", "template_name": "Swift Topup", "template_description": "Clean and mobile-first, with a quick top-up card and service tiles." }
+    {
+      "template_slug": "template-1",
+      "template_name": "Pulse",
+      "template_description": "Bold and colourful, with an app preview and a data plan price list."
+    },
+    {
+      "template_slug": "template-4",
+      "template_name": "Halo",
+      "template_description": "Soft gradients, a layered wallet card, three simple steps and a built-in FAQ."
+    },
+    {
+      "template_slug": "template-5",
+      "template_name": "Bento",
+      "template_description": "A modern bento grid: wallet, quick buy, plans and bills, each in its own tile."
+    },
+    {
+      "template_slug": "template-6",
+      "template_name": "Aurora",
+      "template_description": "Dark and luminous: a gradient headline, a one-line top-up bar and swipeable plans."
+    },
+    {
+      "template_slug": "template-2",
+      "template_name": "Noir",
+      "template_description": "Minimal and dark, with large type and a one-line quick top-up."
+    },
+    {
+      "template_slug": "template-3",
+      "template_name": "Swift Topup",
+      "template_description": "Clean and mobile-first, with a quick top-up card and service tiles."
+    }
   ]
 }

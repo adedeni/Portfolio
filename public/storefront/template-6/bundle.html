@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Nova Recharge</title>
+<style>
+  :root { --primary-color:#22d3ee; --secondary-color:#a855f7; --bg-color:#05060f; --text:#f5f6fb; --muted:#a3a7bd; --glass:rgba(255,255,255,.06); --line:rgba(255,255,255,.1); }
+  * { box-sizing:border-box; }
+  body { margin:0; min-height:100vh; display:flex; flex-direction:column; background:var(--bg-color); color:var(--text); font-family:ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; overflow-x:hidden; }
+  main { flex:1; }
+  .wrap { width:100%; max-width:1140px; margin:0 auto; padding:0 clamp(16px, 4vw, 32px); }
+  .grad { background:linear-gradient(110deg, var(--primary-color), var(--secondary-color)); }
+  .grad-text { background:linear-gradient(110deg, #fff 10%, var(--primary-color) 45%, var(--secondary-color) 85%); -webkit-background-clip:text; background-clip:text; color:transparent; }
+
+  /* Aurora light */
+  .sky { position:relative; overflow:hidden; isolation:isolate; }
+  .sky::before, .sky::after { content:""; position:absolute; z-index:-1; border-radius:50%; filter:blur(90px); opacity:.55; pointer-events:none; }
+  .sky::before { width:60vmax; height:38vmax; left:-12vmax; top:-14vmax; background:var(--primary-color); }
+  .sky::after { width:55vmax; height:36vmax; right:-14vmax; top:-6vmax; background:var(--secondary-color); opacity:.45; }
+  @media (prefers-reduced-motion: no-preference) {
+    .sky::before { animation:drift 14s ease-in-out infinite alternate; }
+    .sky::after { animation:drift 18s ease-in-out infinite alternate-reverse; }
+    @keyframes drift { to { transform:translate(6vmax, 4vmax) scale(1.08); } }
+  }
+  .sky .fade { position:absolute; inset:auto 0 0 0; height:40%; background:linear-gradient(transparent, var(--bg-color)); z-index:-1; }
+
+  .nav { display:flex; align-items:center; gap:16px; height:clamp(64px, 7vw, 84px); }
+  .brand { display:flex; align-items:center; gap:10px; min-width:0; font-weight:700; font-size:clamp(17px, 1vw + 13px, 20px); letter-spacing:-.02em; }
+  .brand-name { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .mark { width:34px; height:34px; flex:none; border-radius:10px; overflow:hidden; display:grid; place-items:center; }
+  .mark img { width:100%; height:100%; object-fit:cover; display:block; }
+  .mark img:not([src]) { display:none; }
+  .mark:has(img[src]) { background:#fff; }
+  .mark:has(img[src]) svg { display:none; }
+  .links { display:none; gap:28px; margin:0 auto; font-size:15px; color:var(--muted); }
+  .signin { margin-left:auto; flex:none; padding:10px 18px; border-radius:999px; font-size:14px; font-weight:600; background:var(--glass); border:1px solid var(--line); backdrop-filter:blur(10px); }
+  @media (min-width: 900px) { .links { display:flex; } .signin { margin-left:0; } }
+
+  .hero { text-align:center; padding:clamp(40px, 9vw, 120px) 0 clamp(48px, 8vw, 100px); }
+  .badge { display:inline-flex; align-items:center; gap:8px; padding:6px 14px 6px 6px; border-radius:999px; font-size:13px; background:var(--glass); border:1px solid var(--line); }
+  .badge b { padding:3px 9px; border-radius:999px; font-size:11px; color:#05060f; }
+  #hero-title { font-size:clamp(38px, 6vw + 10px, 88px); line-height:1; letter-spacing:-.05em; font-weight:800; margin:22px auto 20px; max-width:13ch; }
+  #hero-subtitle { color:var(--muted); font-size:clamp(15px, .6vw + 13px, 19px); line-height:1.6; margin:0 auto 34px; max-width:46ch; }
+  .bar { display:flex; flex-wrap:wrap; gap:8px; max-width:640px; margin:0 auto; padding:8px; border-radius:22px; background:var(--glass); border:1px solid var(--line); backdrop-filter:blur(14px); text-align:left; }
+  .bar .net { padding:13px 16px; border-radius:14px; background:rgba(255,255,255,.07); font-size:14px; font-weight:600; flex:none; }
+  .bar .phone { flex:1 1 180px; padding:13px 16px; border-radius:14px; background:rgba(0,0,0,.25); font-size:14px; color:var(--muted); min-width:0; }
+  #hero-cta { flex:1 1 auto; text-align:center; padding:13px 22px; border-radius:14px; font-size:15px; font-weight:700; color:#05060f; }
+  @media (min-width: 640px) { #hero-cta { flex:none; } }
+  .works { margin-top:22px; font-size:13px; color:var(--muted); letter-spacing:.02em; }
+
+  section.block { padding:clamp(48px, 7vw, 96px) 0; }
+  .head { display:flex; flex-wrap:wrap; justify-content:space-between; align-items:end; gap:12px; margin-bottom:24px; }
+  h2 { margin:0; font-size:clamp(26px, 2.4vw + 14px, 44px); letter-spacing:-.035em; line-height:1.08; }
+  .head p { margin:0; color:var(--muted); font-size:14px; }
+
+  .rail { display:grid; grid-auto-flow:column; grid-auto-columns:minmax(220px, 260px); gap:14px; overflow-x:auto; scroll-snap-type:x mandatory; padding-bottom:10px; scrollbar-width:thin; }
+  .plan { scroll-snap-align:start; border-radius:24px; padding:24px; background:var(--glass); border:1px solid var(--line); }
+  .plan.hot { background:linear-gradient(var(--bg-color), var(--bg-color)) padding-box, linear-gradient(130deg, var(--primary-color), var(--secondary-color)) border-box; border:1.5px solid transparent; }
+  .plan .size { font-size:38px; font-weight:800; letter-spacing:-.04em; }
+  .plan .valid { color:var(--muted); font-size:14px; margin:4px 0 18px; }
+  .plan .price { font-size:20px; font-weight:700; margin-bottom:18px; }
+  .plan .buy { display:block; text-align:center; padding:12px; border-radius:14px; font-weight:700; font-size:14px; background:rgba(255,255,255,.08); }
+  .plan.hot .buy { color:#05060f; background:linear-gradient(110deg, var(--primary-color), var(--secondary-color)); }
+  .plan .tag { display:inline-block; font-size:11px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--primary-color); margin-bottom:10px; }
+
+  .features { display:grid; gap:14px; }
+  @media (min-width: 760px) { .features { grid-template-columns:repeat(3, 1fr); } }
+  .feature { padding:24px; border-radius:24px; background:var(--glass); border:1px solid var(--line); }
+  .feature i { display:grid; place-items:center; width:42px; height:42px; border-radius:13px; margin-bottom:16px; }
+  .feature b { display:block; font-size:18px; margin-bottom:6px; letter-spacing:-.01em; }
+  .feature span { color:var(--muted); font-size:15px; line-height:1.6; }
+
+  .app { position:relative; overflow:hidden; display:grid; gap:28px; align-items:center; padding:clamp(28px, 4vw, 52px); border-radius:32px; background:
+      radial-gradient(70% 120% at 100% 0%, color-mix(in srgb, var(--secondary-color) 45%, transparent), transparent 60%),
+      radial-gradient(60% 120% at 0% 100%, color-mix(in srgb, var(--primary-color) 35%, transparent), transparent 60%),
+      rgba(255,255,255,.04); border:1px solid var(--line); }
+  @media (min-width: 820px) { .app { grid-template-columns:1.2fr .8fr; } }
+  #app-title { margin:0 0 10px; }
+  .app p { margin:0 0 22px; color:var(--muted); line-height:1.6; max-width:42ch; }
+  .stores { display:flex; flex-wrap:wrap; gap:10px; }
+  .stores span { display:inline-flex; flex-direction:column; padding:10px 18px; border-radius:14px; background:#fff; color:#05060f; font-weight:700; font-size:15px; line-height:1.15; }
+  .stores small { font-weight:500; font-size:11px; opacity:.7; }
+  .mini { justify-self:center; width:min(230px, 70%); aspect-ratio:9/16; border-radius:34px; padding:10px; background:#0d0f1c; border:1px solid var(--line); box-shadow:0 30px 60px -20px rgba(0,0,0,.7); }
+  .mini div { height:100%; border-radius:26px; padding:18px 14px; background:linear-gradient(160deg, color-mix(in srgb, var(--primary-color) 30%, #0d0f1c), #0d0f1c 60%); display:flex; flex-direction:column; gap:10px; font-size:12px; }
+  .mini .b { font-size:22px; font-weight:800; letter-spacing:-.02em; }
+  .mini .r { padding:10px; border-radius:12px; background:rgba(255,255,255,.07); display:flex; justify-content:space-between; }
+  .mini .r em { font-style:normal; color:var(--primary-color); font-weight:700; }
+  .mini .again { margin-top:auto; text-align:center; padding:11px; border-radius:12px; color:#05060f; font-weight:700; }
+
+  footer { border-top:1px solid var(--line); padding:22px 0; font-size:14px; color:var(--muted); }
+  footer .wrap { display:flex; justify-content:space-between; gap:8px 20px; flex-wrap:wrap; }
+</style>
+</head>
+<body>
+  <main>
+  <div class="sky">
+    <span class="fade"></span>
+    <header class="wrap nav">
+      <div class="brand"><span class="mark grad" data-editable-id="brand_logo" data-editable-kind="image"><img id="brand-logo" alt="" /><svg width="18" height="18" viewBox="0 0 24 24" fill="#05060f"><path d="M12 2l2.4 6.6L21 11l-6.6 2.4L12 20l-2.4-6.6L3 11l6.6-2.4z"/></svg></span><span class="brand-name" data-editable-id="brand_name">Nova Recharge</span></div>
+      <nav class="links"><span>Airtime</span><span>Data</span><span>Bills</span><span>App</span></nav>
+      <span class="signin">Sign in</span>
+    </header>
+    <section class="wrap hero">
+      <span class="badge"><b class="grad">New</b>Instant electricity tokens</span>
+      <h1 id="hero-title" class="grad-text" data-editable-id="hero_title">Top up at the speed of light</h1>
+      <p id="hero-subtitle" data-editable-id="hero_subtitle">Airtime, data, electricity and TV for every network. Delivered automatically, any time of day.</p>
+      <div class="bar" aria-hidden="true"><span class="net">MTN ▾</span><span class="phone">Phone number</span><span id="hero-cta" class="grad" data-editable-id="hero_cta">Top up now</span></div>
+      <p class="works">Works with MTN · Airtel · 9mobile · DSTV · Electricity</p>
+    </section>
+  </div>
+
+  <section class="block"><div class="wrap">
+    <div class="head"><h2 id="plans-title" data-editable-id="plans_title">Data plans that make sense</h2><p>Swipe to see more · 30-day validity</p></div>
+    <div class="rail" aria-hidden="true">
+      <div class="plan"><div class="size">1.5GB</div><div class="valid">30 days</div><div class="price">₦1,000</div><span class="buy">Buy</span></div>
+      <div class="plan hot"><span class="tag">Most popular</span><div class="size">4GB</div><div class="valid">30 days</div><div class="price">₦2,200</div><span class="buy">Buy</span></div>
+      <div class="plan"><div class="size">10GB</div><div class="valid">30 days</div><div class="price">₦4,500</div><span class="buy">Buy</span></div>
+      <div class="plan"><div class="size">25GB</div><div class="valid">30 days</div><div class="price">₦9,000</div><span class="buy">Buy</span></div>
+      <div class="plan"><div class="size">75GB</div><div class="valid">30 days</div><div class="price">₦20,000</div><span class="buy">Buy</span></div>
+    </div>
+  </div></section>
+
+  <section class="block" style="padding-top:0"><div class="wrap features">
+    <div class="feature"><i class="grad"><svg width="20" height="20" viewBox="0 0 24 24" fill="#05060f"><path d="M13 2 5 13h6l-1 9 8-12h-6z"/></svg></i><b>Delivered automatically</b><span>Orders go straight to the network, usually in seconds.</span></div>
+    <div class="feature"><i class="grad"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#05060f" stroke-width="2.4"><rect x="3" y="6" width="18" height="13" rx="3"/><path d="M3 10h18"/></svg></i><b>One wallet</b><span>Fund once by bank transfer or card, then pay for everything.</span></div>
+    <div class="feature"><i class="grad"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#05060f" stroke-width="2.4"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"/><path d="M9 8h6M9 12h6"/></svg></i><b>A receipt for every order</b><span>See what you paid for and when, all in one place.</span></div>
+  </div></section>
+
+  <section class="block" style="padding-top:0"><div class="wrap">
+    <div class="app">
+      <div>
+        <h2 id="app-title" data-editable-id="app_title">Your top-ups, in your pocket</h2>
+        <p>Save numbers, repeat a purchase in one tap and get alerts before your data runs out.</p>
+        <div class="stores"><span><small>Download on the</small>App Store</span><span><small>Get it on</small>Google Play</span></div>
+      </div>
+      <div class="mini" aria-hidden="true"><div><small style="opacity:.7">Balance</small><span class="b">₦9,450.00</span><span class="r">Data · 4GB <em>Done</em></span><span class="r">Airtime · ₦500 <em>Done</em></span><span class="r">Power token <em>Done</em></span><span class="again grad">Repeat last purchase</span></div></div>
+    </div>
+  </div></section>
+  </main>
+
+  <footer><div class="wrap"><span>© Nova Recharge</span><span>Terms · Privacy · Help</span></div></footer>
+<script data-editor-only>
+/* Editor-only bridge: removed from the saved snapshot. */
+(function () {
+  var root = document.documentElement;
+  function post(type, payload) { parent.postMessage({ source: "template-iframe", type: type, payload: payload }, "*"); }
+
+  var style = document.createElement("style");
+  style.setAttribute("data-editor-only", "");
+  style.textContent =
+    "[contenteditable][data-editable-id]{cursor:text;outline:1px dashed transparent;outline-offset:4px;transition:outline-color .15s}" +
+    "[contenteditable][data-editable-id]:hover{outline-color:rgba(255,230,0,.95)}" +
+    "[data-editable-kind=image]{cursor:pointer;outline:1px dashed transparent;outline-offset:3px;transition:outline-color .15s}" +
+    "[data-editable-kind=image]:hover{outline-color:rgba(255,230,0,.95)}" +
+    "[data-editable-active]{outline:2px solid #ffe600 !important}";
+  document.head.appendChild(style);
+
+  function activate(el) {
+    document.querySelectorAll("[data-editable-active]").forEach(function (x) { x.removeAttribute("data-editable-active"); });
+    if (el) el.setAttribute("data-editable-active", "true");
+  }
+
+  document.querySelectorAll("[data-editable-id]").forEach(function (el) {
+    // Text regions are edited in place; image regions are only selectable.
+    if (el.dataset.editableKind !== "image") {
+      el.setAttribute("contenteditable", "true");
+      el.setAttribute("spellcheck", "false");
+    }
+    el.addEventListener("click", function () { activate(el); post("ELEMENT_CLICKED", { editableId: el.dataset.editableId }); });
+    el.addEventListener("input", function () { post("FIELD_UPDATED", { editableId: el.dataset.editableId, value: el.textContent }); });
+  });
+
+  window.addEventListener("message", function (e) {
+    if (e.source !== parent) return;
+    var d = e.data; if (!d || d.source !== "template-editor") return;
+    var p = d.payload || {};
+    if (d.type === "UPDATE_TEXT") document.querySelectorAll(p.selector).forEach(function (el) { el.textContent = p.value; });
+    if (d.type === "UPDATE_IMAGE" && (p.value === "" || /^data:image\/(png|jpeg|webp|gif|svg\+xml);/.test(p.value))) {
+      document.querySelectorAll(p.selector).forEach(function (el) {
+        if (p.value) el.setAttribute("src", p.value); else el.removeAttribute("src");
+      });
+    }
+    if (d.type === "UPDATE_CSS_VAR" && /^--[a-z-]+$/.test(p.variable)) root.style.setProperty(p.variable, p.value);
+    if (d.type === "HIGHLIGHT_ELEMENT") {
+      var el = document.querySelector('[data-editable-id="' + CSS.escape(p.editableId) + '"]');
+      activate(el);
+      // Scroll within the preview only, never the host page.
+      if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - window.innerHeight / 3, behavior: "smooth" });
+    }
+  });
+})();
+</script>
+</body>
+</html>

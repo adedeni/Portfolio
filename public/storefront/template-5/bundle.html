@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Tapcharge</title>
+<style>
+  :root { --accent-color:#2f6bff; --bg-color:#f2f1ec; --ink-color:#141414; --muted:#6b6b6b; --tile:#ffffff; --line:rgba(0,0,0,.07); }
+  * { box-sizing:border-box; }
+  body { margin:0; min-height:100vh; display:flex; flex-direction:column; background:var(--bg-color); color:var(--ink-color); font-family:ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  main { flex:1; }
+  .wrap { width:100%; max-width:1160px; margin:0 auto; padding:0 clamp(12px, 3vw, 28px); }
+
+  .nav { display:flex; align-items:center; gap:14px; height:clamp(64px, 7vw, 80px); }
+  .brand { display:flex; align-items:center; gap:10px; min-width:0; font-weight:800; font-size:clamp(17px, 1vw + 13px, 21px); letter-spacing:-.03em; }
+  .brand-name { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .mark { width:36px; height:36px; flex:none; border-radius:11px; overflow:hidden; display:grid; place-items:center; background:var(--ink-color); }
+  .mark i { width:12px; height:12px; border-radius:50%; background:var(--accent-color); box-shadow:0 0 0 4px color-mix(in srgb, var(--accent-color) 30%, transparent); }
+  .mark img { width:100%; height:100%; object-fit:cover; display:block; }
+  .mark img:not([src]) { display:none; }
+  .mark:has(img[src]) { background:#fff; }
+  .mark:has(img[src]) i { display:none; }
+  .nav-right { margin-left:auto; display:flex; align-items:center; gap:14px; flex:none; }
+  .nav-right .login { font-size:15px; color:var(--muted); }
+  .btn { display:inline-flex; align-items:center; justify-content:center; gap:8px; border-radius:999px; font-weight:700; font-size:14px; padding:11px 18px; white-space:nowrap; }
+  .btn.dark { background:var(--ink-color); color:#fff; }
+  .btn.accent { background:var(--accent-color); color:#fff; }
+  .btn.light { background:#fff; color:var(--ink-color); }
+  @media (max-width: 420px) { .nav-right .login { display:none; } }
+
+  .bento { display:grid; gap:12px; grid-template-columns:1fr; padding:4px 0 clamp(40px, 6vw, 72px); }
+  .t { background:var(--tile); border:1px solid var(--line); border-radius:26px; padding:clamp(20px, 2.4vw, 28px); position:relative; overflow:hidden; }
+  .t h3 { margin:0; font-size:17px; letter-spacing:-.01em; }
+  .t .sub { color:var(--muted); font-size:14px; margin:4px 0 0; }
+  .label { font-size:12px; font-weight:600; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); }
+
+  .hero { display:flex; flex-direction:column; justify-content:space-between; min-height:340px; }
+  #hero-title { font-size:clamp(34px, 3.8vw + 14px, 64px); line-height:1.02; letter-spacing:-.045em; font-weight:800; margin:14px 0 16px; max-width:13ch; }
+  #hero-subtitle { color:var(--muted); font-size:clamp(15px, .5vw + 13px, 18px); line-height:1.6; margin:0 0 24px; max-width:42ch; }
+  .rings { position:absolute; right:-90px; bottom:-90px; width:340px; height:340px; pointer-events:none; opacity:.9; }
+  .hero > *:not(.rings) { position:relative; }
+  .hero .row { display:flex; flex-wrap:wrap; align-items:center; gap:10px; }
+  #hero-cta { padding:15px 24px; font-size:15px; }
+  .nets { display:flex; gap:6px; flex-wrap:wrap; }
+  .nets span { font-size:12px; font-weight:700; padding:7px 11px; border-radius:999px; background:var(--bg-color); }
+
+  .wallet { background:var(--ink-color); color:#fff; border:0; display:flex; flex-direction:column; gap:14px; }
+  .wallet .label { color:rgba(255,255,255,.6); }
+  .wallet .bal { font-size:clamp(28px, 2vw + 16px, 40px); font-weight:800; letter-spacing:-.03em; }
+  .wallet svg { width:100%; height:56px; }
+  .wallet .btn { align-self:flex-start; background:#fff; color:var(--ink-color); }
+
+  .quick .seg { display:flex; gap:4px; background:var(--bg-color); padding:4px; border-radius:14px; margin:14px 0 10px; }
+  .quick .seg span { flex:1; text-align:center; font-size:13px; font-weight:600; padding:8px 4px; border-radius:10px; color:var(--muted); }
+  .quick .seg .on { background:#fff; color:var(--ink-color); box-shadow:0 1px 2px rgba(0,0,0,.08); }
+  .field { border:1px solid var(--line); border-radius:14px; padding:12px 14px; font-size:14px; color:var(--muted); }
+  .amounts { display:grid; grid-template-columns:repeat(4, 1fr); gap:6px; margin:10px 0 14px; }
+  .amounts span { text-align:center; font-size:13px; font-weight:600; padding:9px 0; border-radius:12px; border:1px solid var(--line); }
+  .amounts .on { border-color:var(--accent-color); color:var(--accent-color); background:color-mix(in srgb, var(--accent-color) 8%, #fff); }
+  .quick .btn { width:100%; }
+
+  .plans ul { list-style:none; padding:0; margin:14px 0 0; }
+  .plans li { display:flex; justify-content:space-between; align-items:center; padding:12px 0; border-bottom:1px solid var(--line); font-size:15px; }
+  .plans li:last-child { border-bottom:0; }
+  .plans li b { font-size:17px; }
+  .plans li small { color:var(--muted); display:block; font-size:12.5px; }
+  .plans li em { font-style:normal; font-weight:700; font-size:14px; padding:6px 12px; border-radius:999px; background:var(--bg-color); }
+
+  .power { background:var(--accent-color); color:#fff; border:0; }
+  .power .label { color:rgba(255,255,255,.75); }
+  .token { font-family:ui-monospace, "SFMono-Regular", Menlo, monospace; font-size:clamp(17px, 1vw + 12px, 21px); font-weight:600; letter-spacing:.04em; margin:14px 0 8px; }
+  .token span { white-space:nowrap; }
+  .power p { margin:0; opacity:.85; font-size:14px; }
+  .bolt { position:absolute; right:-10px; bottom:-18px; width:120px; height:120px; opacity:.16; }
+
+  .tv .logos { display:flex; gap:8px; margin-top:14px; }
+  .tv .logos span { flex:1; text-align:center; padding:16px 0; border-radius:16px; background:var(--bg-color); font-weight:800; letter-spacing:-.02em; }
+
+  .support { display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:16px; }
+  #support-text { margin:6px 0 0; font-size:clamp(17px, .8vw + 13px, 22px); font-weight:700; letter-spacing:-.02em; max-width:40ch; }
+  .dots { display:flex; }
+  .dots i { width:34px; height:34px; border-radius:50%; border:3px solid #fff; margin-left:-8px; }
+  .dots i:nth-child(1) { background:#ffd5c2; margin-left:0; } .dots i:nth-child(2) { background:#c9d8ff; } .dots i:nth-child(3) { background:#d6f0dc; }
+
+  @media (min-width: 680px) {
+    .bento { grid-template-columns:repeat(2, 1fr); }
+    .hero, .support, .tv { grid-column:1 / -1; }
+  }
+  @media (min-width: 1000px) {
+    .bento { grid-template-columns:repeat(6, 1fr); grid-auto-rows:minmax(170px, auto); }
+    .hero { grid-column:1 / 5; grid-row:span 2; }
+    .wallet { grid-column:5 / 7; }
+    .quick { grid-column:5 / 7; }
+    .plans { grid-column:1 / 3; }
+    .power { grid-column:3 / 5; }
+    .tv { grid-column:5 / 7; }
+    .support { grid-column:1 / -1; }
+  }
+
+  footer { padding:22px 0 28px; font-size:14px; color:var(--muted); }
+  footer .wrap { display:flex; justify-content:space-between; gap:8px 20px; flex-wrap:wrap; }
+</style>
+</head>
+<body>
+  <header class="wrap nav">
+    <div class="brand"><span class="mark" data-editable-id="brand_logo" data-editable-kind="image"><img id="brand-logo" alt="" /><i></i></span><span class="brand-name" data-editable-id="brand_name">Tapcharge</span></div>
+    <div class="nav-right"><span class="login">Log in</span><span class="btn dark">Open account</span></div>
+  </header>
+
+  <main class="wrap">
+    <div class="bento">
+      <section class="t hero">
+        <div>
+          <span class="label">Airtime · Data · Bills</span>
+          <h1 id="hero-title" data-editable-id="hero_title">Every top-up you need, one tap away.</h1>
+          <p id="hero-subtitle" data-editable-id="hero_subtitle">Airtime, data, electricity and cable TV for every network, paid from a single wallet.</p>
+        </div>
+        <svg class="rings" viewBox="0 0 340 340" aria-hidden="true"><g fill="none" stroke="var(--accent-color)"><circle cx="170" cy="170" r="160" stroke-opacity=".10" stroke-width="2"/><circle cx="170" cy="170" r="120" stroke-opacity=".16" stroke-width="2"/><circle cx="170" cy="170" r="80" stroke-opacity=".24" stroke-width="2"/></g><circle cx="170" cy="170" r="40" fill="var(--accent-color)" fill-opacity=".12"/></svg>
+        <div class="row"><span id="hero-cta" class="btn accent" data-editable-id="hero_cta">Start topping up</span><div class="nets"><span>MTN</span><span>Airtel</span><span>9mobile</span></div></div>
+      </section>
+
+      <section class="t wallet" aria-hidden="true">
+        <span class="label">Wallet</span>
+        <div class="bal">₦18,200.00</div>
+        <svg viewBox="0 0 200 56" preserveAspectRatio="none"><path d="M0 44 L25 38 L50 41 L75 26 L100 30 L125 18 L150 22 L175 10 L200 14" fill="none" stroke="var(--accent-color)" stroke-width="3" stroke-linecap="round"/><path d="M0 44 L25 38 L50 41 L75 26 L100 30 L125 18 L150 22 L175 10 L200 14 V56 H0Z" fill="var(--accent-color)" opacity=".15"/></svg>
+        <span class="btn">Fund wallet</span>
+      </section>
+
+      <section class="t quick" aria-hidden="true">
+        <h3>Quick buy</h3>
+        <div class="seg"><span class="on">MTN</span><span>Airtel</span><span>9mobile</span></div>
+        <div class="field">Phone number</div>
+        <div class="amounts"><span>₦100</span><span>₦200</span><span class="on">₦500</span><span>₦1k</span></div>
+        <span class="btn accent">Buy airtime</span>
+      </section>
+
+      <section class="t plans" aria-hidden="true">
+        <h3>Data plans</h3><p class="sub">Valid for 30 days</p>
+        <ul>
+          <li><div><b>1.5GB</b><small>Everyday browsing</small></div><em>₦1,000</em></li>
+          <li><div><b>4GB</b><small>Streaming and calls</small></div><em>₦2,200</em></li>
+          <li><div><b>10GB</b><small>Work from anywhere</small></div><em>₦4,500</em></li>
+        </ul>
+      </section>
+
+      <section class="t power" aria-hidden="true">
+        <span class="label">Electricity token</span>
+        <div class="token"><span>4521 8890</span> <span>1123 0047</span> <span>9932</span></div>
+        <p>Prepaid tokens, delivered to your phone in seconds.</p>
+        <svg class="bolt" viewBox="0 0 24 24" fill="#fff"><path d="M13 2 5 13h6l-1 9 8-12h-6z"/></svg>
+      </section>
+
+      <section class="t tv" aria-hidden="true">
+        <h3>Cable TV</h3><p class="sub">Renew before your plan runs out</p>
+        <div class="logos"><span>DSTV</span><span>TV+</span></div>
+      </section>
+
+      <section class="t support">
+        <div><span class="label">Support</span><p id="support-text" data-editable-id="support_text">Stuck on an order? Our team answers within minutes, day and night.</p></div>
+        <div style="display:flex;align-items:center;gap:14px"><div class="dots" aria-hidden="true"><i></i><i></i><i></i></div><span class="btn dark">Chat with us</span></div>
+      </section>
+    </div>
+  </main>
+
+  <footer><div class="wrap"><span>© Tapcharge</span><span>Terms · Privacy · Help</span></div></footer>
+<script data-editor-only>
+/* Editor-only bridge: removed from the saved snapshot. */
+(function () {
+  var root = document.documentElement;
+  function post(type, payload) { parent.postMessage({ source: "template-iframe", type: type, payload: payload }, "*"); }
+
+  var style = document.createElement("style");
+  style.setAttribute("data-editor-only", "");
+  style.textContent =
+    "[contenteditable][data-editable-id]{cursor:text;outline:1px dashed transparent;outline-offset:4px;transition:outline-color .15s}" +
+    "[contenteditable][data-editable-id]:hover{outline-color:rgba(255,230,0,.95)}" +
+    "[data-editable-kind=image]{cursor:pointer;outline:1px dashed transparent;outline-offset:3px;transition:outline-color .15s}" +
+    "[data-editable-kind=image]:hover{outline-color:rgba(255,230,0,.95)}" +
+    "[data-editable-active]{outline:2px solid #ffe600 !important}";
+  document.head.appendChild(style);
+
+  function activate(el) {
+    document.querySelectorAll("[data-editable-active]").forEach(function (x) { x.removeAttribute("data-editable-active"); });
+    if (el) el.setAttribute("data-editable-active", "true");
+  }
+
+  document.querySelectorAll("[data-editable-id]").forEach(function (el) {
+    // Text regions are edited in place; image regions are only selectable.
+    if (el.dataset.editableKind !== "image") {
+      el.setAttribute("contenteditable", "true");
+      el.setAttribute("spellcheck", "false");
+    }
+    el.addEventListener("click", function () { activate(el); post("ELEMENT_CLICKED", { editableId: el.dataset.editableId }); });
+    el.addEventListener("input", function () { post("FIELD_UPDATED", { editableId: el.dataset.editableId, value: el.textContent }); });
+  });
+
+  window.addEventListener("message", function (e) {
+    if (e.source !== parent) return;
+    var d = e.data; if (!d || d.source !== "template-editor") return;
+    var p = d.payload || {};
+    if (d.type === "UPDATE_TEXT") document.querySelectorAll(p.selector).forEach(function (el) { el.textContent = p.value; });
+    if (d.type === "UPDATE_IMAGE" && (p.value === "" || /^data:image\/(png|jpeg|webp|gif|svg\+xml);/.test(p.value))) {
+      document.querySelectorAll(p.selector).forEach(function (el) {
+        if (p.value) el.setAttribute("src", p.value); else el.removeAttribute("src");
+      });
+    }
+    if (d.type === "UPDATE_CSS_VAR" && /^--[a-z-]+$/.test(p.variable)) root.style.setProperty(p.variable, p.value);
+    if (d.type === "HIGHLIGHT_ELEMENT") {
+      var el = document.querySelector('[data-editable-id="' + CSS.escape(p.editableId) + '"]');
+      activate(el);
+      // Scroll within the preview only, never the host page.
+      if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - window.innerHeight / 3, behavior: "smooth" });
+    }
+  });
+})();
+</script>
+</body>
+</html>
