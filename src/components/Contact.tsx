@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { contact, person, sheets } from "../data/content";
+import { useEffect, useState, type ReactNode } from "react";
+import { contact, experience, person, sheets } from "../data/content";
 import { Sheet } from "./Sheet";
 import { ArrowUpRight, Check, Copy, FileDown, FileText, Mail, Phone } from "lucide-react";
 import { GitHubIcon, Icon, LinkedInIcon, WhatsAppIcon } from "./Icon";
@@ -146,13 +146,31 @@ export function Contact({ year: buildYear }: { year: number }) {
         <TB k="Drawn by" v={`${person.name} (${person.handle})`} />
         <TB k="Title" v="Portfolio · Full-Stack & Mobile" />
         <TB k="Built with" v="React · TypeScript · Tailwind. No trackers." />
-        <TB k="Sheet" v={`${sheets.length} of ${sheets.length} · © ${year}`} />
+        <TB
+          k="Sheet"
+          v={
+            <>
+              {sheets.length} of {sheets.length} · © {year} ·{" "}
+              <a href="#top" className="ink-link no-print whitespace-nowrap">
+                ↑ Sheet 01
+              </a>
+            </>
+          }
+        />
+      </div>
+      {/* Drawing number, as printed along the bottom edge of a sheet */}
+      <div className="flex items-center gap-4 border-t border-line-strong px-4 py-2.5 sm:px-6">
+        <p className="label shrink-0 text-ink">
+          Dwg no. OA-PF-{year} · Rev {String.fromCharCode(64 + experience.length)}
+        </p>
+        <span aria-hidden="true" className="barcode h-6 min-w-0 flex-1" />
+        <p className="label hidden shrink-0 sm:block">End of set</p>
       </div>
     </Sheet>
   );
 }
 
-function TB({ k, v }: { k: string; v: string }) {
+function TB({ k, v }: { k: string; v: ReactNode }) {
   return (
     <div className="border-b border-line px-4 py-2.5 sm:px-6 lg:border-b-0 lg:border-r lg:last:border-r-0">
       <p className="label text-[0.6875rem]">{k}</p>

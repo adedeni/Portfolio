@@ -652,19 +652,20 @@ function TemplatePicker({
         <p className="mb-5 max-w-[60ch] text-sm text-[#a3a3a3]">
           Pick a template to start editing. The editor fetches its <code className="font-mono text-[#f0f0f0]">bundle.html</code> and{" "}
           <code className="font-mono text-[#f0f0f0]">config.json</code>, then builds the sidebar from the config.
+          <span className="mt-2 block font-mono text-xs text-[#ffe600] sm:hidden">Swipe to see all {cards?.length ?? 6} →</span>
         </p>
         {cards === null ? (
           <p className="text-sm text-[#a3a3a3]">Loading templates…</p>
         ) : cards.length === 0 ? (
           <p className="text-sm text-[#f0f0f0]">Couldn't load the template list.</p>
         ) : (
-          <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          <ul className="-mx-4 flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 pb-3 sm:mx-0 sm:grid sm:grid-cols-2 sm:overflow-visible sm:px-0 sm:pb-0 lg:grid-cols-3">
             {cards.map((t) => {
               const isCurrent = t.template_slug === current;
               return (
                 <li
                   key={t.template_slug}
-                  className={`group relative flex h-full flex-col gap-3 rounded-lg border p-4 transition-colors has-[button:hover]:border-[#ffe600] has-[button:hover]:bg-[#1a1a00] has-[button:focus-visible]:outline has-[button:focus-visible]:outline-2 has-[button:focus-visible]:outline-[#ffe600] ${
+                  className={`group relative flex w-[84%] shrink-0 snap-center flex-col gap-3 rounded-lg border p-4 transition-colors sm:h-full sm:w-auto has-[button:hover]:border-[#ffe600] has-[button:hover]:bg-[#1a1a00] has-[button:focus-visible]:outline has-[button:focus-visible]:outline-2 has-[button:focus-visible]:outline-[#ffe600] ${
                     isCurrent ? "border-[#ffe600]" : "border-[#2a2a2a] bg-[#141414]"
                   }`}
                 >
@@ -701,6 +702,7 @@ function TemplatePicker({
 function Thumbnail({ html, name }: { html: string; name: string }) {
   const boxRef = useRef<HTMLSpanElement>(null);
   const [scale, setScale] = useState(0.25);
+  const [loaded, setLoaded] = useState(false);
   useEffect(() => {
     const el = boxRef.current;
     if (!el) return;
@@ -709,7 +711,11 @@ function Thumbnail({ html, name }: { html: string; name: string }) {
     return () => ro.disconnect();
   }, []);
   return (
-    <span ref={boxRef} className="relative block aspect-[16/10] w-full overflow-hidden rounded border border-[#2a2a2a] bg-white" aria-hidden="true">
+    <span
+      ref={boxRef}
+      className={`relative block aspect-[16/10] w-full overflow-hidden rounded border border-[#2a2a2a] bg-[#1a1a1a] ${loaded ? "" : "animate-pulse"}`}
+      aria-hidden="true"
+    >
       {html ? (
         <iframe
           srcDoc={html}
@@ -717,7 +723,8 @@ function Thumbnail({ html, name }: { html: string; name: string }) {
           tabIndex={-1}
           title={`${name} template thumbnail`}
           loading="lazy"
-          className="pointer-events-none absolute left-0 top-0 origin-top-left border-0"
+          onLoad={() => setLoaded(true)}
+          className={`pointer-events-none absolute left-0 top-0 origin-top-left border-0 transition-opacity duration-500 ${loaded ? "opacity-100" : "opacity-0"}`}
           style={{ width: 1280, height: 800, transform: `scale(${scale})` }}
         />
       ) : null}

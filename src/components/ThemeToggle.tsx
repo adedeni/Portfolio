@@ -1,3 +1,5 @@
+import type { MouseEvent } from "react";
+
 /**
  * Blueprint / Paper switch. Blueprint is the default (set on <html> in
  * index.html); a saved "light" choice is applied before first paint.
@@ -5,14 +7,25 @@
  * Labels are swapped with CSS so server and client markup match.
  */
 export function ThemeToggle() {
-  const toggle = () => {
+  const toggle = (e: MouseEvent<HTMLButtonElement>) => {
     const root = document.documentElement;
     const current = root.dataset.theme === "light" ? "light" : "dark";
     const next = current === "dark" ? "light" : "dark";
-    root.dataset.theme = next;
-    document
-      .querySelector('meta[name="theme-color"]')
-      ?.setAttribute("content", next === "dark" ? "#0c2638" : "#f6f4ee");
+    const apply = () => {
+      root.dataset.theme = next;
+      document
+        .querySelector('meta[name="theme-color"]')
+        ?.setAttribute("content", next === "dark" ? "#0c2638" : "#f6f4ee");
+    };
+    // Where supported, the new theme spreads out from the button (see ::view-transition in index.css).
+    const doc = document as Document & { startViewTransition?: (cb: () => void) => unknown };
+    const still = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (doc.startViewTransition && !still) {
+      const r = e.currentTarget.getBoundingClientRect();
+      root.style.setProperty("--vt-x", `${Math.round(r.left + r.width / 2)}px`);
+      root.style.setProperty("--vt-y", `${Math.round(r.top + r.height / 2)}px`);
+      doc.startViewTransition(apply);
+    } else apply();
     try {
       localStorage.setItem("theme", next);
     } catch {

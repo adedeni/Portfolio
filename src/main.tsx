@@ -11,5 +11,5 @@ const app = (
 );
 
 // Production HTML is pre-rendered at build time; dev renders from scratch.
-if (root.hasChildNodes()) hydrateRoot(root, app);
+if (root.firstElementChild) hydrateRoot(root, app);
 else createRoot(root).render(app);

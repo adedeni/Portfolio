@@ -4,11 +4,44 @@ import { Sheet } from "./Sheet";
 import { FileDown, Mail, Phone } from "lucide-react";
 import { GitHubIcon, Icon, LinkedInIcon, WhatsAppIcon } from "./Icon";
 import { reveal } from "../reveal";
+import { useRef, type RefObject } from "react";
+
+declare const __BUILD_MONTH__: string;
 
 export function Hero() {
+  const coords = useRef<HTMLSpanElement>(null);
+  const needle = useRef<SVGGElement>(null);
   return (
-    <Sheet id="top" kicker="General arrangement" aside={<span>Scale 1:1</span>} labelledBy="hero-title">
-      <div className="sheet-grid relative">
+    <Sheet
+      id="top"
+      kicker="General arrangement"
+      labelledBy="hero-title"
+      aside={
+        <span>
+          {/* CAD-style cursor readout, filled in by the pointer handler below */}
+          <span aria-hidden="true" className="hidden tabular-nums lg:inline">
+            <span ref={coords}>X 0000 · Y 0000</span> ·{" "}
+          </span>
+          Scale 1:1
+        </span>
+      }
+    >
+      <div
+        className="sheet-grid grid-light relative"
+        onPointerMove={(e) => {
+          const r = e.currentTarget.getBoundingClientRect();
+          e.currentTarget.style.setProperty("--mx", `${Math.round(e.clientX - r.left)}px`);
+          e.currentTarget.style.setProperty("--my", `${Math.round(e.clientY - r.top)}px`);
+          const pad = (n: number) => String(Math.max(0, Math.round(n))).padStart(4, "0");
+          if (coords.current) coords.current.textContent = `X ${pad(e.clientX - r.left)} · Y ${pad(e.clientY - r.top)}`;
+          // The compass needle in the title block turns to face the cursor.
+          const c = needle.current?.ownerSVGElement?.getBoundingClientRect();
+          if (c && needle.current) {
+            const deg = (Math.atan2(e.clientY - (c.top + c.height / 2), e.clientX - (c.left + c.width / 2)) * 180) / Math.PI + 90;
+            needle.current.style.rotate = `${deg.toFixed(1)}deg`;
+          }
+        }}
+      >
         {/* Zone ruler along the top edge, as on a drawing border */}
         <div aria-hidden="true" className="hidden grid-cols-8 border-b border-line lg:grid">
           {Array.from({ length: 8 }, (_, i) => (
@@ -18,14 +51,14 @@ export function Hero() {
           ))}
         </div>
 
-        <div className="grid gap-10 px-4 pb-8 pt-6 sm:px-6 sm:pb-10 sm:pt-8 lg:grid-cols-[minmax(0,1fr)_340px] lg:gap-12 lg:px-10 lg:pb-12 lg:pt-12">
-          <div className="flex flex-col">
+        <div className="grid gap-10 px-4 pb-8 pt-6 sm:px-6 sm:pb-10 sm:pt-8 lg:grid-cols-[minmax(0,1fr)_340px] lg:gap-12 lg:px-10 lg:pb-12 lg:pt-10">
+          <div className="relative flex flex-col">
             <h1 id="hero-title" className="order-1">
               <span className="block text-[1rem] font-semibold [font-stretch:112%] sm:text-[1.125rem]">
                 {person.name}
                 <span className="label mt-1 block font-normal sm:ml-2 sm:mt-0 sm:inline sm:align-[1px]">{person.role}</span>
               </span>
-              <span className="display mt-3 block text-balance text-[clamp(1.95rem,1.15rem+3.6vw,4.1rem)]">
+              <span className="display mt-3 block text-balance text-[clamp(1.95rem,1.2rem+2.9vw,3.5rem)]">
                 {person.headline}
               </span>
             </h1>
@@ -40,7 +73,7 @@ export function Hero() {
               ))}
             </div>
 
-            <div {...reveal(3)} className="order-3 mt-6 flex flex-wrap gap-3 sm:mt-8 lg:order-4">
+            <div className="order-3 mt-6 flex flex-wrap gap-3 sm:mt-8 lg:order-4">
               <a href={`mailto:${contact.email}`} className="btn btn-primary">
                 <Icon icon={Mail} />
                 Email me
@@ -72,10 +105,11 @@ export function Hero() {
                 </a>
               </p>
             </div>
+            <Stamp />
           </div>
 
           <aside aria-label="Summary" className="flex flex-col gap-6">
-            <TitleBlock />
+            <TitleBlock needle={needle} />
             <nav aria-label="Drawing index" className="no-print border border-line-strong bg-paper">
               <p className="label border-b border-line-strong px-3 py-2 text-ink">Drawing index</p>
               <ol className="divide-y divide-line">
@@ -85,12 +119,18 @@ export function Hero() {
                       href={`#${s.id}`}
                       className="group flex items-baseline gap-3 px-3 py-1.5 text-[0.9375rem] no-underline hover:bg-paper-2"
                     >
-                      <span className="font-mono text-xs text-ink-3">{s.no}</span>
+                      <kbd data-key={i + 2} className="keycap">{i + 2}</kbd>
                       <span className="group-hover:underline">{s.title}</span>
+                      <span aria-hidden="true" className="ml-auto -translate-x-1 font-mono text-xs text-accent opacity-0 transition group-hover:translate-x-0 group-hover:opacity-100 group-focus-visible:translate-x-0 group-focus-visible:opacity-100">
+                        →
+                      </span>
                     </a>
                   </li>
                 ))}
               </ol>
+              <p className="label hidden border-t border-line px-3 py-2 lg:block">
+                Press <kbd className="keycap">1</kbd>–<kbd className="keycap">{sheets.length}</kbd> to jump between sheets
+              </p>
             </nav>
           </aside>
         </div>
@@ -99,7 +139,23 @@ export function Hero() {
   );
 }
 
-function TitleBlock() {
+/** Issue stamp, as on a released drawing. It lands with a thud once the page has loaded. */
+function Stamp() {
+  const [y, m] = __BUILD_MONTH__.split("-");
+  const month = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"][Number(m) - 1];
+  return (
+    <p className="stamp-mark no-print absolute bottom-9 right-1 hidden lg:block">
+      <span className="sr-only">Status: </span>
+      <span className="block text-[0.625rem] tracking-[0.18em]">Issued for hire</span>
+      <span className="display block text-[1.375rem] leading-none">Open to roles</span>
+      <span className="block text-[0.625rem] tracking-[0.18em]">
+        Remote · hybrid · {month} {y}
+      </span>
+    </p>
+  );
+}
+
+function TitleBlock({ needle }: { needle: RefObject<SVGGElement | null> }) {
   const rows: [string, string][] = [
     ["Role", person.role],
     ["Sectors", person.sectors.join(" · ")],
@@ -109,7 +165,18 @@ function TitleBlock() {
   ];
   return (
     <div className="border border-line-strong bg-paper">
-      <p className="label border-b border-line-strong px-3 py-2 text-ink">Title block</p>
+      <p className="label flex items-center justify-between border-b border-line-strong px-3 py-2 text-ink">
+        Title block
+        <svg aria-hidden="true" viewBox="0 0 24 24" width="26" height="26" className="compass -my-1 hidden lg:block">
+          <circle cx="12" cy="12" r="10.5" fill="none" stroke="var(--line-strong)" />
+          <path d="M12 1.5v2.5M12 20v2.5M1.5 12H4M20 12h2.5" stroke="var(--line-strong)" />
+          <g ref={needle}>
+            <path d="M12 4.5 14.6 12H9.4z" fill="var(--accent)" />
+            <path d="M12 19.5 14.6 12H9.4z" fill="var(--ink-3)" />
+          </g>
+          <circle cx="12" cy="12" r="1.2" fill="var(--paper)" stroke="var(--ink)" strokeWidth="0.8" />
+        </svg>
+      </p>
       <dl className="divide-y divide-line">
         {rows.map(([k, v], i) => (
           <div key={k} {...reveal(i)} className="grid grid-cols-[92px_1fr] gap-3 px-3 py-2">

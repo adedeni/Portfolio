@@ -15,7 +15,7 @@ export function WorkSchedule() {
         <h2 id="work-title" className="display text-[clamp(2rem,1.5rem+2.4vw,3.25rem)]">
           More shipped work
         </h2>
-        <p className="mt-3 max-w-[60ch] text-ink-2">Flutter apps and backends in production on the app stores.</p>
+        <p className="mt-3 max-w-[60ch] text-ink-2">Four more products in production, on the web and the app stores, with the backends behind them.</p>
 
         <div className="mt-8 border-t border-ink">
           <div aria-hidden="true" className={`label hidden gap-6 border-b border-line-strong py-2 md:grid ${cols}`}>

@@ -33,6 +33,9 @@ function useCurrentSection() {
         }
       }
       setCurrent(found);
+      // Reading progress, drawn as a pen line under the header (see .scroll-progress).
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      document.documentElement.style.setProperty("--progress", max > 0 ? Math.min(1, window.scrollY / max).toFixed(4) : "0");
     };
     const schedule = () => {
       if (!frame) frame = requestAnimationFrame(update);
@@ -133,25 +136,36 @@ export function Header() {
         </div>
       </div>
 
+      <span aria-hidden="true" className="scroll-progress no-print" />
+
+      {/* Always rendered so it can slide open; inert and hidden from assistive tech while closed. */}
       <nav
         id="mobile-nav"
         aria-label="Primary"
-        hidden={!open}
-        className="border-t border-line-strong bg-paper lg:hidden"
+        inert={!open}
+        data-open={open ? "" : undefined}
+        className="mobile-nav bg-paper lg:hidden"
       >
-        <ul className="mx-auto max-w-[1240px] divide-y divide-line px-4 sm:px-6">
-          {nav.map((item) => (
-            <li key={item.href}>
-              <a
-                href={item.href}
-                onClick={() => setOpen(false)}
-                className="flex min-h-12 items-center font-mono text-sm no-underline"
-              >
-                {item.label}
-              </a>
-            </li>
-          ))}
-        </ul>
+        <div>
+          <ul className="mx-auto max-w-[1240px] divide-y divide-line border-t border-line-strong px-4 sm:px-6">
+            {nav.map((item, i) => (
+              <li key={item.href} style={{ ["--i" as string]: i }}>
+                <a
+                  href={item.href}
+                  onClick={() => setOpen(false)}
+                  aria-current={active === item.href ? "true" : undefined}
+                  className="group flex min-h-12 items-center gap-3 font-mono text-sm no-underline aria-[current=true]:text-accent"
+                >
+                  <span className="text-xs text-ink-3 group-aria-[current=true]:text-accent">{String(i + 1).padStart(2, "0")}</span>
+                  {item.label}
+                  <span aria-hidden="true" className="ml-auto text-ink-3 transition-transform group-hover:translate-x-1">
+                    →
+                  </span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
       </nav>
     </header>
   );

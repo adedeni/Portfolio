@@ -87,7 +87,7 @@ export const person = {
   headline:
     "I build full-stack web and Flutter mobile apps for fintech, telecom and EdTech.",
   intro:
-    "4+ years building mobile and full-stack web apps, from Laravel and Node.js backends and payment integrations to Flutter apps on Android and iOS.",
+    "4+ years shipping production software end to end: Laravel and Node.js backends, payment and telecom integrations, and Flutter apps on Android and iOS.",
   sectors: ["Fintech", "Telecom", "EdTech"],
   experience: "4+ years",
   location: "Nigeria",
@@ -128,7 +128,7 @@ export const caseStudies: CaseStudy[] = [
       { value: "5", label: "vendor integrations, auto-fulfilled" },
     ],
     problem:
-      "Entrepreneurs want to sell airtime, data, electricity and bill payments under their own brand. Most of them aren't technical, so they need the platform and the storefront to work without touching code.",
+      "Entrepreneurs want to sell airtime, data, electricity and bill payments under their own brand. Most of them aren't technical, so the platform and the storefront have to work without anyone touching code.",
     role: "I built the backend, the vendor integrations and the visual template editor, and wrote the user guide.",
     built: [
       "Laravel/MySQL backend for the platform.",
@@ -161,12 +161,14 @@ export const caseStudies: CaseStudy[] = [
       { value: "3", label: "channels: SMS, email, voice" },
     ],
     problem:
-      "Businesses need to reach large customer lists by SMS, email and voice, under their own sender ID, without messaging numbers on the Do-Not-Disturb list, and with a clear view of what was delivered.",
-    role: "I built the platform end to end: messaging, the wallet top-up system and the real-time analytics dashboard.",
+      "Businesses need to reach large customer lists by SMS, email and voice under their own sender ID. They must not message numbers on the Do-Not-Disturb list, and they need a clear view of what was delivered.",
+    role: "I built the platform end to end: the messaging pipeline, the wallet and billing, and the real-time delivery dashboard.",
     built: [
-      "SMS, email and voice broadcast campaigns from one platform.",
-      "Sender ID management, DND filtering and scheduled delivery.",
-      "A real-time analytics dashboard for delivery.",
+      "One composer for SMS, email and voice campaigns, sent to typed numbers, saved groups or an uploaded file, immediately or on a schedule.",
+      "Pre-send checks that protect the customer's money: recipients are normalised and de-duplicated, and characters that would silently push a message into Unicode are caught before it is priced.",
+      "Billing by page, network and route, with duplicate-send protection and automatic wallet refunds when a message never reaches a gateway.",
+      "Sender ID management for each channel, DND filtering and gateway routing.",
+      "Delivery reports from the gateways, feeding a real-time dashboard of delivery and cost by campaign and channel.",
       "Wallet top-up by bank transfer, card and USSD.",
     ],
     outcome:
@@ -185,6 +187,23 @@ export const caseStudies: CaseStudy[] = [
 ];
 
 export const shippedProjects: ShippedProject[] = [
+  {
+    name: "CopyMe.trade",
+    summary: "Copy-trading app that mirrors experienced traders on your own Bybit account.",
+    contribution: [
+      "The whole product: Flutter Android app, Next.js web app and Node.js backend.",
+      "Bybit integration on read-and-trade keys only, so funds stay in the user's exchange account and can't be withdrawn.",
+      "A copy engine that sizes every position from a fixed dollar risk the user sets, with a preset take-profit and a stop loss that can only tighten.",
+      "Protection mode that pauses copying after three losses in a row, and a trader directory showing win rate, drawdown and expectancy.",
+      "Paid risk tiers on a monthly subscription.",
+    ],
+    stack: ["Flutter", "Next.js", "Node.js"],
+    platforms: "Android · Web",
+    links: [
+      { label: "Website", href: "https://www.copyme.trade" },
+      { label: "Google Play", href: "https://play.google.com/store/apps/details?id=com.copyme.trade" },
+    ],
+  },
   {
     name: "Autobiz.app",
     summary: "Multi-brand digital services platform.",
@@ -287,7 +306,7 @@ export const experience: Job[] = [
       {
         name: "ImpactKnowledge",
         href: "https://impactknowledge.net",
-        text: "An EdTech platform with courses, exams, payments and a mobile app. I led its development alone.",
+        text: "An EdTech platform with courses, exams, payments and a mobile app. I was the only developer on it.",
       },
       {
         name: "Aldrenor",
@@ -318,7 +337,7 @@ export const experience: Job[] = [
     end: "Dec 2025",
     points: [
       "I built React + Tailwind frontends with PHP (Laravel) and Python backends.",
-      "I worked on API design and integration that improved reliability and reduced response latency.",
+      "I designed and integrated APIs, improving reliability and cutting response latency.",
     ],
   },
 ];
@@ -332,7 +351,8 @@ export const skills: { area: string; items: Skill[] }[] = [
   {
     area: "Frontend",
     items: [
-      { name: "React", usedIn: ["VTUNowNow", "NCDF Group", "Maysync Group"] },
+      { name: "React", usedIn: ["VTUNowNow", "CopyMe.trade", "NCDF Group", "Maysync Group"] },
+      { name: "Next.js", usedIn: ["CopyMe.trade"] },
       { name: "JavaScript", usedIn: ["PMCSMS", "CDLPHUB Solutions LTD"] },
       { name: "TypeScript", usedIn: ["VTUNowNow", "NCDF Group"] },
       { name: "HTML" },
@@ -344,9 +364,9 @@ export const skills: { area: string; items: Skill[] }[] = [
   {
     area: "Mobile",
     items: [
-      { name: "Flutter", usedIn: ["Autobiz.app", "SimServers.io", "Bubu Browser", "NCDF Group", "CDLPHUB Solutions LTD"] },
-      { name: "Dart", usedIn: ["Autobiz.app", "SimServers.io", "Bubu Browser", "NCDF Group", "CDLPHUB Solutions LTD"] },
-      { name: "Android", usedIn: ["Autobiz.app", "SimServers.io", "Bubu Browser"] },
+      { name: "Flutter", usedIn: ["CopyMe.trade", "Autobiz.app", "SimServers.io", "Bubu Browser", "NCDF Group", "CDLPHUB Solutions LTD"] },
+      { name: "Dart", usedIn: ["CopyMe.trade", "Autobiz.app", "SimServers.io", "Bubu Browser", "NCDF Group", "CDLPHUB Solutions LTD"] },
+      { name: "Android", usedIn: ["CopyMe.trade", "Autobiz.app", "SimServers.io", "Bubu Browser"] },
       { name: "iOS", usedIn: ["Autobiz.app", "SimServers.io"] },
     ],
   },
@@ -354,12 +374,12 @@ export const skills: { area: string; items: Skill[] }[] = [
     area: "Backend",
     items: [
       { name: "PHP (Laravel)", usedIn: ["VTUNowNow", "PMCSMS", "Autobiz.app", "SimServers.io", "Bubu Browser", "NCDF Group", "Maysync Group"] },
-      { name: "Node.js", usedIn: ["VTUNowNow", "Aldrenor", "LifeComeLive"] },
+      { name: "Node.js", usedIn: ["VTUNowNow", "CopyMe.trade", "Aldrenor", "LifeComeLive"] },
       { name: "Python", usedIn: ["Maysync Group"] },
       { name: "MySQL", usedIn: ["VTUNowNow", "PMCSMS", "Autobiz.app", "SimServers.io", "Bubu Browser"] },
       { name: "PostgreSQL", usedIn: ["Aldrenor", "LifeComeLive"] },
       { name: "Firebase", usedIn: ["Autobiz.app", "SimServers.io", "Bubu Browser"] },
-      { name: "REST APIs", usedIn: ["VTUNowNow", "SimServers.io", "Maysync Group"] },
+      { name: "REST APIs", usedIn: ["VTUNowNow", "CopyMe.trade", "SimServers.io", "Maysync Group"] },
     ],
   },
   {
@@ -367,7 +387,7 @@ export const skills: { area: string; items: Skill[] }[] = [
     items: [
       { name: "Git/GitHub" },
       { name: "CI/CD" },
-      { name: "Payment gateway integration", usedIn: ["Autobiz.app", "PMCSMS"] },
+      { name: "Payment gateway integration", usedIn: ["Autobiz.app", "PMCSMS", "CopyMe.trade"] },
     ],
   },
 ];
@@ -376,6 +396,7 @@ export const skills: { area: string; items: Skill[] }[] = [
 export const anchors: Record<string, string> = {
   VTUNowNow: "#vtunownow",
   PMCSMS: "#pmcsms",
+  "CopyMe.trade": "#work",
   "Autobiz.app": "#work",
   "SimServers.io": "#work",
   "Bubu Browser": "#work",
