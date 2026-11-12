@@ -35,7 +35,8 @@
       "type": "image",
       "section": "Header",
       "selectors": [
-        "#brand-logo"
+        "#brand-logo",
+        "#brand-logo-footer"
       ],
       "default": ""
     },
@@ -90,20 +91,70 @@
       "default": "Buy data"
     },
     {
-      "id": "plans_title",
+      "id": "services_title",
       "label": "Section title",
       "type": "text",
-      "section": "Plans",
+      "section": "Services",
       "selectors": [
-        "#plans-title"
+        "#services-title"
       ],
-      "default": "Popular data plans"
+      "default": "Everything you need to stay connected"
+    },
+    {
+      "id": "show_services",
+      "label": "Show this section",
+      "type": "toggle",
+      "section": "Services",
+      "selectors": [
+        "#services-section"
+      ],
+      "default": "on"
+    },
+    {
+      "id": "how_title",
+      "label": "Section title",
+      "type": "text",
+      "section": "How it works",
+      "selectors": [
+        "#how-title"
+      ],
+      "default": "Top up in 3 simple steps"
+    },
+    {
+      "id": "show_how",
+      "label": "Show this section",
+      "type": "toggle",
+      "section": "How it works",
+      "selectors": [
+        "#how-section"
+      ],
+      "default": "on"
+    },
+    {
+      "id": "pricing_title",
+      "label": "Section title",
+      "type": "text",
+      "section": "Pricing",
+      "selectors": [
+        "#pricing-title"
+      ],
+      "default": "Data plans for every budget"
+    },
+    {
+      "id": "show_pricing",
+      "label": "Show this section",
+      "type": "toggle",
+      "section": "Pricing",
+      "selectors": [
+        "#pricing-section"
+      ],
+      "default": "on"
     },
     {
       "id": "plans",
       "label": "Plans",
       "type": "list",
-      "section": "Plans",
+      "section": "Pricing",
       "selectors": [
         "#plan-list"
       ],
@@ -120,28 +171,112 @@
         {
           "size": "10GB",
           "price": "₦4,500"
+        },
+        {
+          "size": "25GB",
+          "price": "₦9,000"
         }
       ]
     },
     {
-      "id": "show_plans",
-      "label": "Show plans",
-      "type": "toggle",
-      "section": "Plans",
+      "id": "why_title",
+      "label": "Section title",
+      "type": "text",
+      "section": "Why us",
       "selectors": [
-        "#plans-section"
+        "#why-title"
+      ],
+      "default": "Why customers choose us"
+    },
+    {
+      "id": "show_why",
+      "label": "Show this section",
+      "type": "toggle",
+      "section": "Why us",
+      "selectors": [
+        "#why-section"
       ],
       "default": "on"
     },
     {
-      "id": "show_perks",
-      "label": "Show perks",
-      "type": "toggle",
-      "section": "Perks",
+      "id": "reseller_title",
+      "label": "Section title",
+      "type": "text",
+      "section": "Resellers",
       "selectors": [
-        "#perks-section"
+        "#reseller-title"
+      ],
+      "default": "Start your own top-up business"
+    },
+    {
+      "id": "show_reseller",
+      "label": "Show this section",
+      "type": "toggle",
+      "section": "Resellers",
+      "selectors": [
+        "#reseller-section"
       ],
       "default": "on"
+    },
+    {
+      "id": "faq_title",
+      "label": "Section title",
+      "type": "text",
+      "section": "FAQ",
+      "selectors": [
+        "#faq-title"
+      ],
+      "default": "Questions, answered"
+    },
+    {
+      "id": "show_faq",
+      "label": "Show this section",
+      "type": "toggle",
+      "section": "FAQ",
+      "selectors": [
+        "#faq-section"
+      ],
+      "default": "on"
+    },
+    {
+      "id": "cta_title",
+      "label": "Headline",
+      "type": "text",
+      "section": "Call to action",
+      "selectors": [
+        "#cta-title"
+      ],
+      "default": "Ready to top up?"
+    },
+    {
+      "id": "show_cta",
+      "label": "Show this section",
+      "type": "toggle",
+      "section": "Call to action",
+      "selectors": [
+        "#cta-section"
+      ],
+      "default": "on"
+    },
+    {
+      "id": "footer_about",
+      "label": "About text",
+      "type": "textarea",
+      "section": "Footer",
+      "selectors": [
+        "#footer-about"
+      ],
+      "default": "Airtime, data, electricity and cable TV, delivered automatically from one wallet."
+    },
+    {
+      "id": "support_email",
+      "label": "Support email",
+      "type": "text",
+      "section": "Footer",
+      "selectors": [
+        "#support-email"
+      ],
+      "default": "support@embertopup.example"
     }
   ]
 }

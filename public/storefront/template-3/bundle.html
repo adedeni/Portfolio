@@ -51,6 +51,88 @@
 
   footer { background:var(--secondary-color); color:rgba(255,255,255,.88); padding:18px 0; font-size:13px; }
   [hidden] { display:none !important; }
+
+  /* ===== Shared landing-page sections (styled by --s-* tokens) ===== */
+  .x-sec { padding:clamp(56px, 8vw, 104px) 0; background:var(--s-bg); color:var(--s-text); }
+  .x-sec.alt { background:var(--s-alt); }
+  .x-head { max-width:680px; margin-bottom:clamp(28px, 4vw, 48px); }
+  .x-head.center { margin-left:auto; margin-right:auto; text-align:center; }
+  .x-kicker { display:inline-block; font-size:13px; font-weight:600; letter-spacing:.03em; color:var(--s-accent); background:var(--s-kicker-bg); padding:6px 13px; border-radius:999px; }
+  .x-title { font-size:clamp(26px, 2.6vw + 14px, 46px); line-height:1.08; letter-spacing:-.03em; margin:14px 0 0; font-weight:800; }
+  .x-lead { color:var(--s-muted); font-size:clamp(15px, .5vw + 13px, 18px); line-height:1.6; margin:14px 0 0; }
+  .x-nets-wrap { background:var(--s-bg); }
+  .x-nets { display:flex; flex-wrap:wrap; justify-content:center; gap:12px clamp(20px, 4vw, 48px); padding:clamp(22px, 3vw, 32px) 0; border-bottom:1px solid var(--s-line); color:var(--s-muted); font-weight:800; font-size:clamp(15px, .6vw + 12px, 19px); letter-spacing:-.01em; }
+  .x-grid { display:grid; gap:16px; grid-template-columns:1fr; }
+  @media (min-width: 640px) { .x-grid { grid-template-columns:repeat(2, minmax(0, 1fr)); } }
+  @media (min-width: 980px) { .x-grid { grid-template-columns:repeat(3, minmax(0, 1fr)); } }
+  .x-card { background:var(--s-surface); border:1px solid var(--s-line); border-radius:var(--s-radius); padding:clamp(20px, 2.4vw, 28px); transition:transform .2s, box-shadow .2s; }
+  .x-card:hover { transform:translateY(-3px); box-shadow:0 18px 40px -24px rgba(0,0,0,.35); }
+  .x-ico { width:46px; height:46px; display:grid; place-items:center; border-radius:calc(var(--s-radius) * .55); background:var(--s-ico-bg); color:var(--s-ico-ink, var(--s-accent)); margin-bottom:16px; flex:none; }
+  .x-card h3, .x-feat h3, .x-steps h3 { font-size:18px; margin:0 0 6px; letter-spacing:-.01em; }
+  .x-card p, .x-feat p, .x-steps p { margin:0; color:var(--s-muted); line-height:1.6; font-size:15px; }
+  .x-steps { list-style:none; margin:0; padding:0; display:grid; gap:16px; }
+  @media (min-width: 820px) { .x-steps { grid-template-columns:repeat(3, 1fr); } }
+  .x-steps li { background:var(--s-surface); border:1px solid var(--s-line); border-radius:var(--s-radius); padding:clamp(22px, 2.6vw, 30px); }
+  .x-num { display:block; font-size:clamp(32px, 2vw + 20px, 44px); font-weight:800; letter-spacing:-.04em; color:var(--s-accent); margin-bottom:12px; }
+  .x-plans { display:grid; gap:16px; grid-template-columns:repeat(auto-fit, minmax(min(210px, 100%), 1fr)); }
+  .x-plan { position:relative; display:flex; flex-direction:column; background:var(--s-surface); border:1px solid var(--s-line); border-radius:var(--s-radius); padding:26px 24px 24px; }
+  .x-plan[data-featured] { border:1.5px solid var(--s-accent); box-shadow:0 24px 48px -28px var(--s-accent); }
+  .x-badge { display:none; align-self:flex-start; font-size:11px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--s-btn-ink); background:var(--s-btn-bg); padding:5px 10px; border-radius:999px; margin-bottom:12px; }
+  .x-plan[data-featured] .x-badge { display:inline-block; }
+  .x-size { font-size:clamp(30px, 1.6vw + 22px, 40px); font-weight:800; letter-spacing:-.04em; }
+  .x-valid { color:var(--s-muted); font-size:14px; margin:4px 0 18px; }
+  .x-price { font-size:22px; font-weight:800; margin-bottom:20px; margin-top:auto; }
+  .x-plan .x-btn { width:100%; }
+  .x-plan[data-featured] .x-btn { background:var(--s-btn-bg); color:var(--s-btn-ink); border-color:transparent; }
+  .x-why { display:grid; gap:16px; }
+  @media (min-width: 760px) { .x-why { grid-template-columns:repeat(2, 1fr); } }
+  .x-feat { display:flex; gap:18px; align-items:flex-start; background:var(--s-surface); border:1px solid var(--s-line); border-radius:var(--s-radius); padding:clamp(20px, 2.4vw, 28px); }
+  .x-feat .x-ico { margin-bottom:0; }
+  .x-btn { display:inline-flex; align-items:center; justify-content:center; gap:8px; padding:14px 24px; border-radius:var(--s-btn-radius, 999px); font-weight:700; font-size:15px; white-space:nowrap; border:1.5px solid transparent; }
+  .x-btn.solid { background:var(--s-btn-bg); color:var(--s-btn-ink); }
+  .x-btn.ghost { background:transparent; color:var(--s-text); border-color:var(--s-line); }
+  .x-actions { display:flex; flex-wrap:wrap; gap:12px; margin-top:28px; }
+  .x-actions.center { justify-content:center; }
+  .x-band { display:grid; gap:clamp(24px, 4vw, 48px); align-items:center; padding:clamp(28px, 5vw, 64px); border-radius:calc(var(--s-radius) + 8px); background:var(--s-band); color:var(--s-band-ink); }
+  @media (min-width: 860px) { .x-band { grid-template-columns:1.2fr .8fr; } }
+  .x-band .x-lead { color:color-mix(in srgb, var(--s-band-ink) 80%, transparent); }
+  .x-band .x-kicker.on-band { color:var(--s-band-ink); background:color-mix(in srgb, var(--s-band-ink) 14%, transparent); }
+  .x-band .x-btn.solid { background:var(--s-band-btn, #fff); color:var(--s-band-btn-ink, #111); }
+  .x-band .x-btn.ghost { color:var(--s-band-ink); border-color:color-mix(in srgb, var(--s-band-ink) 35%, transparent); }
+  .x-checks { list-style:none; margin:0; padding:0; display:grid; gap:12px; }
+  .x-checks li { display:flex; align-items:center; gap:12px; font-weight:600; padding:14px 16px; border-radius:calc(var(--s-radius) * .6); background:color-mix(in srgb, var(--s-band-ink) 10%, transparent); }
+  .x-checks svg { flex:none; }
+  .x-faq { max-width:780px; margin:0 auto; display:grid; gap:12px; }
+  .x-faq details { border:1px solid var(--s-line); border-radius:calc(var(--s-radius) * .8); padding:18px 22px; background:var(--s-surface); }
+  .x-faq details[open] { border-color:color-mix(in srgb, var(--s-accent) 45%, var(--s-line)); }
+  .x-faq summary { cursor:pointer; list-style:none; display:flex; justify-content:space-between; gap:16px; font-weight:600; font-size:16px; }
+  .x-faq summary::-webkit-details-marker { display:none; }
+  .x-faq summary::after { content:"+"; color:var(--s-accent); font-size:22px; line-height:1; flex:none; }
+  .x-faq details[open] summary::after { content:"–"; }
+  .x-faq p { margin:12px 0 0; color:var(--s-muted); line-height:1.65; }
+  .x-cta { text-align:center; max-width:760px; margin:0 auto; }
+  .x-cta .x-title { font-size:clamp(30px, 3.4vw + 14px, 58px); }
+  .x-foot > .wrap { display:block; }
+  .x-foot { background:var(--s-foot-bg); color:var(--s-foot-text); padding:clamp(48px, 6vw, 72px) 0 28px; font-size:15px; }
+  .x-foot-grid { display:grid; gap:32px; grid-template-columns:repeat(2, minmax(0, 1fr)); }
+  @media (min-width: 980px) { .x-foot-grid { grid-template-columns:1.5fr .9fr .9fr 1.4fr; } }
+  .x-foot-brand { grid-column:1 / -1; }
+  @media (min-width: 980px) { .x-foot-brand { grid-column:auto; } }
+  @media (max-width: 979px) { .x-foot-grid > div:last-child { grid-column:1 / -1; } }
+  .x-foot-logo { display:flex; align-items:center; gap:10px; color:var(--s-foot-head); font-size:20px; letter-spacing:-.02em; }
+  .x-foot-logo img { width:34px; height:34px; border-radius:9px; object-fit:cover; }
+  .x-foot-logo img:not([src]) { display:none; }
+  .x-foot-brand p { margin:14px 0 18px; line-height:1.6; max-width:34ch; }
+  .x-social { display:flex; gap:16px; font-weight:600; color:var(--s-foot-head); font-size:14px; }
+  .x-foot h4 { margin:0 0 14px; color:var(--s-foot-head); font-size:14px; letter-spacing:.04em; text-transform:uppercase; }
+  .x-foot ul { list-style:none; margin:0; padding:0; display:grid; gap:10px; }
+  .x-foot li { overflow-wrap:anywhere; }
+  #support-email { font-size:14px; }
+  .x-foot-bottom { display:flex; flex-wrap:wrap; justify-content:space-between; gap:8px 20px; margin-top:clamp(36px, 5vw, 56px); padding-top:22px; border-top:1px solid var(--s-foot-line); font-size:14px; }
+  @media (prefers-reduced-motion: reduce) { .x-card { transition:none; } .x-card:hover { transform:none; } }
+  /* Template theme for the shared sections (after them, so overrides win) */
+  :root { --s-bg:#f7faf9; --s-alt:#fff; --s-surface:#fff; --s-text:#10201d; --s-muted:#5f6b67; --s-line:#e6ece9; --s-accent:var(--primary-color); --s-kicker-bg:color-mix(in srgb, var(--primary-color) 10%, #fff); --s-ico-bg:color-mix(in srgb, var(--primary-color) 12%, #fff); --s-radius:16px; --s-btn-bg:var(--primary-color); --s-btn-ink:#fff; --s-band:linear-gradient(135deg, var(--primary-color), var(--secondary-color)); --s-band-ink:#fff; --s-foot-bg:var(--secondary-color); --s-foot-text:rgba(255,255,255,.8); --s-foot-line:rgba(255,255,255,.18); --s-foot-head:#fff; }
+  .x-sec.alt .x-card, .x-sec.alt .x-steps li, .x-sec.alt .x-feat, .x-sec.alt details { background:#f7faf9; }
 </style>
 </head>
 <body>
@@ -76,20 +158,77 @@
     </div>
   </div></section>
 
-  <section class="services" id="services-section"><div class="wrap">
-    <h2 id="services-title" data-editable-id="services_title">Everything you need, in one place</h2>
-    <div class="grid">
-      <div class="tile"><div class="ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--primary-color)" stroke-width="2"><rect x="7" y="2" width="10" height="20" rx="2"/></svg></div><b>Airtime</b><span>All networks</span></div>
-      <div class="tile"><div class="ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="var(--primary-color)"><path d="M4 18h3v-5H4zm6.5 0h3V9h-3zM17 18h3V5h-3z"/></svg></div><b>Data</b><span>Daily to monthly</span></div>
-      <div class="tile"><div class="ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="var(--primary-color)"><path d="M13 2 5 13h6l-1 9 8-12h-6z"/></svg></div><b>Electricity</b><span>Prepaid tokens</span></div>
-      <div class="tile"><div class="ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--primary-color)" stroke-width="2"><rect x="2" y="5" width="20" height="13" rx="2"/><path d="M8 21h8"/></svg></div><b>Cable TV</b><span>Renew in a tap</span></div>
-    </div>
-  </div></section>
 
+  <section class="x-nets-wrap" aria-label="Supported networks and billers"><div class="wrap"><div class="x-nets"><span>MTN</span><span>Airtel</span><span>9mobile</span><span>DSTV</span><span>Spectranet</span><span>Electricity</span></div></div></section>
+  <section class="x-sec" id="services-section"><div class="wrap"><div class="x-inner">
+    <div class="x-head center"><span class="x-kicker">What we offer</span><h2 class="x-title" id="services-title" data-editable-id="services_title">Everything you need to stay connected</h2><p class="x-lead">One account for airtime, data, electricity, cable TV and internet. Pay once, buy anything.</p></div>
+    <div class="x-grid">
+      <div class="x-card"><span class="x-ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/></svg></span><h3>Airtime</h3><p>Recharge MTN, Airtel and 9mobile lines in seconds, for yourself or anyone.</p></div>
+      <div class="x-card"><span class="x-ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 18v-3M10 18v-7M15 18V8M20 18V4"/></svg></span><h3>Data bundles</h3><p>Daily, weekly and monthly plans at fair prices, delivered straight to the line.</p></div>
+      <div class="x-card"><span class="x-ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M13 2 5 13h6l-1 9 8-12h-6z"/></svg></span><h3>Electricity</h3><p>Buy prepaid tokens and pay postpaid bills. Your token arrives by SMS and email.</p></div>
+      <div class="x-card"><span class="x-ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="13" rx="2"/><path d="M8 21h8"/></svg></span><h3>Cable TV</h3><p>Renew DSTV and other subscriptions before they run out, without a queue.</p></div>
+      <div class="x-card"><span class="x-ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 9a15 15 0 0 1 20 0M5 12.5a10 10 0 0 1 14 0M8.5 16a5 5 0 0 1 7 0"/><circle cx="12" cy="19.5" r="1"/></svg></span><h3>Internet</h3><p>Top up Spectranet and keep your home or office online.</p></div>
+      <div class="x-card"><span class="x-ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="6" width="18" height="14" rx="3"/><path d="M16 13h2M3 10h18"/></svg></span><h3>One wallet</h3><p>Fund once by bank transfer or card, then pay for every service from one balance.</p></div>
+    </div>
+  </div></div></section>
+  <section class="x-sec alt" id="how-section"><div class="wrap"><div class="x-inner">
+    <div class="x-head center"><span class="x-kicker">How it works</span><h2 class="x-title" id="how-title" data-editable-id="how_title">Top up in 3 simple steps</h2></div>
+    <ol class="x-steps">
+      <li><span class="x-num">01</span><h3>Create your account</h3><p>Sign up in a minute with your phone number and email. No paperwork.</p></li>
+      <li><span class="x-num">02</span><h3>Fund your wallet</h3><p>Add money by bank transfer or card. Your balance is ready as soon as it clears.</p></li>
+      <li><span class="x-num">03</span><h3>Buy in seconds</h3><p>Pick a service, enter the number and pay. Delivery is automatic, with a receipt every time.</p></li>
+    </ol>
+  </div></div></section>
+  <section class="x-sec" id="pricing-section"><div class="wrap"><div class="x-inner">
+    <div class="x-head center"><span class="x-kicker">Pricing</span><h2 class="x-title" id="pricing-title" data-editable-id="pricing_title">Data plans for every budget</h2><p class="x-lead">Clear prices, no hidden fees. Works on MTN, Airtel and 9mobile.</p></div>
+    <div class="x-plans" id="plan-list" data-editable-id="plans" data-editable-kind="list">
+      <div class="x-plan" data-list-item><span class="x-badge">Most popular</span><div class="x-size" data-slot="size">1.5GB</div><div class="x-valid">30-day validity</div><div class="x-price" data-slot="price">₦1,000</div><span class="x-btn ghost">Buy plan</span></div><div class="x-plan" data-list-item data-featured><span class="x-badge">Most popular</span><div class="x-size" data-slot="size">4GB</div><div class="x-valid">30-day validity</div><div class="x-price" data-slot="price">₦2,200</div><span class="x-btn ghost">Buy plan</span></div><div class="x-plan" data-list-item><span class="x-badge">Most popular</span><div class="x-size" data-slot="size">10GB</div><div class="x-valid">30-day validity</div><div class="x-price" data-slot="price">₦4,500</div><span class="x-btn ghost">Buy plan</span></div><div class="x-plan" data-list-item><span class="x-badge">Most popular</span><div class="x-size" data-slot="size">25GB</div><div class="x-valid">30-day validity</div><div class="x-price" data-slot="price">₦9,000</div><span class="x-btn ghost">Buy plan</span></div>
+    </div>
+  </div></div></section>
+  <section class="x-sec alt" id="why-section"><div class="wrap"><div class="x-inner">
+    <div class="x-head center"><span class="x-kicker">Why us</span><h2 class="x-title" id="why-title" data-editable-id="why_title">Why customers choose us</h2></div>
+    <div class="x-why">
+      <div class="x-feat"><span class="x-ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M13 2 5 13h6l-1 9 8-12h-6z"/></svg></span><div><h3>Instant delivery</h3><p>Orders are processed automatically, usually within seconds of payment.</p></div></div>
+      <div class="x-feat"><span class="x-ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6z"/><path d="m9 12 2 2 4-4"/></svg></span><div><h3>Secure payments</h3><p>Fund your wallet through trusted payment gateways. Your card details are never stored here.</p></div></div>
+      <div class="x-feat"><span class="x-ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M20 12 12 20 3 11V3h8z"/><circle cx="7.5" cy="7.5" r="1.5"/></svg></span><div><h3>Fair prices</h3><p>Competitive rates on every network, with no hidden charges at checkout.</p></div></div>
+      <div class="x-feat"><span class="x-ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span><div><h3>Always open</h3><p>Buy any time, day or night, with a support team ready when you need help.</p></div></div>
+    </div>
+  </div></div></section>
+  <section class="x-sec" id="reseller-section"><div class="wrap"><div class="x-band">
+    <div><span class="x-kicker on-band">For resellers</span><h2 class="x-title" id="reseller-title" data-editable-id="reseller_title">Start your own top-up business</h2><p class="x-lead">Get discounted rates on every network, your own dashboard, and an API to sell from your website or app.</p>
+      <div class="x-actions"><span class="x-btn solid">Become a reseller</span><span class="x-btn ghost">Read the API docs</span></div></div>
+    <ul class="x-checks"><li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg>Discounted rates on all networks</li><li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg>Instant settlement to your wallet</li><li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg>Simple API and webhooks</li><li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg>Sales reports and receipts</li></ul>
+  </div></div></section>
+  <section class="x-sec alt" id="faq-section"><div class="wrap"><div class="x-inner">
+    <div class="x-head center"><span class="x-kicker">FAQ</span><h2 class="x-title" id="faq-title" data-editable-id="faq_title">Questions, answered</h2></div>
+    <div class="x-faq">
+      <details open><summary>How fast is delivery?</summary><p>Most orders arrive within seconds of payment, and you get a receipt for every one.</p></details>
+      <details><summary>Which networks and billers do you support?</summary><p>MTN, Airtel and 9mobile for airtime and data, plus electricity tokens, DSTV and Spectranet.</p></details>
+      <details><summary>How do I fund my wallet?</summary><p>By bank transfer or card. Your balance is ready to use as soon as the payment clears.</p></details>
+      <details><summary>What happens if a top-up fails?</summary><p>Failed orders are refunded to your wallet automatically. If anything looks wrong, our support team will help.</p></details>
+      <details><summary>Can I resell airtime and data?</summary><p>Yes. Resellers get discounted rates, their own dashboard and an API for their website or app.</p></details>
+    </div>
+  </div></div></section>
+  <section class="x-sec" id="cta-section"><div class="wrap"><div class="x-cta">
+    <h2 class="x-title" id="cta-title" data-editable-id="cta_title">Ready to top up?</h2>
+    <p class="x-lead">Create a free account and make your first top-up in under a minute.</p>
+    <div class="x-actions center"><span class="x-btn solid">Create free account</span><span class="x-btn ghost">See pricing</span></div>
+  </div></div></section>
   </main>
 
-  <footer><div class="wrap" style="display:flex;justify-content:space-between;gap:8px 20px;flex-wrap:wrap"><span>© Sunrise Data Hub</span><span>Terms · Privacy · Help</span></div></footer>
-
+  <footer class="x-foot"><div class="wrap">
+    <div class="x-foot-grid">
+      <div class="x-foot-brand">
+        <div class="x-foot-logo"><img id="brand-logo-footer" alt="" /><b class="brand-name" data-mirror="brand_name">Sunrise Data Hub</b></div>
+        <p id="footer-about" data-editable-id="footer_about">Airtime, data, electricity and cable TV, delivered automatically from one wallet.</p>
+        <div class="x-social"><span>Instagram</span><span>X</span><span>Facebook</span></div>
+      </div>
+      <div><h4>Services</h4><ul><li>Airtime</li><li>Data bundles</li><li>Electricity</li><li>Cable TV</li><li>Internet</li></ul></div>
+      <div><h4>Company</h4><ul><li>About us</li><li>Pricing</li><li>Resellers</li><li>API</li></ul></div>
+      <div><h4>Support</h4><ul><li>Help centre</li><li>FAQ</li><li>Contact us</li><li id="support-email" data-editable-id="support_email">support@sunrisedatahub.example</li></ul></div>
+    </div>
+    <div class="x-foot-bottom"><span>© <span class="brand-name" data-mirror="brand_name">Sunrise Data Hub</span>. All rights reserved.</span><span>Terms · Privacy · Refund policy</span></div>
+  </div></footer>
 <script data-editor-only>
 /* Editor-only bridge: removed from the saved snapshot. */
 (function () {
@@ -117,7 +256,11 @@
     if (!kind) {
       el.setAttribute("contenteditable", "true");
       el.setAttribute("spellcheck", "false");
-      el.addEventListener("input", function () { post("FIELD_UPDATED", { editableId: el.dataset.editableId, value: el.textContent }); });
+      el.addEventListener("input", function () {
+        // Keep copies elsewhere on the page (e.g. the footer brand) in sync while typing.
+        document.querySelectorAll('[data-mirror="' + el.dataset.editableId + '"]').forEach(function (m) { m.textContent = el.textContent; });
+        post("FIELD_UPDATED", { editableId: el.dataset.editableId, value: el.textContent });
+      });
     }
     el.addEventListener("click", function () { activate(el); post("ELEMENT_CLICKED", { editableId: el.dataset.editableId }); });
   });

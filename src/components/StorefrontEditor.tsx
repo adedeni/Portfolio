@@ -42,7 +42,6 @@ type Loaded = { config: TemplateConfig; html: string };
 type LogEntry = { key: number; dir: "out" | "in"; type: string; detail: string };
 type Snapshot = { bytes: number; removedNodes: number; cleaned: number; url: string };
 
-const DEFAULT_SLUG = "template-1";
 type TemplateCard = { template_slug: string; template_name: string; template_description: string; cssVars: CssVar[]; html: string };
 
 /** Same role as get_user_templates in the production API: the list behind the picker. */
@@ -84,11 +83,13 @@ export function StorefrontEditor() {
     { status: "loading" } | { status: "error"; message: string } | ({ status: "ready" } & Loaded)
   >({ status: "loading" });
   const [run, setRun] = useState(0);
-  const [slug, setSlug] = useState(DEFAULT_SLUG);
-  const [view, setView] = useState<"editor" | "picker">("editor");
+  // The demo opens on the template picker; nothing is loaded until a template is chosen.
+  const [slug, setSlug] = useState<string | null>(null);
+  const [view, setView] = useState<"editor" | "picker">("picker");
   const [cards, setCards] = useState<TemplateCard[] | null>(null);
 
   useEffect(() => {
+    if (!slug) return;
     let alive = true;
     setState({ status: "loading" });
     fetchTemplate(slug)
@@ -116,12 +117,12 @@ export function StorefrontEditor() {
     <div className="no-print border-t border-line-strong">
       <div className="flex flex-wrap items-center justify-between gap-x-6 gap-y-1 border-b border-line px-4 py-2 sm:px-6 lg:px-10">
         <h3 className="label text-ink">Detail A: Template editor (working model)</h3>
-        <p className="label">Try it: edit the store, then save to see the finished page</p>
+        <p className="label">Try it: pick a template, edit it, then save to see the finished page</p>
       </div>
 
       <div className="px-4 py-8 sm:px-6 lg:px-10 lg:py-10">
         {view === "picker" ? (
-          <TemplatePicker cards={cards} current={slug} onSelect={choose} onCancel={() => setView("editor")} />
+          <TemplatePicker cards={cards} current={slug} onSelect={choose} onCancel={slug ? () => setView("editor") : undefined} />
         ) : state.status === "ready" ? (
           // Remounting with a new key is the Reset.
           <LoadedEditor
@@ -615,9 +616,10 @@ function TemplatePicker({
   onCancel,
 }: {
   cards: TemplateCard[] | null;
-  current: string;
+  current: string | null;
   onSelect: (slug: string) => void;
-  onCancel: () => void;
+  /** Absent until a template has been opened, so there is no editor to go back to */
+  onCancel?: () => void;
 }) {
   return (
     <div className="overflow-hidden border border-ink bg-[#0f0f0f] text-[#f0f0f0]">
@@ -626,18 +628,22 @@ function TemplatePicker({
           Templates
           <Balloon n={1} />
         </p>
-        <button
-          type="button"
-          onClick={onCancel}
-          className="flex items-center gap-1.5 rounded border border-[#2a2a2a] px-2.5 py-1.5 text-xs text-[#a3a3a3] hover:border-[#555] hover:text-[#f0f0f0]"
-        >
-          <Icon icon={ChevronLeft} size={13} />
-          Back to editor
-        </button>
+        {onCancel ? (
+          <button
+            type="button"
+            onClick={onCancel}
+            className="flex items-center gap-1.5 rounded border border-[#2a2a2a] px-2.5 py-1.5 text-xs text-[#a3a3a3] hover:border-[#555] hover:text-[#f0f0f0]"
+          >
+            <Icon icon={ChevronLeft} size={13} />
+            Back to editor
+          </button>
+        ) : (
+          <p className="text-xs text-[#a3a3a3]">{cards ? `${cards.length} templates` : ""}</p>
+        )}
       </div>
       <div className="overflow-y-auto p-4 md:h-[560px] md:p-6">
         <p className="mb-5 max-w-[60ch] text-sm text-[#a3a3a3]">
-          Choose a template. The editor fetches its <code className="font-mono text-[#f0f0f0]">bundle.html</code> and{" "}
+          Pick a template to start editing. The editor fetches its <code className="font-mono text-[#f0f0f0]">bundle.html</code> and{" "}
           <code className="font-mono text-[#f0f0f0]">config.json</code>, then builds the sidebar from the config.
         </p>
         {cards === null ? (

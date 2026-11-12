@@ -35,7 +35,8 @@
       "type": "image",
       "section": "Header",
       "selectors": [
-        "#brand-logo"
+        "#brand-logo",
+        "#brand-logo-footer"
       ],
       "default": ""
     },
@@ -80,26 +81,6 @@
       "default": "Start topping up"
     },
     {
-      "id": "support_text",
-      "label": "Support message",
-      "type": "textarea",
-      "section": "Support",
-      "selectors": [
-        "#support-text"
-      ],
-      "default": "Stuck on an order? Our team answers within minutes, day and night."
-    },
-    {
-      "id": "show_support",
-      "label": "Show support tile",
-      "type": "toggle",
-      "section": "Support",
-      "selectors": [
-        "#support-tile"
-      ],
-      "default": "on"
-    },
-    {
       "id": "plans",
       "label": "Plans",
       "type": "list",
@@ -132,6 +113,146 @@
         "#tv-tile"
       ],
       "default": "on"
+    },
+    {
+      "id": "support_text",
+      "label": "Support message",
+      "type": "textarea",
+      "section": "Support",
+      "selectors": [
+        "#support-text"
+      ],
+      "default": "Stuck on an order? Our team answers within minutes, day and night."
+    },
+    {
+      "id": "show_support",
+      "label": "Show support tile",
+      "type": "toggle",
+      "section": "Support",
+      "selectors": [
+        "#support-tile"
+      ],
+      "default": "on"
+    },
+    {
+      "id": "how_title",
+      "label": "Section title",
+      "type": "text",
+      "section": "How it works",
+      "selectors": [
+        "#how-title"
+      ],
+      "default": "Top up in 3 simple steps"
+    },
+    {
+      "id": "show_how",
+      "label": "Show this section",
+      "type": "toggle",
+      "section": "How it works",
+      "selectors": [
+        "#how-section"
+      ],
+      "default": "on"
+    },
+    {
+      "id": "why_title",
+      "label": "Section title",
+      "type": "text",
+      "section": "Why us",
+      "selectors": [
+        "#why-title"
+      ],
+      "default": "Why customers choose us"
+    },
+    {
+      "id": "show_why",
+      "label": "Show this section",
+      "type": "toggle",
+      "section": "Why us",
+      "selectors": [
+        "#why-section"
+      ],
+      "default": "on"
+    },
+    {
+      "id": "reseller_title",
+      "label": "Section title",
+      "type": "text",
+      "section": "Resellers",
+      "selectors": [
+        "#reseller-title"
+      ],
+      "default": "Start your own top-up business"
+    },
+    {
+      "id": "show_reseller",
+      "label": "Show this section",
+      "type": "toggle",
+      "section": "Resellers",
+      "selectors": [
+        "#reseller-section"
+      ],
+      "default": "on"
+    },
+    {
+      "id": "faq_title",
+      "label": "Section title",
+      "type": "text",
+      "section": "FAQ",
+      "selectors": [
+        "#faq-title"
+      ],
+      "default": "Questions, answered"
+    },
+    {
+      "id": "show_faq",
+      "label": "Show this section",
+      "type": "toggle",
+      "section": "FAQ",
+      "selectors": [
+        "#faq-section"
+      ],
+      "default": "on"
+    },
+    {
+      "id": "cta_title",
+      "label": "Headline",
+      "type": "text",
+      "section": "Call to action",
+      "selectors": [
+        "#cta-title"
+      ],
+      "default": "Ready to top up?"
+    },
+    {
+      "id": "show_cta",
+      "label": "Show this section",
+      "type": "toggle",
+      "section": "Call to action",
+      "selectors": [
+        "#cta-section"
+      ],
+      "default": "on"
+    },
+    {
+      "id": "footer_about",
+      "label": "About text",
+      "type": "textarea",
+      "section": "Footer",
+      "selectors": [
+        "#footer-about"
+      ],
+      "default": "Airtime, data, electricity and cable TV, delivered automatically from one wallet."
+    },
+    {
+      "id": "support_email",
+      "label": "Support email",
+      "type": "text",
+      "section": "Footer",
+      "selectors": [
+        "#support-email"
+      ],
+      "default": "support@tapcharge.example"
     }
   ]
 }
