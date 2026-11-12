@@ -1,22 +1,22 @@
 {
   "id": "template-2",
-  "name": "Noir",
-  "description": "Minimal and dark, with large type and a one-line quick top-up.",
+  "name": "Onyx",
+  "description": "Dark and gilded: a light serif headline, a rail of icons lit by a travelling pulse, and a card with a turning gold edge.",
   "cssVars": [
     {
-      "label": "Accent colour",
-      "variable": "--accent-color",
-      "default": "#c6f432"
+      "label": "Gold accent",
+      "variable": "--primary-color",
+      "default": "#d6b36a"
     },
     {
       "label": "Background",
-      "variable": "--bg-color",
-      "default": "#0c0c10"
+      "variable": "--secondary-color",
+      "default": "#0b0b0d"
     },
     {
-      "label": "Surface",
-      "variable": "--surface-color",
-      "default": "#16161d"
+      "label": "Text colour",
+      "variable": "--tint-color",
+      "default": "#f3ede0"
     }
   ],
   "editables": [
@@ -27,7 +27,7 @@
       "section": "Style",
       "variable": "--font-family",
       "selectors": [],
-      "default": "modern"
+      "default": "brand"
     },
     {
       "id": "brand_logo",
@@ -48,7 +48,17 @@
       "selectors": [
         ".brand-name"
       ],
-      "default": "Northline"
+      "default": "Aurum"
+    },
+    {
+      "id": "hero_eyebrow",
+      "label": "Eyebrow",
+      "type": "text",
+      "section": "Hero",
+      "selectors": [
+        "#hero-eyebrow"
+      ],
+      "default": "The private top-up desk"
     },
     {
       "id": "hero_title",
@@ -58,7 +68,17 @@
       "selectors": [
         "#hero-title"
       ],
-      "default": "Recharge anything. Right now."
+      "default": "Quietly instant"
+    },
+    {
+      "id": "hero_accent",
+      "label": "Headline (italic part)",
+      "type": "text",
+      "section": "Hero",
+      "selectors": [
+        "#hero-accent"
+      ],
+      "default": "top-ups."
     },
     {
       "id": "hero_subtitle",
@@ -68,7 +88,7 @@
       "selectors": [
         "#hero-subtitle"
       ],
-      "default": "Airtime, data, electricity and cable TV, paid from one wallet and delivered automatically."
+      "default": "Airtime, data, electricity and television for every network, settled in seconds from a single wallet."
     },
     {
       "id": "hero_cta",
@@ -78,7 +98,7 @@
       "selectors": [
         "#hero-cta"
       ],
-      "default": "Top up"
+      "default": "Open your wallet"
     },
     {
       "id": "services_title",
@@ -108,7 +128,7 @@
       "selectors": [
         "#how-title"
       ],
-      "default": "Top up in 3 simple steps"
+      "default": "Three steps, about a minute"
     },
     {
       "id": "show_how",
@@ -176,7 +196,7 @@
       "selectors": [
         "#why-title"
       ],
-      "default": "Why customers choose us"
+      "default": "Why customers stay with us"
     },
     {
       "id": "show_why",
@@ -236,7 +256,7 @@
       "selectors": [
         "#cta-title"
       ],
-      "default": "Ready to top up?"
+      "default": "Ready when you are."
     },
     {
       "id": "show_cta",
@@ -266,7 +286,7 @@
       "selectors": [
         "#support-email"
       ],
-      "default": "support@northline.example"
+      "default": "support@aurum.example"
     }
   ]
 }

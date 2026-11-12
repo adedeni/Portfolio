@@ -142,12 +142,12 @@ export const caseStudies: CaseStudy[] = [
     stack: ["Laravel", "MySQL", "React", "TypeScript", "Vite", "Tailwind", "Node.js", "PHP"],
     screenshot: {
       kind: "image",
-      webp: "/images/vtunownow-editor.webp",
-      avif: "/images/vtunownow-editor.avif",
+      webp: "/images/vtunownow-storefront.webp",
+      avif: "/images/vtunownow-storefront.avif",
       width: 1600,
       height: 1000,
-      alt: "The VTUNowNow template editor: a sidebar of colour pickers and text fields on the left, and a live vendor storefront preview on the right with the edited headline highlighted.",
-      caption: "VTUNowNow template editor: production code, run locally with a demo template",
+      alt: "A vendor storefront built from the Dock template: the headline Recharge. Pay bills. Done., a tilted wallet card showing a naira balance, and a dock of six service icons for airtime, data, electricity, cable TV, internet and wallet.",
+      caption: "A vendor storefront from the Dock template (demo brand), editable in Detail A below",
     },
   },
   {

@@ -1,22 +1,22 @@
 {
   "id": "template-1",
-  "name": "Pulse",
-  "description": "Bold and colourful, with an app preview and a data plan price list.",
+  "name": "Atelier",
+  "description": "Editorial and warm: a serif headline, an arched receipt, a spinning stamp and ticket-style plans.",
   "cssVars": [
     {
       "label": "Primary colour",
       "variable": "--primary-color",
-      "default": "#e8590c"
+      "default": "#1f3d2b"
     },
     {
-      "label": "Secondary colour",
+      "label": "Accent colour",
       "variable": "--secondary-color",
-      "default": "#c2255c"
+      "default": "#d9642b"
     },
     {
-      "label": "Page tint",
+      "label": "Paper colour",
       "variable": "--tint-color",
-      "default": "#fff4ec"
+      "default": "#f3ede2"
     }
   ],
   "editables": [
@@ -27,7 +27,7 @@
       "section": "Style",
       "variable": "--font-family",
       "selectors": [],
-      "default": "modern"
+      "default": "brand"
     },
     {
       "id": "brand_logo",
@@ -48,7 +48,7 @@
       "selectors": [
         ".brand-name"
       ],
-      "default": "Ember Topup"
+      "default": "Kowrie"
     },
     {
       "id": "hero_eyebrow",
@@ -58,7 +58,7 @@
       "selectors": [
         "#hero-eyebrow"
       ],
-      "default": "Instant top-up, any time"
+      "default": "Top-ups, done properly"
     },
     {
       "id": "hero_title",
@@ -68,7 +68,17 @@
       "selectors": [
         "#hero-title"
       ],
-      "default": "Data and airtime that land before you blink."
+      "default": "Airtime and data,"
+    },
+    {
+      "id": "hero_accent",
+      "label": "Headline (italic part)",
+      "type": "text",
+      "section": "Hero",
+      "selectors": [
+        "#hero-accent"
+      ],
+      "default": "delivered with care."
     },
     {
       "id": "hero_subtitle",
@@ -78,7 +88,7 @@
       "selectors": [
         "#hero-subtitle"
       ],
-      "default": "Top up MTN, Airtel and 9mobile, pay for electricity and renew cable TV from one wallet."
+      "default": "Recharge any network, pay for electricity and renew your TV from one quiet, dependable wallet."
     },
     {
       "id": "hero_cta",
@@ -88,7 +98,7 @@
       "selectors": [
         "#hero-cta"
       ],
-      "default": "Buy data"
+      "default": "Start a top-up"
     },
     {
       "id": "services_title",
@@ -118,7 +128,7 @@
       "selectors": [
         "#how-title"
       ],
-      "default": "Top up in 3 simple steps"
+      "default": "Three steps, about a minute"
     },
     {
       "id": "show_how",
@@ -186,7 +196,7 @@
       "selectors": [
         "#why-title"
       ],
-      "default": "Why customers choose us"
+      "default": "Why customers stay with us"
     },
     {
       "id": "show_why",
@@ -246,7 +256,7 @@
       "selectors": [
         "#cta-title"
       ],
-      "default": "Ready to top up?"
+      "default": "Ready when you are."
     },
     {
       "id": "show_cta",
@@ -276,7 +286,7 @@
       "selectors": [
         "#support-email"
       ],
-      "default": "support@embertopup.example"
+      "default": "support@kowrie.example"
     }
   ]
 }

@@ -1,22 +1,22 @@
 {
   "id": "template-3",
-  "name": "Swift Topup",
-  "description": "A clean, mobile-first storefront for airtime, data, electricity and cable TV vendors.",
+  "name": "Orbit",
+  "description": "Playful and chunky: service icons orbit a live wallet, with sticker labels and hard-shadow cards.",
   "cssVars": [
     {
       "label": "Primary colour",
       "variable": "--primary-color",
-      "default": "#0f766e"
+      "default": "#4b3bff"
     },
     {
-      "label": "Secondary colour",
+      "label": "Pop colour",
       "variable": "--secondary-color",
-      "default": "#134e4a"
+      "default": "#c6f24e"
     },
     {
-      "label": "Accent colour",
-      "variable": "--accent-color",
-      "default": "#facc15"
+      "label": "Page tint",
+      "variable": "--tint-color",
+      "default": "#f4f2ff"
     }
   ],
   "editables": [
@@ -27,7 +27,7 @@
       "section": "Style",
       "variable": "--font-family",
       "selectors": [],
-      "default": "modern"
+      "default": "brand"
     },
     {
       "id": "brand_logo",
@@ -48,7 +48,17 @@
       "selectors": [
         ".brand-name"
       ],
-      "default": "Sunrise Data Hub"
+      "default": "Zuma"
+    },
+    {
+      "id": "hero_eyebrow",
+      "label": "Eyebrow",
+      "type": "text",
+      "section": "Hero",
+      "selectors": [
+        "#hero-eyebrow"
+      ],
+      "default": "Delivered in seconds"
     },
     {
       "id": "hero_title",
@@ -58,7 +68,17 @@
       "selectors": [
         "#hero-title"
       ],
-      "default": "Cheap data. Instant airtime. Zero stress."
+      "default": "Top up everything"
+    },
+    {
+      "id": "hero_accent",
+      "label": "Headline (highlighted part)",
+      "type": "text",
+      "section": "Hero",
+      "selectors": [
+        "#hero-accent"
+      ],
+      "default": "in your orbit."
     },
     {
       "id": "hero_subtitle",
@@ -68,7 +88,7 @@
       "selectors": [
         "#hero-subtitle"
       ],
-      "default": "Top up any network in seconds, pay electricity bills and renew your TV subscription, any time of day."
+      "default": "Airtime, data, electricity and TV for every network, all circling one simple wallet."
     },
     {
       "id": "hero_cta",
@@ -78,17 +98,7 @@
       "selectors": [
         "#hero-cta"
       ],
-      "default": "Buy data now"
-    },
-    {
-      "id": "show_quick",
-      "label": "Show quick top-up card",
-      "type": "toggle",
-      "section": "Hero",
-      "selectors": [
-        "#quick-card"
-      ],
-      "default": "on"
+      "default": "Start topping up"
     },
     {
       "id": "services_title",
@@ -276,7 +286,7 @@
       "selectors": [
         "#support-email"
       ],
-      "default": "support@sunrisedatahub.example"
+      "default": "support@zuma.example"
     }
   ]
 }

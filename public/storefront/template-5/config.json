@@ -1,22 +1,22 @@
 {
   "id": "template-5",
-  "name": "Bento",
-  "description": "A modern bento grid: wallet, quick buy, plans and bills, each in its own tile.",
+  "name": "Prism",
+  "description": "Bright and glassy: frosted cards over a colour wash, a fan of service passes and glossy icon bubbles that drift.",
   "cssVars": [
     {
-      "label": "Accent colour",
-      "variable": "--accent-color",
-      "default": "#2f6bff"
+      "label": "Primary colour",
+      "variable": "--primary-color",
+      "default": "#6d5cff"
     },
     {
-      "label": "Background",
-      "variable": "--bg-color",
-      "default": "#f2f1ec"
+      "label": "Second colour",
+      "variable": "--secondary-color",
+      "default": "#ff7eb6"
     },
     {
-      "label": "Dark tile",
-      "variable": "--ink-color",
-      "default": "#141414"
+      "label": "Page tint",
+      "variable": "--tint-color",
+      "default": "#eef3ff"
     }
   ],
   "editables": [
@@ -27,7 +27,7 @@
       "section": "Style",
       "variable": "--font-family",
       "selectors": [],
-      "default": "modern"
+      "default": "brand"
     },
     {
       "id": "brand_logo",
@@ -48,7 +48,17 @@
       "selectors": [
         ".brand-name"
       ],
-      "default": "Tapcharge"
+      "default": "Lumi"
+    },
+    {
+      "id": "hero_eyebrow",
+      "label": "Eyebrow",
+      "type": "text",
+      "section": "Hero",
+      "selectors": [
+        "#hero-eyebrow"
+      ],
+      "default": "Instant top-ups, every network"
     },
     {
       "id": "hero_title",
@@ -58,7 +68,17 @@
       "selectors": [
         "#hero-title"
       ],
-      "default": "Every top-up you need, one tap away."
+      "default": "Top up in"
+    },
+    {
+      "id": "hero_accent",
+      "label": "Headline (gradient part)",
+      "type": "text",
+      "section": "Hero",
+      "selectors": [
+        "#hero-accent"
+      ],
+      "default": "full colour."
     },
     {
       "id": "hero_subtitle",
@@ -68,7 +88,7 @@
       "selectors": [
         "#hero-subtitle"
       ],
-      "default": "Airtime, data, electricity and cable TV for every network, paid from a single wallet."
+      "default": "Airtime, data, electricity and TV in one bright, simple wallet. Tap, pay, and it lands in seconds."
     },
     {
       "id": "hero_cta",
@@ -81,56 +101,22 @@
       "default": "Start topping up"
     },
     {
-      "id": "plans",
-      "label": "Plans",
-      "type": "list",
-      "section": "Plans",
+      "id": "services_title",
+      "label": "Section title",
+      "type": "text",
+      "section": "Services",
       "selectors": [
-        "#plan-list"
+        "#services-title"
       ],
-      "default": [
-        {
-          "size": "1.5GB",
-          "price": "₦1,000"
-        },
-        {
-          "size": "4GB",
-          "price": "₦2,200",
-          "featured": true
-        },
-        {
-          "size": "10GB",
-          "price": "₦4,500"
-        }
-      ]
+      "default": "Everything you need to stay connected"
     },
     {
-      "id": "show_tv",
-      "label": "Show cable TV tile",
+      "id": "show_services",
+      "label": "Show this section",
       "type": "toggle",
-      "section": "Tiles",
+      "section": "Services",
       "selectors": [
-        "#tv-tile"
-      ],
-      "default": "on"
-    },
-    {
-      "id": "support_text",
-      "label": "Support message",
-      "type": "textarea",
-      "section": "Support",
-      "selectors": [
-        "#support-text"
-      ],
-      "default": "Stuck on an order? Our team answers within minutes, day and night."
-    },
-    {
-      "id": "show_support",
-      "label": "Show support tile",
-      "type": "toggle",
-      "section": "Support",
-      "selectors": [
-        "#support-tile"
+        "#services-section"
       ],
       "default": "on"
     },
@@ -153,6 +139,54 @@
         "#how-section"
       ],
       "default": "on"
+    },
+    {
+      "id": "pricing_title",
+      "label": "Section title",
+      "type": "text",
+      "section": "Pricing",
+      "selectors": [
+        "#pricing-title"
+      ],
+      "default": "Data plans for every budget"
+    },
+    {
+      "id": "show_pricing",
+      "label": "Show this section",
+      "type": "toggle",
+      "section": "Pricing",
+      "selectors": [
+        "#pricing-section"
+      ],
+      "default": "on"
+    },
+    {
+      "id": "plans",
+      "label": "Plans",
+      "type": "list",
+      "section": "Pricing",
+      "selectors": [
+        "#plan-list"
+      ],
+      "default": [
+        {
+          "size": "1.5GB",
+          "price": "₦1,000"
+        },
+        {
+          "size": "4GB",
+          "price": "₦2,200",
+          "featured": true
+        },
+        {
+          "size": "10GB",
+          "price": "₦4,500"
+        },
+        {
+          "size": "25GB",
+          "price": "₦9,000"
+        }
+      ]
     },
     {
       "id": "why_title",
@@ -252,7 +286,7 @@
       "selectors": [
         "#support-email"
       ],
-      "default": "support@tapcharge.example"
+      "default": "support@lumi.example"
     }
   ]
 }

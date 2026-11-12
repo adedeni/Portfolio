@@ -29,8 +29,13 @@ type Editable = {
   variable?: string;
 };
 
-/** System font stacks only, so saved pages stay self-contained. */
+/**
+ * System font stacks only, so saved pages stay self-contained. Templates that embed their own
+ * typefaces default to "brand": setting the variable to `initial` makes every
+ * var(--font-family, …) in the template fall back to its embedded fonts.
+ */
 const FONTS: Record<string, { label: string; stack: string }> = {
+  brand: { label: "Template fonts", stack: "initial" },
   modern: { label: "Modern", stack: 'ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif' },
   rounded: { label: "Rounded", stack: 'ui-rounded, "SF Pro Rounded", "Arial Rounded MT Bold", ui-sans-serif, system-ui, sans-serif' },
   serif: { label: "Classic serif", stack: 'ui-serif, "New York", Georgia, Cambria, "Times New Roman", serif' },
@@ -466,7 +471,9 @@ function LoadedEditor({
                             onChange={(ev) => updateFont(e, ev.target.value)}
                             className={common.className}
                           >
-                            {Object.entries(FONTS).map(([key, f]) => (
+                            {Object.entries(FONTS)
+                              .filter(([key]) => key !== "brand" || e.default === "brand")
+                              .map(([key, f]) => (
                               <option key={key} value={key}>
                                 {f.label}
                               </option>

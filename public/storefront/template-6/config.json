@@ -1,22 +1,22 @@
 {
   "id": "template-6",
-  "name": "Aurora",
-  "description": "Dark and luminous: a gradient headline, a one-line top-up bar and swipeable plans.",
+  "name": "Ledger",
+  "description": "Loud and itemised: poster type, a receipt that prints itself, a rubber stamp, keycap services and a price ticker.",
   "cssVars": [
     {
-      "label": "Glow colour 1",
+      "label": "Stamp colour",
       "variable": "--primary-color",
-      "default": "#22d3ee"
+      "default": "#1f4bff"
     },
     {
-      "label": "Glow colour 2",
+      "label": "Paper colour",
       "variable": "--secondary-color",
-      "default": "#a855f7"
+      "default": "#f6f2e8"
     },
     {
-      "label": "Background",
-      "variable": "--bg-color",
-      "default": "#05060f"
+      "label": "Highlighter",
+      "variable": "--tint-color",
+      "default": "#ffe14d"
     }
   ],
   "editables": [
@@ -27,7 +27,7 @@
       "section": "Style",
       "variable": "--font-family",
       "selectors": [],
-      "default": "modern"
+      "default": "brand"
     },
     {
       "id": "brand_logo",
@@ -48,7 +48,17 @@
       "selectors": [
         ".brand-name"
       ],
-      "default": "Nova Recharge"
+      "default": "Tally"
+    },
+    {
+      "id": "hero_eyebrow",
+      "label": "Eyebrow",
+      "type": "text",
+      "section": "Hero",
+      "selectors": [
+        "#hero-eyebrow"
+      ],
+      "default": "instant top-ups, itemised"
     },
     {
       "id": "hero_title",
@@ -58,7 +68,17 @@
       "selectors": [
         "#hero-title"
       ],
-      "default": "Top up at the speed of light"
+      "default": "Top up."
+    },
+    {
+      "id": "hero_accent",
+      "label": "Headline (highlighted part)",
+      "type": "text",
+      "section": "Hero",
+      "selectors": [
+        "#hero-accent"
+      ],
+      "default": "No drama."
     },
     {
       "id": "hero_subtitle",
@@ -68,7 +88,7 @@
       "selectors": [
         "#hero-subtitle"
       ],
-      "default": "Airtime, data, electricity and TV for every network. Delivered automatically, any time of day."
+      "default": "Airtime, data, power and TV for every network. One wallet, one tap, and a receipt for every order."
     },
     {
       "id": "hero_cta",
@@ -78,7 +98,7 @@
       "selectors": [
         "#hero-cta"
       ],
-      "default": "Top up now"
+      "default": "Start a top-up"
     },
     {
       "id": "services_title",
@@ -165,10 +185,6 @@
         {
           "size": "25GB",
           "price": "₦9,000"
-        },
-        {
-          "size": "75GB",
-          "price": "₦20,000"
         }
       ]
     },
@@ -189,26 +205,6 @@
       "section": "Why us",
       "selectors": [
         "#why-section"
-      ],
-      "default": "on"
-    },
-    {
-      "id": "app_title",
-      "label": "App banner title",
-      "type": "text",
-      "section": "App",
-      "selectors": [
-        "#app-title"
-      ],
-      "default": "Your top-ups, in your pocket"
-    },
-    {
-      "id": "show_app",
-      "label": "Show this section",
-      "type": "toggle",
-      "section": "App",
-      "selectors": [
-        "#app-section"
       ],
       "default": "on"
     },
@@ -290,7 +286,7 @@
       "selectors": [
         "#support-email"
       ],
-      "default": "support@novarecharge.example"
+      "default": "support@tally.example"
     }
   ]
 }

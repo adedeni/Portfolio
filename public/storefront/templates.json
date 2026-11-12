@@ -1,34 +1,34 @@
 {
   "data": [
     {
-      "template_slug": "template-1",
-      "template_name": "Pulse",
-      "template_description": "Bold and colourful, with an app preview and a data plan price list."
-    },
-    {
       "template_slug": "template-4",
-      "template_name": "Halo",
-      "template_description": "Soft gradients, a layered wallet card, three simple steps and a built-in FAQ."
-    },
-    {
-      "template_slug": "template-5",
-      "template_name": "Bento",
-      "template_description": "A modern bento grid: wallet, quick buy, plans and bills, each in its own tile."
-    },
-    {
-      "template_slug": "template-6",
-      "template_name": "Aurora",
-      "template_description": "Dark and luminous: a gradient headline, a one-line top-up bar and swipeable plans."
+      "template_name": "Dock",
+      "template_description": "Sharp and app-like: a wide display face, a tilting wallet card and a dock of service icons that magnify."
     },
     {
       "template_slug": "template-2",
-      "template_name": "Noir",
-      "template_description": "Minimal and dark, with large type and a one-line quick top-up."
+      "template_name": "Onyx",
+      "template_description": "Dark and gilded: a light serif headline, a rail of icons lit by a travelling pulse, and a card with a turning gold edge."
+    },
+    {
+      "template_slug": "template-1",
+      "template_name": "Atelier",
+      "template_description": "Editorial and warm: a serif headline, an arched receipt, a spinning stamp and ticket-style plans."
+    },
+    {
+      "template_slug": "template-5",
+      "template_name": "Prism",
+      "template_description": "Bright and glassy: frosted cards over a colour wash, a fan of service passes and glossy icon bubbles that drift."
+    },
+    {
+      "template_slug": "template-6",
+      "template_name": "Ledger",
+      "template_description": "Loud and itemised: poster type, a receipt that prints itself, a rubber stamp, keycap services and a price ticker."
     },
     {
       "template_slug": "template-3",
-      "template_name": "Swift Topup",
-      "template_description": "Clean and mobile-first, with a quick top-up card and service tiles."
+      "template_name": "Orbit",
+      "template_description": "Playful and chunky: service icons orbit a live wallet, with sticker labels and hard-shadow cards."
     }
   ]
 }
