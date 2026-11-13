@@ -22,13 +22,6 @@ const GSM_EXTENDED = "^{}\\[~]|€";
 /** Typographic characters that word processors and phones insert, with their plain equivalents. */
 const PLAIN: Record<string, string> = { "‘": "'", "’": "'", "“": '"', "”": '"', "–": "-", "—": "-", "…": "...", " ": " " };
 
-const NETWORKS: Record<string, string[]> = {
-  MTN: ["0803", "0806", "0703", "0706", "0810", "0813", "0814", "0816", "0903", "0906", "0913", "0916"],
-  Airtel: ["0802", "0808", "0701", "0708", "0812", "0901", "0902", "0907", "0912"],
-  Glo: ["0805", "0807", "0705", "0811", "0815", "0905", "0915"],
-  "9mobile": ["0809", "0817", "0818", "0908", "0909"],
-};
-
 const SAMPLE_RECIPIENTS = "08030000001, 0803 000 0001, +2348020000002\n2347050000003, 08090000004, 0812345";
 const SAMPLE_MESSAGE = "Hi Ada, your order has shipped — track it at example.com/t/2048. Thanks for shopping with us 🎉";
 
@@ -47,12 +40,7 @@ function checkRecipients(raw: string) {
     else if (valid.has(local)) duplicates++;
     else valid.add(local);
   }
-  const networks: Record<string, number> = {};
-  for (const n of valid) {
-    const name = Object.keys(NETWORKS).find((k) => NETWORKS[k].includes(n.slice(0, 4))) ?? "Other";
-    networks[name] = (networks[name] ?? 0) + 1;
-  }
-  return { entered: entries.length, valid: [...valid], invalid, duplicates, networks };
+  return { entered: entries.length, valid: [...valid], invalid, duplicates };
 }
 
 function checkMessage(message: string) {
@@ -103,15 +91,14 @@ export function SendCheck() {
       <div className="grid gap-8 px-4 py-8 sm:px-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:gap-12 lg:px-10 lg:py-10">
         <div className="flex flex-col gap-5">
           <div>
-            <label htmlFor="sc-recipients" className="label mb-1.5 flex items-center gap-2 text-ink">
-              <Balloon n={1} /> Recipients
+            <label htmlFor="sc-recipients" className="label mb-1.5 block text-ink">
+              Recipients
             </label>
             <textarea id="sc-recipients" rows={3} spellCheck={false} value={recipients} onChange={(e) => setRecipients(e.target.value)} className={field} />
-            <p className="mt-1 text-[0.8125rem] text-ink-3">Any Nigerian format, separated by commas or new lines.</p>
           </div>
           <div>
-            <label htmlFor="sc-message" className="label mb-1.5 flex items-center gap-2 text-ink">
-              <Balloon n={2} /> Message
+            <label htmlFor="sc-message" className="label mb-1.5 block text-ink">
+              Message
             </label>
             <textarea id="sc-message" rows={4} value={message} onChange={(e) => setMessage(e.target.value)} className={field} />
             <div className="mt-2 flex flex-wrap gap-2">
@@ -144,82 +131,45 @@ export function SendCheck() {
             </span>
           </p>
           <dl className="divide-y divide-line">
-            <Line k="Recipients" n={1}>
+            <Line k="Recipients">
               <strong className="font-semibold text-ink">{r.valid.length}</strong> to send, from {r.entered} entered
               {r.duplicates ? ` · ${r.duplicates} duplicate${r.duplicates > 1 ? "s" : ""} removed` : ""}
               {r.invalid.length ? (
                 <span className="mt-1 block text-accent">
-                  {r.invalid.length} not a valid number: <span className="font-mono text-[0.8125rem]">{r.invalid.slice(0, 3).join(", ")}</span>
+                  {r.invalid.length} invalid: <span className="font-mono text-[0.8125rem]">{r.invalid.slice(0, 3).join(", ")}</span>
                   {r.invalid.length > 3 ? " …" : ""}
                 </span>
               ) : null}
-              {r.valid.length ? (
-                <span className="mt-2 flex flex-wrap gap-1.5">
-                  {Object.entries(r.networks).map(([name, count]) => (
-                    <span key={name} className="tag text-[0.75rem]">
-                      {name} ×{count}
-                    </span>
+            </Line>
+            <Line k="Message">
+              <strong className="font-semibold text-ink">{m.pages}</strong> page{m.pages === 1 ? "" : "s"} · {m.length} character{m.length === 1 ? "" : "s"} ·{" "}
+              {m.gsm ? "GSM" : <span className="text-accent">Unicode</span>}
+              {m.gsm ? null : (
+                <span className="mt-1 block">
+                  {m.offenders.slice(0, 6).map((ch) => (
+                    <code key={ch} className="mr-1 border border-accent px-1.5 font-mono text-[0.8125rem] text-accent">
+                      {ch}
+                    </code>
                   ))}
+                  shrinks a page from 160 to 70 characters
                 </span>
-              ) : null}
-            </Line>
-            <Line k="Encoding" n={2}>
-              {m.gsm ? (
-                <>
-                  <strong className="font-semibold text-ink">GSM 7-bit</strong> · 160 characters on one page, 153 per page after that
-                </>
-              ) : (
-                <>
-                  <strong className="font-semibold text-accent">Unicode (UCS-2)</strong> · a page holds 70 characters instead of 160
-                  <span className="mt-1 block">
-                    Caused by:{" "}
-                    {m.offenders.slice(0, 6).map((ch) => (
-                      <code key={ch} className="mr-1 border border-accent px-1.5 font-mono text-[0.8125rem] text-accent">
-                        {ch}
-                      </code>
-                    ))}
-                  </span>
-                </>
               )}
-            </Line>
-            <Line k="Pages" n={3}>
-              <strong className="font-semibold text-ink">{m.pages}</strong> page{m.pages === 1 ? "" : "s"} · {m.length} character{m.length === 1 ? "" : "s"}
               <Pages length={m.length} pages={m.pages} perPage={m.perPage} />
             </Line>
-            <Line k="Billed" n={3}>
+            <Line k="Billed">
               <span className="display text-[1.5rem] text-ink tabular-nums">{units.toLocaleString("en-US")}</span> unit{units === 1 ? "" : "s"}
               <span className="ml-2 font-mono text-[0.8125rem] text-ink-3">
-                = {m.pages} page{m.pages === 1 ? "" : "s"} × {r.valid.length} recipient{r.valid.length === 1 ? "" : "s"}
+                = {m.pages} × {r.valid.length}
               </span>
             </Line>
           </dl>
         </div>
       </div>
 
-      <div className="border-t border-line px-4 pb-10 pt-6 sm:px-6 lg:px-10">
-        <ol className="grid gap-x-10 gap-y-4 text-[0.9375rem] text-ink-2 md:grid-cols-2">
-          <Note n={1} title="Normalise and de-duplicate.">
-            Numbers arrive in every format. Each is converted to one international form, so the same person entered twice is
-            messaged, and billed, once.
-          </Note>
-          <Note n={2} title="Guard the encoding.">
-            One emoji or curly quote switches the whole message to Unicode and a page shrinks from 160 characters to 70. The
-            check catches it before the customer pays more than double for the same text.
-          </Note>
-          <Note n={3} title="Price before sending.">
-            Pages × recipients gives the units, priced per network and route. The wallet is debited once, and a repeat of the
-            same send within five minutes is rejected as a duplicate.
-          </Note>
-          <Note n={4} title="Refund what never left.">
-            If a send fails before it reaches a gateway, the wallet is refunded automatically and the customer is told.
-          </Note>
-        </ol>
-        <p className="mt-6 max-w-[80ch] text-sm text-ink-3">
-          A working model of the PMCSMS pre-send checks, rebuilt for this page. Page lengths are the GSM standard; in
-          production they are set per gateway. Networks are read from the number prefix. The sample numbers are placeholders,
-          and nothing is sent.
-        </p>
-      </div>
+      <p className="border-t border-line px-4 py-5 text-sm text-ink-3 sm:px-6 lg:px-10">
+        Numbers are normalised and de-duplicated so nobody is billed twice, and characters that would force Unicode are caught
+        before pricing. Page lengths follow the GSM standard; sample numbers only, nothing is sent.
+      </p>
     </div>
   );
 }
@@ -243,36 +193,11 @@ function Pages({ length, pages, perPage }: { length: number; pages: number; perP
   );
 }
 
-function Line({ k, n, children }: { k: string; n: number; children: ReactNode }) {
+function Line({ k, children }: { k: string; children: ReactNode }) {
   return (
     <div className="grid grid-cols-[92px_1fr] gap-3 px-3 py-3">
-      <dt className="label flex items-start gap-1.5 pt-0.5">
-        <span className="sr-only">Callout {n}: </span>
-        {k}
-      </dt>
+      <dt className="label pt-0.5">{k}</dt>
       <dd className="text-[0.9375rem] leading-snug text-ink-2">{children}</dd>
     </div>
-  );
-}
-
-function Balloon({ n }: { n: number }) {
-  return (
-    <span className="balloon h-5 w-5 text-[0.6875rem]" aria-hidden="true">
-      {n}
-    </span>
-  );
-}
-
-function Note({ n, title, children }: { n: number; title: string; children: ReactNode }) {
-  return (
-    <li className="grid grid-cols-[2.25rem_1fr]">
-      <span className="balloon" aria-hidden="true">
-        {n}
-      </span>
-      <p>
-        <span className="sr-only">Callout {n}: </span>
-        <strong className="font-semibold text-ink">{title}</strong> {children}
-      </p>
-    </li>
   );
 }

@@ -34,7 +34,7 @@ export function Hero() {
           e.currentTarget.style.setProperty("--my", `${Math.round(e.clientY - r.top)}px`);
           const pad = (n: number) => String(Math.max(0, Math.round(n))).padStart(4, "0");
           if (coords.current) coords.current.textContent = `X ${pad(e.clientX - r.left)} · Y ${pad(e.clientY - r.top)}`;
-          // The compass needle in the title block turns to face the cursor.
+          // The compass needle in the drawing index turns to face the cursor.
           const c = needle.current?.ownerSVGElement?.getBoundingClientRect();
           if (c && needle.current) {
             const deg = (Math.atan2(e.clientY - (c.top + c.height / 2), e.clientX - (c.left + c.width / 2)) * 180) / Math.PI + 90;
@@ -108,13 +108,15 @@ export function Hero() {
             <Stamp />
           </div>
 
-          <aside aria-label="Summary" className="flex flex-col gap-6">
-            <TitleBlock needle={needle} />
+          <aside aria-label="Sheets" className="flex flex-col gap-6 lg:self-start">
             <nav aria-label="Drawing index" className="no-print border border-line-strong bg-paper">
-              <p className="label border-b border-line-strong px-3 py-2 text-ink">Drawing index</p>
+              <p className="label flex items-center justify-between border-b border-line-strong px-3 py-2 text-ink">
+                Drawing index
+                <Compass needle={needle} />
+              </p>
               <ol className="divide-y divide-line">
                 {sheets.slice(1).map((s, i) => (
-                  <li key={s.id} {...reveal(i + 5)}>
+                  <li key={s.id} {...reveal(i + 1)}>
                     <a
                       href={`#${s.id}`}
                       className="group flex items-baseline gap-3 px-3 py-1.5 text-[0.9375rem] no-underline hover:bg-paper-2"
@@ -155,36 +157,17 @@ function Stamp() {
   );
 }
 
-function TitleBlock({ needle }: { needle: RefObject<SVGGElement | null> }) {
-  const rows: [string, string][] = [
-    ["Role", person.role],
-    ["Sectors", person.sectors.join(" · ")],
-    ["Experience", person.experience],
-    ["Currently", person.current],
-    ["Based", `${person.location}. ${person.availability}`],
-  ];
+/** North arrow; the needle turns to face the cursor (driven by the hero's pointer handler). */
+function Compass({ needle }: { needle: RefObject<SVGGElement | null> }) {
   return (
-    <div className="border border-line-strong bg-paper">
-      <p className="label flex items-center justify-between border-b border-line-strong px-3 py-2 text-ink">
-        Title block
-        <svg aria-hidden="true" viewBox="0 0 24 24" width="26" height="26" className="compass -my-1 hidden lg:block">
-          <circle cx="12" cy="12" r="10.5" fill="none" stroke="var(--line-strong)" />
-          <path d="M12 1.5v2.5M12 20v2.5M1.5 12H4M20 12h2.5" stroke="var(--line-strong)" />
-          <g ref={needle}>
-            <path d="M12 4.5 14.6 12H9.4z" fill="var(--accent)" />
-            <path d="M12 19.5 14.6 12H9.4z" fill="var(--ink-3)" />
-          </g>
-          <circle cx="12" cy="12" r="1.2" fill="var(--paper)" stroke="var(--ink)" strokeWidth="0.8" />
-        </svg>
-      </p>
-      <dl className="divide-y divide-line">
-        {rows.map(([k, v], i) => (
-          <div key={k} {...reveal(i)} className="grid grid-cols-[92px_1fr] gap-3 px-3 py-2">
-            <dt className="label pt-0.5">{k}</dt>
-            <dd className="text-[0.9375rem] leading-snug">{v}</dd>
-          </div>
-        ))}
-      </dl>
-    </div>
+    <svg aria-hidden="true" viewBox="0 0 24 24" width="26" height="26" className="compass -my-1 hidden lg:block">
+      <circle cx="12" cy="12" r="10.5" fill="none" stroke="var(--line-strong)" />
+      <path d="M12 1.5v2.5M12 20v2.5M1.5 12H4M20 12h2.5" stroke="var(--line-strong)" />
+      <g ref={needle}>
+        <path d="M12 4.5 14.6 12H9.4z" fill="var(--accent)" />
+        <path d="M12 19.5 14.6 12H9.4z" fill="var(--ink-3)" />
+      </g>
+      <circle cx="12" cy="12" r="1.2" fill="var(--paper)" stroke="var(--ink)" strokeWidth="0.8" />
+    </svg>
   );
 }

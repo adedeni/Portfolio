@@ -393,7 +393,7 @@
     opacity: 0.9;
   }
 
-  /* Compass in the title block: the needle follows the cursor */
+  /* Compass in the drawing index: the needle follows the cursor */
   .compass g {
     transform-box: view-box;
     transform-origin: center;
